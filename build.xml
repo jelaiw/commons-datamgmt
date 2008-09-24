@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project basedir=".">
+	<property name="build.dir" location="build"/>
+	<property name="src.dir" location="src/java"/>
+	<property name="vendor.lib.dir" location="vendor/lib"/>
+	<property name="classes.dir" location="${build.dir}/classes"/>
+	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
+
+	<import file="test.xml"/>
+
+	<path id ="compile.classpath">
+		<fileset dir="${vendor.lib.dir}">
+		</fileset>
+	</path>
+
+	<target name="-prepare">
+		<mkdir dir="${build.dir}"/>
+	</target>
+
+	<target name="-prepare-compile" depends="-prepare">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+
+	<target name="compile" depends="-prepare-compile" description="Compile the source code.">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="compile.classpath" debug="true">
+			<compilerarg value="-Xlint:unchecked"/>	
+			<compilerarg value="-Xlint:deprecation"/>	
+		</javac>	
+	</target>
+	
+	<target name="clean" description="Clean up the build outputs.">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="javadoc" depends="-prepare" description="Generate Javadoc API documentation.">
+		<javadoc packagenames="edu.uab.ssg.io.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath" link="http://java.sun.com/j2se/1.5.0/docs/api"/>
+	</target>
+</project>

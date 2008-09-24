@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project>
+	<property name="test.src.dir" location="src/java-tests"/>
+
+	<path id="junit.taskdef.classpath">
+		<fileset dir="${vendor.lib.dir}">
+			<include name="junit-3.8.1.jar"/>
+			<include name="ant-1.6.5-junit.jar"/>
+		</fileset>
+	</path>
+
+	<path id="test.compile.classpath">
+		<fileset dir="${vendor.lib.dir}">
+			<include name="junit-3.8.1.jar"/>
+		</fileset>
+	</path>
+
+	<patternset id="testcase.pattern">
+		<include name="**/Test*.class"/>
+		<exclude name="**/Test*$*.class"/> <!-- Ignore inner classes. -->
+	</patternset>
+
+	<target name="-prepare-tests" depends="-prepare">
+		<!-- See advice in section 'Code test cases that need data to adapt' at http://wiki.apache.org/ant/TheElementsOfAntStyle. --> 
+		<copy todir="${classes.dir}">
+			<fileset dir="${test.src.dir}" excludes="**/*.java"/>
+		</copy>
+	</target>
+
+	<target name="compile-tests" depends="compile" description="Compile the unit tests.">
+		<javac srcdir="${test.src.dir}" destdir="${classes.dir}" debug="true">
+			<classpath refid="test.compile.classpath"/>
+			<compilerarg value="-Xlint:unchecked"/>			
+		</javac>
+	</target>
+
+	<target name="test" depends="-prepare-tests" description="Run the unit tests.">
+		<!-- Remove $ANT_HOME/lib/ant-junit.jar in ant 1.6.5 -->
+		<!-- http://ant.apache.org/faq.html#delegating-classloader -->
+		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="junit.taskdef.classpath"/>
+		<junit fork="true" showoutput="no">
+			<classpath>
+				<pathelement location="${classes.dir}"/>
+				<path refid="test.compile.classpath"/>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<formatter type="brief" usefile="false"/>
+			<test name="${testcase}" if="testcase"/>
+			<batchtest errorproperty="tests.failed" failureproperty="tests.failed" unless="testcase">
+				<fileset dir="${classes.dir}">
+					<patternset refid="testcase.pattern"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<fail if="tests.failed" message="Test(s) failed."/>
+	</target>
+</project>
