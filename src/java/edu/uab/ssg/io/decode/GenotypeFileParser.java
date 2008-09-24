@@ -4,10 +4,28 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A parser for the genotype file format used by deCODE to report genotyping
+ * results from a custom Illumina SNP array.
+ *
+ * <p>The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
+ * Read more about the "TOP/BOT" strand in <a href="doc-files/GenotypeFileParser-1.pdf">this technical note</a> from Illumina.</p>
+ *
  * @author Jelai Wang
  */
-
 public final class GenotypeFileParser {
+	/**
+	 * Construct the parser.
+	 */
+	public GenotypeFileParser() {
+	}
+
+	/**
+	 * Parse the input stream for genotype records.
+	 * @param in The input stream, typically a file input stream, of the
+	 * genotype file to be parsed.
+	 * @param listener As the input stream is parsed, each genotype record
+	 * is passed to this user-supplied record listener.
+	 */
 	public void parse(InputStream in, RecordListener listener) throws IOException {
 		if (in == null)
 			throw new NullPointerException("in");
@@ -29,17 +47,52 @@ public final class GenotypeFileParser {
 		reader.close();
 	}
 
+	/**
+	 * A listener for parsed genotype records.
+	 */
 	public interface RecordListener {
 		void handle(GenotypeRecord record);
 	}
 
+	/**
+	 * A genotype record.
+	 */
 	public interface GenotypeRecord {
+		/**
+		 * Return the SNP name.
+		 */
 		String getSNPName();
+
+		/**
+		 * Return the sample identifier.
+		 */
 		String getSampleID();
+
+		/**
+		 * Return the first allele from the TOP strand.
+		 */
 		String getAllele1Top();
+
+		/**
+		 * Return the second allele from the TOP strand.
+		 */
 		String getAllele2Top();
+
+		/**
+		 * Return the first allele from the forward strand.
+		 */
 		String getAllele1Forward();
+
+		/**
+		 * Return the second allele from the forward strand.
+		 */
 		String getAllele2Forward();
+
+		/**
+		 * Return the GenCall (GC) score for this SNP and sample.
+		 * This score is the product of the GenTrain score and a
+		 * data-to-model fit score from Illumina BeadStudio.
+		 */
 		double getGCScore();
 	}
 
