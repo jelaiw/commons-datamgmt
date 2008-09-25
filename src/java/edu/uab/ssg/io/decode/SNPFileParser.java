@@ -16,13 +16,22 @@ public final class SNPFileParser {
 		String header = reader.readLine(); // Discard first row of column names.
 		String line = null;
 		while ((line = reader.readLine()) != null) {
-			listener.handle(new ParsedSNPRecord(line));
+			SNPRecord record = null;
+			try {
+				record = new ParsedSNPRecord(line);
+			}
+			catch (RuntimeException e) {
+				listener.handleBadRecordFormat(line);
+				continue;
+			}
+			listener.handleParsedRecord(record);
 		}
 		reader.close();
 	}
 
 	public interface RecordListener {
-		void handle(SNPRecord record);
+		void handleParsedRecord(SNPRecord record);
+		void handleBadRecordFormat(String line);
 	}
 
 	public interface SNPRecord {
