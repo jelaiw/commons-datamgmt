@@ -24,7 +24,7 @@ public final class GenotypeFileParser {
 	 * @param in The input stream, typically a file input stream, of the
 	 * genotype file to be parsed.
 	 * @param listener As the input stream is parsed, each genotype record
-	 * is passed to this user-supplied record listener.
+	 * is passed to the user-supplied record listener.
 	 */
 	public void parse(InputStream in, RecordListener listener) throws IOException {
 		if (in == null)

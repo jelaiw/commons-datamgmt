@@ -4,9 +4,37 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A parser for the file format of the "SNP_Map.txt" that accompanies the 
+ * deCODE genotyping results file.
+ *
+ * This file format has the following fields: <i>Index, Name, Chromosome,
+ * Position, GenTrain Score, SNP, ILMN Strand, Customer Strand, and NormID</i>.
+ * Here is an abbreviated example:
+ *
+ * <p><tt>
+ * Index   Name    Chromosome      Position        GenTrain Score  SNP     ILMN Strand     Customer Strand NormID<br/>
+ * 1       AICDA-007875    12      8650011 0.5980  [T/C]   BOT     TOP     0<br/>
+ * 2       AICDA-007902    12      8649984 0.7706  [T/C]   BOT     TOP     0<br/>
+ * 3       AICDA-007922    12      8649964 0.5139  [T/C]   BOT     BOT     0<br/>
+ * ...
+ * </tt></p>
+ *
  * @author Jelai Wang
  */
 public final class SNPFileParser {
+	/**
+	 * Construct the parser.
+	 */
+	public SNPFileParser() {
+	}
+
+	/**
+	 * Parse the input stream for SNP records.
+	 * @param in The input stream, typically a file input stream, of the
+	 * SNP file to be parsed.
+	 * @param listener As the input stream is parsed, each SNP record
+	 * is passed to the user-supplied record listener.
+	 */
 	public void parse(InputStream in, RecordListener listener) throws IOException {
 		if (in == null)
 			throw new NullPointerException("in");
@@ -29,19 +57,61 @@ public final class SNPFileParser {
 		reader.close();
 	}
 
+	/**
+	 * A listener for handling parsed SNP records and problems due to
+	 * bad record formatting.
+	 */
 	public interface RecordListener {
+		/**
+		 * Handle successfully parsed SNP record.
+		 */
 		void handleParsedRecord(SNPRecord record);
+
+		/**
+		 * Handle record that could not be parsed due to a formatting problem.
+		 * @param line The line of text that could not be parsed.
+		 */
 		void handleBadRecordFormat(String line);
 	}
 
+	/**
+	 * A SNP record.
+	 */
 	public interface SNPRecord {
+		/**
+		 * Return the SNP name.
+		 */
 		String getName();
+
+		/**
+		 * Return the chromosome name.
+		 */
 		String getChromosome();
+
+		/**
+		 * Return the position of this SNP on the chromosome.
+		 */
 		int getPosition();
+
 		double getGenTrainScore();
+
+		/**
+		 * Return a text representation of the nucleotides found at this 
+		 * SNP position, for example, "[A/G]".
+		 */
 		String getSNP();
+
+		/**
+		 * Return the Illumina TOP/BOT strand.
+		 */
 		String getILMNStrand();
+
+		/**
+		 * Return the strand of the allele reported by the customer in 
+		 * Illumina TOP/BOT strand notation.
+		 */
 		String getCustomerStrand();
+
 		String getNormID();
 	}
 
