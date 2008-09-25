@@ -20,7 +20,7 @@ public final class TestGenotypeFileParser extends TestCase {
 	private static final class TestHelper implements GenotypeFileParser.RecordListener {
 		private int numOfRecords = 0;
 
-		public void handle(GenotypeFileParser.GenotypeRecord record) {
+		public void handleParsedRecord(GenotypeFileParser.GenotypeRecord record) {
 			// Spot check specific records.
 			if (numOfRecords == 0) { // First record.
 				Assert.assertEquals("AICDA-007875", record.getSNPName());
@@ -41,6 +41,10 @@ public final class TestGenotypeFileParser extends TestCase {
 			}
 			// Increment total number of handled records.
 			numOfRecords++;
+		}
+
+		public void handleBadRecordFormat(String line) {
+			Assert.fail();
 		}
 
 		private int getNumberOfRecords() { return numOfRecords; }

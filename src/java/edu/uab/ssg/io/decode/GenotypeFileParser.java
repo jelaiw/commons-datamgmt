@@ -40,7 +40,15 @@ public final class GenotypeFileParser {
 				reader.readLine(); // Discard the first row of the data section.
 			}
 			else if (inDataSection) {
-				listener.handle(new ParsedGenotypeRecord(line));
+				GenotypeRecord record = null;
+				try {
+					record = new ParsedGenotypeRecord(line);
+				}
+				catch (RuntimeException e) {
+					listener.handleBadRecordFormat(line);
+					continue;
+				}
+				listener.handleParsedRecord(record);
 			}
 			// Skip all other lines, including the header section.
 		}
@@ -48,10 +56,20 @@ public final class GenotypeFileParser {
 	}
 
 	/**
-	 * A listener for handling parsed genotype records.
+	 * A listener for handling parsed genotype records and problems due to
+	 * bad record formatting.
 	 */
 	public interface RecordListener {
-		void handle(GenotypeRecord record);
+		/**
+		 * Handle successfully parsed genotype record.
+		 */
+		void handleParsedRecord(GenotypeRecord record);
+
+		/**
+		 * Handle record that could not be parsed due to a formatting problem.
+		 * @param line The line of text that could not be parsed.
+		 */
+		void handleBadRecordFormat(String line);
 	}
 
 	/**
