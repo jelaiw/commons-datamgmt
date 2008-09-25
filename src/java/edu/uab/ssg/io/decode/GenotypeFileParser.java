@@ -40,7 +40,7 @@ public final class GenotypeFileParser {
 				reader.readLine(); // Discard the first row of the data section.
 			}
 			else if (inDataSection) {
-				listener.handle(new DefaultGenotypeRecord(line));
+				listener.handle(new ParsedGenotypeRecord(line));
 			}
 			// Skip all other lines, including the header section.
 		}
@@ -48,7 +48,7 @@ public final class GenotypeFileParser {
 	}
 
 	/**
-	 * A listener for parsed genotype records.
+	 * A listener for handling parsed genotype records.
 	 */
 	public interface RecordListener {
 		void handle(GenotypeRecord record);
@@ -96,14 +96,14 @@ public final class GenotypeFileParser {
 		double getGCScore();
 	}
 
-	private class DefaultGenotypeRecord implements GenotypeRecord {
+	private class ParsedGenotypeRecord implements GenotypeRecord {
 		private String line;
 		private String snpName, sampleID;
 		private String a1Top, a2Top;
 		private String a1Forward, a2Forward;
 		private double gcScore;
 
-		private DefaultGenotypeRecord(String line) {
+		private ParsedGenotypeRecord(String line) {
 			if (line == null)
 				throw new NullPointerException("line");
 			this.line = line;
