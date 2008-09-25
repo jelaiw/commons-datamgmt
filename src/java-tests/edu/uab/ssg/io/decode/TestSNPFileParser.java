@@ -14,15 +14,17 @@ public final class TestSNPFileParser extends TestCase {
 		SNPFileParser parser = new SNPFileParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);
-		Assert.assertEquals(19, helper.getNumberOfRecords());
+		Assert.assertEquals(19, helper.getNumberOfParsedRecords());
+		Assert.assertEquals(3, helper.getNumberOfBadRecords());
 	}
 
 	private static final class TestHelper implements SNPFileParser.RecordListener {
-		private int numOfRecords = 0;
+		private int numOfParsedRecords = 0;
+		private int numOfBadRecords = 0;
 
 		public void handleParsedRecord(SNPFileParser.SNPRecord record) {
 			// Spot check specific records.
-			if (numOfRecords == 0) { // First record.
+			if (numOfParsedRecords == 0) { // First record.
 				Assert.assertEquals("AICDA-007875", record.getName());
 				Assert.assertEquals("12", record.getChromosome());
 				Assert.assertEquals(8650011, record.getPosition());
@@ -32,7 +34,7 @@ public final class TestSNPFileParser extends TestCase {
 				Assert.assertEquals("TOP", record.getCustomerStrand());
 				Assert.assertEquals("0", record.getNormID());
 			}
-			else if (numOfRecords == 18) { // Last record.
+			else if (numOfParsedRecords == 18) { // Last record.
 				Assert.assertEquals("CCL11-004869", record.getName());
 				Assert.assertEquals("17", record.getChromosome());
 				Assert.assertEquals(29639668, record.getPosition());
@@ -43,13 +45,14 @@ public final class TestSNPFileParser extends TestCase {
 				Assert.assertEquals("0", record.getNormID());
 			}
 			// Increment total number of handled records.
-			numOfRecords++;
+			numOfParsedRecords++;
 		}
 
 		public void handleBadRecordFormat(String line) {
-			Assert.fail();
+			numOfBadRecords++;
 		}
 
-		private int getNumberOfRecords() { return numOfRecords; }
+		private int getNumberOfParsedRecords() { return numOfParsedRecords; }
+		private int getNumberOfBadRecords() { return numOfBadRecords; }
 	}
 }
