@@ -5,7 +5,24 @@ import java.io.*;
 
 /**
  * A parser for the genotype file format used by deCODE to report genotyping
- * results from a custom Illumina SNP array.
+ * results from a custom Illumina SNP array. Here is a short example:
+ *
+ * <p><tt>
+ * [Header]<br/>
+ * BSGT Version    3.2.32<br/>
+ * Processing Date 8/27/2008 4:12 PM<br/>
+ * Content         iSelect_JHY_273439_A.bpm<br/>
+ * Num SNPs        7295<br/>
+ * Total SNPs      7800<br/>
+ * Num Samples     2306<br/>
+ * Total Samples   2306<br/>
+ * [Data]<br/>
+ * SNP Name        Sample ID       Allele1 - Top   Allele2 - Top   Allele1 - Forward       Allele2 - Forward       GC Score<br/>
+ * AICDA-007875    AVA1001 G       G       C       C       0.4495<br/>
+ * AICDA-007902    AVA1001 G       G       C       C       0.7680<br/>
+ * AICDA-007922    AVA1001 G       G       G       G       0.2848<br/>
+ * ...
+ * </tt></p>
  *
  * <p>The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
  * Read more about the "TOP/BOT" strand in <a href="doc-files/GenotypeFileParser-1.pdf">this technical note</a> from Illumina.</p>
