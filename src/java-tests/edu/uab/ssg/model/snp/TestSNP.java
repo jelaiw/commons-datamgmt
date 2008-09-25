@@ -50,30 +50,4 @@ public final class TestSNP extends TestCase {
 		set.add(klee);
 		Assert.assertEquals(3, set.size());
 	}
-
-	public void testBadArgs() {
-		try {
-			SNP foo = new DefaultSNP(null, null, -1);
-			Assert.fail();
-		}
-		catch (NullPointerException e) {
-			Assert.assertTrue(true);
-		}
-
-		try {
-			SNP foo = new DefaultSNP("foo", null, -1);
-			Assert.fail();
-		}
-		catch (NullPointerException e) {
-			Assert.assertTrue(true);
-		}
-
-		try {
-			SNP foo = new DefaultSNP("foo", chr1, -1);
-			Assert.fail();
-		}
-		catch (IllegalArgumentException e) {
-			Assert.assertTrue(true);
-		}
-	}
 }

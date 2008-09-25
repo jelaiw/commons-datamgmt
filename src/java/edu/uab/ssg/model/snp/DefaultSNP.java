@@ -27,6 +27,10 @@ public final class DefaultSNP implements SNP {
 		this.position = position;	
 	}
 
+	public DefaultSNP(String name, String chromosomeName, int position) {
+		this(name, new DefaultChromosome(chromosomeName), position);
+	}
+
 	public String getName() { return name; }
 	public Chromosome getChromosome() { return chromosome; }
 	public int getPosition() { return position; }
