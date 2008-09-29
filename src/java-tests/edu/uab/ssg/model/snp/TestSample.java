@@ -14,7 +14,7 @@ public final class TestSample extends TestCase {
 		SNP baz = new DefaultSNP("baz", "chr2", 3);
 		// Test for various degrees of missing genotype data.
 		builder.addGenotype("foo", bar, "C", null, IlluminaStrand.TOP);
-		builder.addGenotype("foo", baz, null, null, IlluminaStrand.BOT);
+		builder.addGenotype("foo", baz, null, null, null);
 		Population ceu = builder.getInstance();
 		Sample foo = ceu.getSample("foo");
 
@@ -28,6 +28,7 @@ public final class TestSample extends TestCase {
 		genotype = foo.getGenotype(baz);
 		Assert.assertEquals(null, genotype.getAllele1());
 		Assert.assertEquals(null, genotype.getAllele2());
+		Assert.assertEquals(null, genotype.getStrand());
 	}
 
 	public void testNaively() {

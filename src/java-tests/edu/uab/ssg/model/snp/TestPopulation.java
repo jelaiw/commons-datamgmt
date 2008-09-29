@@ -46,5 +46,13 @@ public final class TestPopulation extends TestCase {
 		catch (NullPointerException e) {
 			Assert.assertTrue(true);
 		}
+		// If both alleles are missing, it doesn't make sense to pass strand.
+		try {
+			new PopulationBuilder("klee").addGenotype("foo", new DefaultSNP("bar", "chr1", 1), null, null, IlluminaStrand.TOP);
+			Assert.fail();
+		}
+		catch (IllegalArgumentException e) {
+			Assert.assertTrue(true);
+		}
 	}
 }

@@ -37,12 +37,7 @@ import java.util.*;
 		return (Sample.Genotype) genotypes.get(snp);	
 	}
 
-	// Missing genotype data is indicated by a null value for a1 or a2.
 	/* package private */ void addGenotype(SNP snp, String a1, String a2, Strand strand) {
-		if (snp == null)
-			throw new NullPointerException("snp");
-		if (strand == null)
-			throw new NullPointerException("strand");
 		genotypes.put(snp, new DefaultGenotype(snp, a1, a2, strand));
 	}
 
@@ -62,8 +57,11 @@ import java.util.*;
 		private DefaultGenotype(SNP snp, String a1, String a2, Strand strand) {
 			if (snp == null)
 				throw new NullPointerException("snp");
-			if (strand == null)
+			// See PopulationBuilder.addGenotype() for further comment.
+			if ((a1 != null || a2 != null) && strand == null)
 				throw new NullPointerException("strand");
+			if (a1 == null && a2 == null && strand != null)
+				throw new IllegalArgumentException(String.valueOf(strand));
 			this.snp = snp;
 			this.a1 = a1;
 			this.a2 = a2;
