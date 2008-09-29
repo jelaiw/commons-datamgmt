@@ -13,8 +13,8 @@ public final class TestPopulation extends TestCase {
 		PopulationBuilder builder = new PopulationBuilder("foo");
 		SNP snp1 = new DefaultSNP("snp1", "chrZ", 1);
 		SNP snp2 = new DefaultSNP("snp2", "chrZ", 5);
-		builder.addGenotype("sample1", snp1, "A", "B", IlluminaStrand.TOP);
-		builder.addGenotype("sample1", snp2, "B", "B", IlluminaStrand.BOT);
+		builder.setGenotype("sample1", snp1, "A", "B", IlluminaStrand.TOP);
+		builder.setGenotype("sample1", snp2, "B", "B", IlluminaStrand.BOT);
 		Population foo = builder.getInstance();
 		Assert.assertEquals("foo", foo.getName());
 		Assert.assertEquals(1, foo.getSamples().size());
@@ -48,7 +48,7 @@ public final class TestPopulation extends TestCase {
 		}
 		// If both alleles are missing, it doesn't make sense to pass strand.
 		try {
-			new PopulationBuilder("klee").addGenotype("foo", new DefaultSNP("bar", "chr1", 1), null, null, IlluminaStrand.TOP);
+			new PopulationBuilder("klee").setGenotype("foo", new DefaultSNP("bar", "chr1", 1), null, null, IlluminaStrand.TOP);
 			Assert.fail();
 		}
 		catch (IllegalArgumentException e) {

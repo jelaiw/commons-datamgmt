@@ -37,7 +37,11 @@ import java.util.*;
 		return (Sample.Genotype) genotypes.get(snp);	
 	}
 
-	/* package private */ void addGenotype(SNP snp, String a1, String a2, Strand strand) {
+	/* package private */ Set<SNP> getSNPs() {
+		return new LinkedHashSet<SNP>(genotypes.keySet());
+	}
+
+	/* package private */ void setGenotype(SNP snp, String a1, String a2, Strand strand) {
 		genotypes.put(snp, new DefaultGenotype(snp, a1, a2, strand));
 	}
 

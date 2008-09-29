@@ -8,7 +8,6 @@ import java.util.*;
 
 public final class PopulationBuilder {
 	private DefaultPopulation population;
-	private Set<SNP> snps = new LinkedHashSet<SNP>();
 
 	public PopulationBuilder(String name) {
 		if (name == null)
@@ -17,14 +16,14 @@ public final class PopulationBuilder {
 	}
 
 	/**
-	 * Add the genotype at a SNP for the specified sample.
+	 * Set the genotype at a SNP for the specified sample.
 	 * Alleles can be null to indicate that the sample was assessed for
 	 * genotype at this SNP, but data are missing.
 	 * @param a1 The first allele.
 	 * @param a2 The second allele.
 	 * @param strand The strand cannot be null if one or both alleles are given.
 	 */
-	public void addGenotype(String sampleName, SNP snp, String a1, String a2, Strand strand) {
+	public void setGenotype(String sampleName, SNP snp, String a1, String a2, Strand strand) {
 		if (sampleName == null)
 			throw new NullPointerException("sampleName");
 		if (snp == null)
@@ -40,13 +39,10 @@ public final class PopulationBuilder {
 			sample = new DefaultSample(sampleName, population);
 			population.addSample(sample);
 		}
-		sample.addGenotype(snp, a1, a2, strand);
-		snps.add(snp); // Cache SNPs that have been added.
+		sample.setGenotype(snp, a1, a2, strand);
 	}
 
 	public Population getInstance() {
-		// Optimization that involves caching SNPs that were added.
-		population.setSnps(snps); 
 		Population tmp = population;
 		this.population = null;
 		return tmp;

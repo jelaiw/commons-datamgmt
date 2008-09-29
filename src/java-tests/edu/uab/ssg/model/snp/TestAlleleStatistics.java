@@ -14,12 +14,12 @@ public final class TestAlleleStatistics extends TestCase {
 		PopulationBuilder builder = new PopulationBuilder("test");
 		SNP snp1 = new DefaultSNP("snp1", "chrZ", 1);
 		SNP snp2 = new DefaultSNP("snp2", "chrZ", 5);
-		builder.addGenotype("sample1", snp1, "A", "B", IlluminaStrand.TOP);
-		builder.addGenotype("sample2", snp1, "B", "B", IlluminaStrand.TOP);
-		builder.addGenotype("sample1", snp2, "B", "C", IlluminaStrand.TOP);
-		builder.addGenotype("sample2", snp2, "B", null, IlluminaStrand.TOP);
-		builder.addGenotype("sample3", snp2, "B", "C", IlluminaStrand.TOP);
-		builder.addGenotype("sample4", snp2, null, "C", IlluminaStrand.TOP);
+		builder.setGenotype("sample1", snp1, "A", "B", IlluminaStrand.TOP);
+		builder.setGenotype("sample2", snp1, "B", "B", IlluminaStrand.TOP);
+		builder.setGenotype("sample1", snp2, "B", "C", IlluminaStrand.TOP);
+		builder.setGenotype("sample2", snp2, "B", null, IlluminaStrand.TOP);
+		builder.setGenotype("sample3", snp2, "B", "C", IlluminaStrand.TOP);
+		builder.setGenotype("sample4", snp2, null, "C", IlluminaStrand.TOP);
 		Population test = builder.getInstance();
 
 		Population.AlleleStatistics statistics = null;

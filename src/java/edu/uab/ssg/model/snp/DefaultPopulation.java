@@ -8,8 +8,7 @@ import java.util.*;
 
 /* package private */ final class DefaultPopulation implements Population {
 	private String name;
-	private Map<String, Sample> samples = new LinkedHashMap<String, Sample>();
-	private Set<SNP> snps;
+	private Map<String, DefaultSample> samples = new LinkedHashMap<String, DefaultSample>();
 
 	/* package private */ DefaultPopulation(String name) {
 		if (name == null)
@@ -17,18 +16,12 @@ import java.util.*;
 		this.name = name;	
 	}
 
-	// See the PopulationBuilder class to coordinate changes.
-	/* package private */ void addSample(Sample sample) {
+	/* package private */ void addSample(DefaultSample sample) {
 		if (sample == null)
 			throw new NullPointerException("sample");
 		if (!sample.getPopulation().equals(this))	
 			throw new IllegalArgumentException();
 		samples.put(sample.getName(), sample);	
-	}
-
-	// See the PopulationBuilder class to coordinate changes.
-	/* package private */ void setSnps(Set<SNP> snps) {
-		this.snps = new LinkedHashSet<SNP>(snps);
 	}
 
 	public String getName() { 
@@ -42,17 +35,25 @@ import java.util.*;
 	public Sample getSample(String sampleName) {
 		if (sampleName == null)
 			throw new NullPointerException("sampleName");
-		return (Sample) samples.get(sampleName);	
+		return samples.get(sampleName);	
 	}
 
-	public Set<SNP> getSNPs() { return new LinkedHashSet<SNP>(snps); }
+	// Return the union set of all SNPs from all samples.
+	public Set<SNP> getSNPs() { 
+		Set<SNP> set = new LinkedHashSet<SNP>();
+		for (Iterator<DefaultSample> it = samples.values().iterator(); it.hasNext(); ) {
+			DefaultSample sample = it.next();
+			set.addAll(sample.getSNPs());
+		}
+		return set;
+	}
 
 	public AlleleStatistics getStatistics(SNP snp) {
 		if (snp == null)
 			throw new NullPointerException("snp");
 		DefaultAlleleStatistics statistics = new DefaultAlleleStatistics();
-		for (Iterator<Sample> it = samples.values().iterator(); it.hasNext(); ) {
-			Sample sample = it.next();
+		for (Iterator<DefaultSample> it = samples.values().iterator(); it.hasNext(); ) {
+			DefaultSample sample = it.next();
 			if (sample.existsGenotype(snp)) {
 				Sample.Genotype genotype = sample.getGenotype(snp);
 				statistics.addAllele(genotype.getAllele1());
@@ -66,5 +67,5 @@ import java.util.*;
 		return statistics;
 	}
 
-	public String toString() { return name + " " + samples.size() + " " + snps.size(); }
+	public String toString() { return name + " " + samples.size() + " " + getSNPs().size(); }
 }
