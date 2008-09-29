@@ -8,17 +8,17 @@ package edu.uab.ssg.model.snp;
 
 public interface SNP {
 	/**
-	 * Return the name of the SNP.
+	 * Returns the name of the SNP.
 	 */
 	String getName();
 
 	/**
-	 * Return the chromosome where the SNP is located.
+	 * Returns the chromosome where the SNP is located.
 	 */
 	Chromosome getChromosome();
 
 	/**
-	 * Return the position on the chromosome where the SNP is located.
+	 * Returns the position on the chromosome where the SNP is located.
 	 */
 	int getPosition();
 }

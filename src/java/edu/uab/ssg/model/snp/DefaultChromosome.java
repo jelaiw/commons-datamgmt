@@ -8,7 +8,7 @@ public final class DefaultChromosome implements Chromosome {
 	private String name;
 
 	/**
-	 * Construct a chromosome given its name.
+	 * Constructs a chromosome given its name.
 	 */
 	public DefaultChromosome(String name) {
 		if (name == null)
@@ -17,7 +17,7 @@ public final class DefaultChromosome implements Chromosome {
 	}
 
 	/**
-	 * Return true if the user-supplied object is a chromosome of the same name.
+	 * Returns true if the object argument is a chromosome of the same name.
 	 */
 	public boolean equals(Object o) {
 		if (o instanceof DefaultChromosome) {

@@ -1,8 +1,6 @@
 package edu.uab.ssg.model.snp;
 
 /**
- * A default SNP implementation.
- *
  * @author Jelai Wang
  */
 
@@ -12,8 +10,8 @@ public final class DefaultSNP implements SNP {
 	private int position;
 
 	/**
-	 * Construct a SNP given its name, the chromosome where it is located, and
-	 * its position on the chromosome.
+	 * Constructs a SNP given its name, the chromosome where it is located, 
+	 * and its position on the chromosome.
 	 */
 	public DefaultSNP(String name, Chromosome chromosome, int position) {
 		if (name == null)
@@ -36,7 +34,7 @@ public final class DefaultSNP implements SNP {
 	public int getPosition() { return position; }
 
 	/**
-	 * Return true if the user-supplied object is a SNP at the same chromosome
+	 * Returns true if the user-supplied object is a SNP at the same chromosome
 	 * position.
 	 */
 	public boolean equals(Object o) {
