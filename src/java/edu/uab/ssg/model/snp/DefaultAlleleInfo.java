@@ -6,11 +6,11 @@ import java.util.*;
  * @author Jelai Wang
  */
 
-/* package private */ final class DefaultAlleleStatistics implements Population.AlleleStatistics {
+/* package private */ final class DefaultAlleleInfo implements Population.AlleleInfo {
 	private Map<String, int[]> map = new HashMap<String, int[]>();
 	private int missingCount = 0;
 
-	/* package private */ DefaultAlleleStatistics() {
+	/* package private */ DefaultAlleleInfo() {
 	}
 
 	/* package private */ void addAllele(String allele) {

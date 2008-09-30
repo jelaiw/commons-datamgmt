@@ -30,9 +30,9 @@ public interface Population {
 	 */
 	Set<SNP> getSNPs();
 
-	AlleleStatistics getStatistics(SNP snp);
+	AlleleInfo getAlleleInfo(SNP snp);
 
-	interface AlleleStatistics {
+	interface AlleleInfo {
 		Set<String> getAlleles();
 		int getFrequency(String allele);
 		double getRelativeFrequency(String allele);

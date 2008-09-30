@@ -48,10 +48,10 @@ import java.util.*;
 		return set;
 	}
 
-	public AlleleStatistics getStatistics(SNP snp) {
+	public AlleleInfo getAlleleInfo(SNP snp) {
 		if (snp == null)
 			throw new NullPointerException("snp");
-		DefaultAlleleStatistics statistics = new DefaultAlleleStatistics();
+		DefaultAlleleInfo statistics = new DefaultAlleleInfo();
 		for (Iterator<DefaultSample> it = samples.values().iterator(); it.hasNext(); ) {
 			DefaultSample sample = it.next();
 			if (sample.existsGenotype(snp)) {
