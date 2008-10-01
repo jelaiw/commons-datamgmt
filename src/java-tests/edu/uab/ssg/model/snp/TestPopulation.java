@@ -11,8 +11,8 @@ import java.util.Set;
 public final class TestPopulation extends TestCase {
 	public void testNaively() {
 		PopulationBuilder builder = new PopulationBuilder("foo");
-		SNP snp1 = new DefaultSNP("snp1", "chrZ", 1);
-		SNP snp2 = new DefaultSNP("snp2", "chrZ", 5);
+		SNP snp1 = SNPFactory.createSNP("snp1", "chrZ", 1);
+		SNP snp2 = SNPFactory.createSNP("snp2", "chrZ", 5);
 		builder.setGenotype("sample1", snp1, "A", "B", IlluminaStrand.TOP);
 		builder.setGenotype("sample1", snp2, "B", "B", IlluminaStrand.BOT);
 		Population foo = builder.getInstance();
@@ -48,7 +48,7 @@ public final class TestPopulation extends TestCase {
 		}
 		// If both alleles are missing, it doesn't make sense to pass strand.
 		try {
-			new PopulationBuilder("klee").setGenotype("foo", new DefaultSNP("bar", "chr1", 1), null, null, IlluminaStrand.TOP);
+			new PopulationBuilder("klee").setGenotype("foo", SNPFactory.createSNP("bar", "chr1", 1), null, null, IlluminaStrand.TOP);
 			Assert.fail();
 		}
 		catch (IllegalArgumentException e) {

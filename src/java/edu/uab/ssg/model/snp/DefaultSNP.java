@@ -4,16 +4,12 @@ package edu.uab.ssg.model.snp;
  * @author Jelai Wang
  */
 
-public final class DefaultSNP implements SNP {
+/* package private */ final class DefaultSNP implements SNP {
 	private String name;
 	private Chromosome chromosome;
 	private int position;
 
-	/**
-	 * Constructs a SNP given its name, the chromosome where it is located, 
-	 * and its position on the chromosome.
-	 */
-	public DefaultSNP(String name, Chromosome chromosome, int position) {
+	/* package private */ DefaultSNP(String name, Chromosome chromosome, int position) {
 		if (name == null)
 			throw new NullPointerException("name");
 		if (chromosome == null)
@@ -23,10 +19,6 @@ public final class DefaultSNP implements SNP {
 		this.name = name;	
 		this.chromosome = chromosome;	
 		this.position = position;	
-	}
-
-	public DefaultSNP(String name, String chromosomeName, int position) {
-		this(name, new DefaultChromosome(chromosomeName), position);
 	}
 
 	public String getName() { return name; }

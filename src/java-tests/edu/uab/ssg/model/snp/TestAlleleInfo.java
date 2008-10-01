@@ -12,8 +12,8 @@ public final class TestAlleleInfo extends TestCase {
 	public void testPopulation() {
 		// Create test population.
 		PopulationBuilder builder = new PopulationBuilder("test");
-		SNP snp1 = new DefaultSNP("snp1", "chrZ", 1);
-		SNP snp2 = new DefaultSNP("snp2", "chrZ", 5);
+		SNP snp1 = SNPFactory.createSNP("snp1", "chrZ", 1);
+		SNP snp2 = SNPFactory.createSNP("snp2", "chrZ", 5);
 		builder.setGenotype("sample1", snp1, "A", "B", IlluminaStrand.TOP);
 		builder.setGenotype("sample2", snp1, "B", "B", IlluminaStrand.TOP);
 		builder.setGenotype("sample1", snp2, "B", "C", IlluminaStrand.TOP);

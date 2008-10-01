@@ -4,13 +4,10 @@ package edu.uab.ssg.model.snp;
  * @author Jelai Wang
  */
 
-public final class DefaultChromosome implements Chromosome {
+/* package private */ final class DefaultChromosome implements Chromosome {
 	private String name;
 
-	/**
-	 * Constructs a chromosome given its name.
-	 */
-	public DefaultChromosome(String name) {
+	/* package private */ DefaultChromosome(String name) {
 		if (name == null)
 			throw new NullPointerException("name");
 		this.name = name;	

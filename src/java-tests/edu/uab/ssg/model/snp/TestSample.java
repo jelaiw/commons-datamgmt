@@ -10,8 +10,8 @@ import junit.framework.Assert;
 public final class TestSample extends TestCase {
 	public void testMissingData() {
 		PopulationBuilder builder = new PopulationBuilder("CEU");
-		SNP bar = new DefaultSNP("bar", "chr1", 1);
-		SNP baz = new DefaultSNP("baz", "chr2", 3);
+		SNP bar = SNPFactory.createSNP("bar", "chr1", 1);
+		SNP baz = SNPFactory.createSNP("baz", "chr2", 3);
 		// Test for various degrees of missing genotype data.
 		builder.setGenotype("foo", bar, "C", null, IlluminaStrand.TOP);
 		builder.setGenotype("foo", baz, null, null, null);
@@ -33,7 +33,7 @@ public final class TestSample extends TestCase {
 
 	public void testNaively() {
 		PopulationBuilder builder = new PopulationBuilder("CEU");
-		SNP bar = new DefaultSNP("bar", "chr1", 1);
+		SNP bar = SNPFactory.createSNP("bar", "chr1", 1);
 		builder.setGenotype("foo", bar, "C", "T", IlluminaStrand.TOP);
 		Population ceu = builder.getInstance();
 		Sample foo = ceu.getSample("foo");
@@ -47,7 +47,7 @@ public final class TestSample extends TestCase {
 		Assert.assertEquals("T", genotype.getAllele2());
 		Assert.assertSame(IlluminaStrand.TOP, genotype.getStrand());
 
-		SNP klee = new DefaultSNP("klee", "chr1", 2);
+		SNP klee = SNPFactory.createSNP("klee", "chr1", 2);
 		Assert.assertFalse(foo.existsGenotype(klee));
 		try {
 			foo.getGenotype(klee);
