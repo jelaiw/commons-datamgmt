@@ -31,13 +31,13 @@ import java.io.*;
  */
 public final class GenotypeFileParser {
 	/**
-	 * Construct the parser.
+	 * Constructs the parser.
 	 */
 	public GenotypeFileParser() {
 	}
 
 	/**
-	 * Parse the input stream for genotype records.
+	 * Parses the input stream for genotype records.
 	 * @param in The input stream, typically a file input stream, of the
 	 * genotype file to be parsed.
 	 * @param listener As the input stream is parsed, each genotype record
@@ -78,12 +78,12 @@ public final class GenotypeFileParser {
 	 */
 	public interface RecordListener {
 		/**
-		 * Handle successfully parsed genotype record.
+		 * Handles successfully parsed genotype record.
 		 */
 		void handleParsedRecord(GenotypeRecord record);
 
 		/**
-		 * Handle record that could not be parsed due to a formatting problem.
+		 * Handles input that could not be parsed due to a formatting problem.
 		 * @param line The line of text that could not be parsed.
 		 */
 		void handleBadRecordFormat(String line);
@@ -94,37 +94,37 @@ public final class GenotypeFileParser {
 	 */
 	public interface GenotypeRecord {
 		/**
-		 * Return the SNP name.
+		 * Returns the SNP name.
 		 */
 		String getSNPName();
 
 		/**
-		 * Return the sample identifier.
+		 * Returns the sample identifier.
 		 */
 		String getSampleID();
 
 		/**
-		 * Return the first allele from the TOP strand.
+		 * Returns the first allele from the TOP strand.
 		 */
 		String getAllele1Top();
 
 		/**
-		 * Return the second allele from the TOP strand.
+		 * Returns the second allele from the TOP strand.
 		 */
 		String getAllele2Top();
 
 		/**
-		 * Return the first allele from the forward strand.
+		 * Returns the first allele from the forward strand.
 		 */
 		String getAllele1Forward();
 
 		/**
-		 * Return the second allele from the forward strand.
+		 * Returns the second allele from the forward strand.
 		 */
 		String getAllele2Forward();
 
 		/**
-		 * Return the GenCall (GC) score for this SNP and sample.
+		 * Returns the GenCall (GC) score for this SNP and sample.
 		 * This score is the product of the GenTrain score and a
 		 * data-to-model fit score from Illumina BeadStudio.
 		 */

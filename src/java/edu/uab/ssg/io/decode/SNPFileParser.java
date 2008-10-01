@@ -23,13 +23,13 @@ import java.io.*;
  */
 public final class SNPFileParser {
 	/**
-	 * Construct the parser.
+	 * Constructs the parser.
 	 */
 	public SNPFileParser() {
 	}
 
 	/**
-	 * Parse the input stream for SNP records.
+	 * Parses the input stream for SNP records.
 	 * @param in The input stream, typically a file input stream, of the
 	 * SNP file to be parsed.
 	 * @param listener As the input stream is parsed, each SNP record
@@ -63,12 +63,12 @@ public final class SNPFileParser {
 	 */
 	public interface RecordListener {
 		/**
-		 * Handle successfully parsed SNP record.
+		 * Handles successfully parsed SNP record.
 		 */
 		void handleParsedRecord(SNPRecord record);
 
 		/**
-		 * Handle record that could not be parsed due to a formatting problem.
+		 * Handles input that could not be parsed due to a formatting problem.
 		 * @param line The line of text that could not be parsed.
 		 */
 		void handleBadRecordFormat(String line);
@@ -79,35 +79,35 @@ public final class SNPFileParser {
 	 */
 	public interface SNPRecord {
 		/**
-		 * Return the SNP name.
+		 * Returns the SNP name.
 		 */
 		String getName();
 
 		/**
-		 * Return the chromosome name.
+		 * Returns the chromosome name.
 		 */
 		String getChromosome();
 
 		/**
-		 * Return the position of this SNP on the chromosome.
+		 * Returns the position of this SNP on the chromosome.
 		 */
 		int getPosition();
 
 		double getGenTrainScore();
 
 		/**
-		 * Return a text representation of the nucleotides found at this 
+		 * Returns a text representation of the nucleotides found at this 
 		 * SNP position, for example, "[A/G]".
 		 */
 		String getSNP();
 
 		/**
-		 * Return the Illumina TOP/BOT strand.
+		 * Returns the Illumina TOP/BOT strand.
 		 */
 		String getILMNStrand();
 
 		/**
-		 * Return the strand of the allele reported by the customer in 
+		 * Returns the strand of the allele reported by the customer in 
 		 * Illumina TOP/BOT strand notation.
 		 */
 		String getCustomerStrand();
