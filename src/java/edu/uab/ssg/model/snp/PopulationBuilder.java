@@ -3,12 +3,17 @@ package edu.uab.ssg.model.snp;
 import java.util.*;
 
 /**
+ * A builder for a study population.
+ *
  * @author Jelai Wang
  */
 
 public final class PopulationBuilder {
 	private DefaultPopulation population;
 
+	/**
+	 * Constructs a builder for a study population with the given name.
+	 */
 	public PopulationBuilder(String name) {
 		if (name == null)
 			throw new NullPointerException("name");
@@ -16,7 +21,7 @@ public final class PopulationBuilder {
 	}
 
 	/**
-	 * Set the genotype at a SNP for the specified sample.
+	 * Sets the genotype at a SNP for a particular sample.
 	 * Alleles can be null to indicate that the sample was assessed for
 	 * genotype at this SNP, but data are missing.
 	 * @param a1 The first allele.
@@ -42,6 +47,10 @@ public final class PopulationBuilder {
 		sample.setGenotype(snp, a1, a2, strand);
 	}
 
+	/**
+	 * Returns the study population and disables the builder.
+	 * In other words, after getInstance is called, setGenotype doesn't work.
+	 */
 	public Population getInstance() {
 		Population tmp = population;
 		this.population = null;
