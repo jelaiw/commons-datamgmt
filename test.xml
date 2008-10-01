@@ -23,7 +23,7 @@
 	<target name="-prepare-tests" depends="-prepare">
 		<!-- See advice in section 'Code test cases that need data to adapt' at http://wiki.apache.org/ant/TheElementsOfAntStyle. --> 
 		<copy todir="${classes.dir}">
-			<fileset dir="${test.src.dir}" excludes="**/*.java"/>
+			<fileset dir="${test.src.dir}" excludes="**/*.java **/*.swp"/>
 		</copy>
 	</target>
 
