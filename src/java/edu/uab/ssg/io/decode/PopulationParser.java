@@ -5,9 +5,27 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A parser for deCODE SNP and genotype file formats that returns the content
+ * as a Population, a high-level abstraction from the edu.uab.ssg.model.snp
+ * package.
+ * This implementation ignores (but logs to standard error) file format errors.
+ *
  * @author Jelai Wang
  */
 public final class PopulationParser {
+	/**
+	 * Constructs the parser.
+	 */
+	public PopulationParser() {
+	}
+
+	/**
+	 * Parses the input streams for the SNP and genotype files and returns a
+	 * Population.
+	 * @param populationName The name of the study population.
+	 * @param in1 The input stream for the SNP file.
+	 * @param in2 The input stream for the genotype file.
+	 */
 	public Population parse(String populationName, InputStream in1, InputStream in2) throws IOException {
 		if (populationName == null)
 			throw new NullPointerException("populationName");
@@ -25,6 +43,7 @@ public final class PopulationParser {
 			}
 
 			public void handleBadRecordFormat(String line) {
+				System.err.println("BAD FORMAT: " + line);
 			}
 		});
 
@@ -38,6 +57,7 @@ public final class PopulationParser {
 			}
 
 			public void handleBadRecordFormat(String line) {
+				System.err.println("BAD FORMAT: " + line);
 			}
 		});
 
