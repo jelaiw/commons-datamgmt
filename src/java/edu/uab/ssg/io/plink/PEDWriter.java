@@ -32,12 +32,13 @@ public final class PEDWriter {
 			throw new NullPointerException("population");
 		if (out == null)
 			throw new NullPointerException("out");
+		OutputStreamWriter writer = new OutputStreamWriter(out);
 		Set<SNP> snps = population.getSNPs();
 		Set<Sample> samples = population.getSamples();
-		StringBuilder builder = new StringBuilder();
 		for (Iterator<Sample> it1 = samples.iterator(); it1.hasNext(); ) {
 			Sample sample = it1.next();
 			
+			StringBuilder builder = new StringBuilder();
 			// See the hapmap1.ped file in the example presented in the PLINK tutorial at http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip.
 			builder.append(sample.getName()); // Family ID
 			builder.append(DELIMITER).append(1); // Individual ID
@@ -66,12 +67,9 @@ public final class PEDWriter {
 					builder.append(DELIMITER).append(MISSING_VALUE);
 				}
 			}
-
 			builder.append(EOL);
+			writer.write(builder.toString());
 		}
-
-		OutputStreamWriter writer = new OutputStreamWriter(out);
-		writer.write(builder.toString());
 		writer.flush();
 		writer.close();
 	}
