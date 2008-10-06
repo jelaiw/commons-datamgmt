@@ -5,6 +5,10 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * A writer for the PLINK PED input file format described at <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml">http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml</a>.
+ * This implementation uses the tab character as the field delimiter, the
+ * zero character to represent missing values, and Unix-style line ending.
+ *
  * @author Jelai Wang
  */
 public final class PEDWriter {
@@ -12,6 +16,17 @@ public final class PEDWriter {
 	private static final char MISSING_VALUE = '0';
 	private static final char EOL = '\n';
 
+	/**
+	 * Constructs the writer.
+	 */
+	public PEDWriter() {
+	}
+
+	/**
+	 * Writes the study population to the output stream in PLINK PED format.
+	 * @param population A study population of unrelated samples.
+	 * @param out An output stream. This stream is closed.
+	 */
 	public void write(Population population, OutputStream out) throws IOException {
 		if (population == null)
 			throw new NullPointerException("population");
@@ -23,6 +38,7 @@ public final class PEDWriter {
 		for (Iterator<Sample> it1 = samples.iterator(); it1.hasNext(); ) {
 			Sample sample = it1.next();
 			
+			// See the hapmap1.ped file in the example presented in the PLINK tutorial at http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip.
 			builder.append(sample.getName()); // Family ID
 			builder.append(DELIMITER).append(1); // Individual ID
 			builder.append(DELIMITER).append(MISSING_VALUE); // Paternal ID
@@ -45,7 +61,7 @@ public final class PEDWriter {
 					else
 						builder.append(DELIMITER).append(MISSING_VALUE);
 				}
-				else {
+				else { // The genotype was not assessed for this sample.
 					builder.append(DELIMITER).append(MISSING_VALUE);
 					builder.append(DELIMITER).append(MISSING_VALUE);
 				}
