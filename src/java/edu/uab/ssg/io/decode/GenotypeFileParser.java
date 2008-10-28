@@ -5,8 +5,9 @@ import java.io.*;
 
 /**
  * A parser for the genotype file format used by deCODE to report genotyping
- * results from a custom Illumina SNP array. Here is a short example:
+ * results from a custom Illumina SNP array. 
  *
+ * Here is a short example:
  * <p><tt>
  * [Header]<br/>
  * BSGT Version    3.2.32<br/>
