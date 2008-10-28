@@ -29,7 +29,7 @@ public final class TestPEDWriter extends TestCase {
 	}
 
 	private String getExpectedOutput() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/plink/expected_PED_file.txt");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/plink/expected.ped");
 		StringBuilder builder = new StringBuilder();
 		int ch = -1;
 		while ((ch = in.read()) != -1) {
