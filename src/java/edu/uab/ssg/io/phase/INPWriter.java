@@ -5,12 +5,45 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * A writer for the PHASE INP input file format.
+ *
+ * This implementation uses the space character as the field delimiter, the
+ * '?' character to represent missing SNP values, and Unix-style line ending.
+ *
+ * Here is an excerpt from chapter 3 of <a href="doc-files/instruct2.1.pdf">the PHASE version 2.1 manual</a> specifying the file format:
+ * <p><tt>
+ * NumberOfIndividuals<br/>
+ * NumberOfLoci<br/>
+ * P Position(1) Position(2) Position(NumberOfLoci)<br/>
+ * LocusType(1) LocusType(2) ... LocusType(NumberOfLoci)<br/>
+ * ID(1)<br/>
+ * Genotype(1)<br/>
+ * ID(2)<br/>
+ * Genotype(2)<br/>
+ * .<br/>
+ * .<br/>
+ * .<br/>
+ * ID(NumberOfIndividuals)]<br/>
+ * Genotype(NumberOfIndividuals)<br/>
+ * </tt></p>
+ *
+ * <p>The example <a href="doc-files/test.inp">test.inp</a> file from the PHASE binary package may also be helpful.</p>
+ *
  * @author Jelai Wang
  */
 public final class INPWriter {
 	private static final String EOL = "\n";
 	private static final String MISSING_SNP_ALLELE = "?";
 
+	/**
+	 * Constructs the writer.
+	 */
+	public INPWriter() {
+	}
+
+	/**
+	 * Writes the study population to the output stream in PHASE INP format.
+	 */
 	public void write(Population population, OutputStream out) throws IOException {
 		if (population == null)
 			throw new NullPointerException("population");
