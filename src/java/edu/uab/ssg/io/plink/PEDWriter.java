@@ -5,9 +5,38 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A writer for the PLINK PED input file format described at <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml">http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml</a>.
- * This implementation uses the tab character as the field delimiter, the
- * zero character to represent missing values, and Unix-style line ending.
+ * A writer for the PLINK PED input file format described in <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml">the basic usage/data formats section</a> of the PLINK online documentation.
+ *
+ * The first six columns are:
+ * <p><tt>
+ * Family ID<br/>
+ * Individual ID<br/>
+ * Paternal ID<br/>
+ * Maternal ID<br/>
+ * Sex (1=male; 2=female; other=unknown)<br/>
+ * Phenotype<br/>
+ * </tt></p>
+ *
+ * <p>Additional columns are for specifying genotypes.</p>
+ *
+ * Here is an excerpt (only includes the first ten markers) created from the hapmap1.ped file in the PLINK tutorial <a href="http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip">example data archive</a> that may help illustrate the file format:
+ *
+ * <p><tt>
+ * HCB181 1 0 0 1 1 2 2 2 2 2 2 1 2 2 2 2 2 2 2 0 0 2 2 2 2<br/>
+ * HCB182 1 0 0 1 1 2 2 1 2 2 2 1 2 1 2 2 2 2 2 0 0 2 2 2 2<br/>
+ * HCB183 1 0 0 1 2 2 2 1 2 2 2 1 2 1 1 2 2 2 2 0 0 2 2 2 2<br/>
+ * HCB184 1 0 0 1 1 2 2 1 2 2 2 1 1 2 2 2 2 2 2 0 0 2 2 2 2<br/>
+ * HCB185 1 0 0 1 1 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2<br/>
+ * HCB186 1 0 0 1 1 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2<br/>
+ * HCB187 1 0 0 1 1 2 2 2 2 2 2 1 2 1 2 2 2 2 2 2 2 2 2 2 2<br/>
+ * HCB188 1 0 0 1 1 2 2 1 2 2 2 1 1 2 2 2 2 2 2 0 0 2 2 2 2<br/>
+ * HCB189 1 0 0 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2<br/>
+ * HCB190 1 0 0 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2<br/>
+ * ...
+ * </tt></p>
+ * 
+ * <p>This implementation uses the tab character as the field delimiter, the
+ * zero character to represent missing values, and Unix-style line ending.</p>
  *
  * @author Jelai Wang
  */
