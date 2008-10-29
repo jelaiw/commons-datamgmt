@@ -38,7 +38,7 @@ public final class PopulationBuilder {
 			throw new NullPointerException("strand");
 		// If both alleles are missing, it doesn't make sense to pass strand.
 		if (a1 == null && a2 == null && strand != null)
-			throw new IllegalArgumentException(String.valueOf(strand));
+			throw new IllegalArgumentException(a1 + " " + a2 + " " + strand);
 		DefaultSample sample = (DefaultSample) population.getSample(sampleName);	
 		if (sample == null) {
 			sample = new DefaultSample(sampleName, population);
