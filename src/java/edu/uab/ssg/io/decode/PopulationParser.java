@@ -5,10 +5,11 @@ import java.util.*;
 import java.io.*;
 
 /**
- * A parser for deCODE SNP and genotype file formats that returns the content
- * as a Population, a high-level abstraction from the edu.uab.ssg.model.snp
+ * A parser for the SNP and genotype file formats from deCODE that returns 
+ * a Population, a high-level abstraction from the edu.uab.ssg.model.snp
  * package.
- * This implementation ignores (but logs to standard error) file format errors.
+ * This implementation ignores file format errors, but prints them to
+ * standard error.
  *
  * @author Jelai Wang
  */
@@ -52,8 +53,18 @@ public final class PopulationParser {
 		parser2.parse(in2, new GenotypeFileParser.RecordListener() {
 			public void handleParsedRecord(GenotypeFileParser.GenotypeRecord record) {
 				SNP snp = map.get(record.getSNPName());
-				if (snp != null)
-					builder.setGenotype(record.getSampleID(), snp, record.getAllele1Top(), record.getAllele2Top(), IlluminaStrand.TOP);
+				if (snp != null) {
+					String a1 = record.getAllele1Top();
+					String a2 = record.getAllele2Top();
+					// Missing alleles are represented with the '-' character
+					// in the deCODE genotype file format.
+					if ("-".equals(a1)) a1 = null;
+					if ("-".equals(a2)) a2 = null;
+					// Genotypes are read from the TOP column.
+					Strand strand = IlluminaStrand.TOP;
+					if (a1 == null && a2 == null) strand = null; // LOOK!!
+					builder.setGenotype(record.getSampleID(), snp, a1, a2, strand);
+				}
 			}
 
 			public void handleBadRecordFormat(String line) {
