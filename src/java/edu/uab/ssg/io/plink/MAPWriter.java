@@ -61,6 +61,7 @@ public final class MAPWriter {
 			StringBuilder builder = new StringBuilder();
 			builder.append(snp.getChromosome().getName());
 			builder.append(DELIMITER).append(snp.getName());
+			builder.append(DELIMITER).append("0"); // LOOK!!
 			builder.append(DELIMITER).append(snp.getPosition());
 			builder.append(EOL);
 			writer.write(builder.toString());
