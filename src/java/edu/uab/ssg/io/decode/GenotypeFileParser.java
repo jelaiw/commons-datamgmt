@@ -40,7 +40,7 @@ public final class GenotypeFileParser {
 	/**
 	 * Parses the input stream for genotype records.
 	 * @param in The input stream, typically a file input stream, of the
-	 * genotype file to be parsed.
+	 * file to be parsed.
 	 * @param listener As the input stream is parsed, each genotype record
 	 * is passed to the user-supplied record listener.
 	 */
