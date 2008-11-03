@@ -8,6 +8,25 @@ import java.util.*;
  * coded clinical data from the Oklahoma Medical Research Foundation (OMRF)
  * for the UAB popgen project.
  *
+ * <p><tt>
+ * Number<br/>
+ * OMRF Barcode<br/>
+ * WRAMC Barcode<br/>
+ * Group<br/>
+ * Sex<br/>
+ * Race<br/>
+ * Age<br/>
+ * Date Received<br/>
+ * Date of Last Vacc<br/>
+ * Yrs post Vacc<br/>
+ * No. vacc<br/>
+ * PA End Titer<br/>
+ * LF End Titer<br/>
+ * EF End Titer<br/>
+ * % Viability (1:100) Average<br/>
+ * Neutralization Group<br/>
+ * </tt></p>
+ *
  * This file was created by opening the original MS Excel spreadsheet
  * and exporting a CSV (with tab delimiter) in Calc from Open Office 2.4.
  *
