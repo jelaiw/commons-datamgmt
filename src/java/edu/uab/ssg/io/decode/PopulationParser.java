@@ -8,8 +8,6 @@ import java.io.*;
  * A parser for the SNP and genotype file formats from deCODE that returns 
  * a Population, a high-level abstraction from the edu.uab.ssg.model.snp
  * package.
- * This implementation ignores file format errors, but prints them to
- * standard error.
  *
  * @author Jelai Wang
  */
@@ -21,19 +19,32 @@ public final class PopulationParser {
 	}
 
 	/**
+	 * A listener for handling problems due to bad record formatting.
+	 */
+	public interface BadRecordFormatListener {
+		/**
+		 * Handles input that could not be parsed due to a formatting problem.
+		 * @param line The line of text that could not be parsed.
+		 */
+		void handleBadRecordFormat(String line);
+	}
+
+	/**
 	 * Parses the input streams for the SNP and genotype files and returns a
 	 * Population.
 	 * @param populationName The name of the study population.
 	 * @param in1 The input stream for the SNP file.
 	 * @param in2 The input stream for the genotype file.
 	 */
-	public Population parse(String populationName, InputStream in1, InputStream in2) throws IOException {
+	public Population parse(String populationName, InputStream in1, InputStream in2, final BadRecordFormatListener listener) throws IOException {
 		if (populationName == null)
 			throw new NullPointerException("populationName");
 		if (in1 == null)
 			throw new NullPointerException("in1");
 		if (in2 == null)
 			throw new NullPointerException("in2");
+		if (listener == null)
+			throw new NullPointerException("listener");
 
 		final Map<String, SNP> map = new LinkedHashMap<String, SNP>();
 		SNPFileParser parser1 = new SNPFileParser();
@@ -44,7 +55,7 @@ public final class PopulationParser {
 			}
 
 			public void handleBadRecordFormat(String line) {
-				System.err.println("BAD FORMAT: " + line);
+				listener.handleBadRecordFormat(line);
 			}
 		});
 
@@ -68,7 +79,7 @@ public final class PopulationParser {
 			}
 
 			public void handleBadRecordFormat(String line) {
-				System.err.println("BAD FORMAT: " + line);
+				listener.handleBadRecordFormat(line);
 			}
 		});
 

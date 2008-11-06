@@ -15,7 +15,19 @@ public final class TestPopulationParser extends TestCase {
 		InputStream in1 = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/decode/snps.txt");
 		InputStream in2 = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/decode/genotypes.txt");
 		PopulationParser parser = new PopulationParser();
-		Population population = parser.parse("foo", in1, in2);
+		PopulationParser.BadRecordFormatListener listener = new PopulationParser.BadRecordFormatListener() {
+			public void handleBadRecordFormat(String line) {
+				if (line.startsWith("missing_fields"))
+					Assert.assertTrue(true);
+				else if (line.startsWith("extra_field"))
+					Assert.assertTrue(true);
+				else if (line.contains("should_be_double"))
+					Assert.assertTrue(true);
+				else
+					Assert.fail(line);
+			}
+		};
+		Population population = parser.parse("foo", in1, in2, listener);
 		Assert.assertEquals("foo", population.getName());
 		
 		Sample ava1001 = population.getSample("AVA1001");
