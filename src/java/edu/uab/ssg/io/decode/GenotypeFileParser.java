@@ -25,7 +25,7 @@ import java.io.*;
  * ...
  * </tt></p>
  *
- * <p>The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
+ * <p>Missing alleles are coded with the '-' character (i.e. the hyphen, minus sign). The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
  * Read more about the "TOP/BOT" strand in <a href="doc-files/GenotypeFileParser-1.pdf">this technical note</a> from Illumina.</p>
  *
  * @author Jelai Wang
