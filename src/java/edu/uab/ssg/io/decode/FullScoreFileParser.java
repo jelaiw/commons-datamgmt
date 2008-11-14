@@ -49,6 +49,10 @@ public final class FullScoreFileParser {
 			throw new IllegalArgumentException(header[52]);
 		if (!"HARLEY".equals(header[53]))
 			throw new IllegalArgumentException(header[53]);
+		if (!"HUGO symbol".equals(header[56]))
+			throw new IllegalArgumentException(header[56]);
+		if (!"func".equals(header[64]))
+			throw new IllegalArgumentException(header[64]);
 		// Process other rows.
 		String line = null;
 		while ((line = reader.readLine()) != null) {
@@ -94,6 +98,8 @@ public final class FullScoreFileParser {
 		boolean isAIM();
 		boolean isCNV();
 		boolean isHarley();
+		String getHugoSymbol();
+		String getFunc();
 	}
 
 	private class ParsedSNPRecord implements SNPRecord {
@@ -101,6 +107,7 @@ public final class FullScoreFileParser {
 		private String name, chr;
 		private int coordinate;
 		private boolean include, mhc, aim, cnv, harley;
+		private String hugo, func;
 
 		private ParsedSNPRecord(String line) {
 			if (line == null)
@@ -120,6 +127,8 @@ public final class FullScoreFileParser {
 			this.aim = "1".equals(tmp[51]);
 			this.cnv = "1".equals(tmp[52]);
 			this.harley = "1".equals(tmp[53]);
+			this.hugo = tmp[56];
+			this.func = tmp[64];
 		}
 
 		public String getSNPName() { return name; }
@@ -130,6 +139,8 @@ public final class FullScoreFileParser {
 		public boolean isAIM() { return aim; }
 		public boolean isCNV() { return cnv; }
 		public boolean isHarley() { return harley; }
+		public String getHugoSymbol() { return hugo; }
+		public String getFunc() { return func; }
 		public String toString() { return line; }
 	}
 }

@@ -33,6 +33,8 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertFalse(record.isAIM());
 				Assert.assertFalse(record.isCNV());
 				Assert.assertFalse(record.isHarley());
+				Assert.assertEquals("AICDA", record.getHugoSymbol());
+				Assert.assertEquals("NA", record.getFunc());
 			}
 			else if (numOfParsedRecords == 10) { // MHC record.
 				Assert.assertEquals("rs592625", record.getSNPName());
@@ -43,6 +45,8 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertFalse(record.isAIM());
 				Assert.assertFalse(record.isCNV());
 				Assert.assertFalse(record.isHarley());
+				Assert.assertEquals("HLA-DOA", record.getHugoSymbol());
+				Assert.assertEquals("untranslated", record.getFunc());
 			}
 			else if (numOfParsedRecords == 11) { // AIM record.
 				Assert.assertEquals("rs10313", record.getSNPName());
@@ -53,6 +57,8 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertTrue(record.isAIM());
 				Assert.assertFalse(record.isCNV());
 				Assert.assertFalse(record.isHarley());
+				Assert.assertEquals("NA", record.getHugoSymbol());
+				Assert.assertEquals("NA", record.getFunc());
 			}
 			else if (numOfParsedRecords == 12) { // CNV record.
 				Assert.assertEquals("CNV_cnv11927p2", record.getSNPName());
@@ -63,6 +69,8 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertFalse(record.isAIM());
 				Assert.assertTrue(record.isCNV());
 				Assert.assertFalse(record.isHarley());
+				Assert.assertEquals("NA", record.getHugoSymbol());
+				Assert.assertEquals("NA", record.getFunc());
 			}
 			else if (numOfParsedRecords == 13) { // Harley record.
 				Assert.assertEquals("rs2280789", record.getSNPName());
@@ -73,6 +81,8 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertFalse(record.isAIM());
 				Assert.assertFalse(record.isCNV());
 				Assert.assertTrue(record.isHarley());
+				Assert.assertEquals("CCL5", record.getHugoSymbol());
+				Assert.assertEquals("NA", record.getFunc());
 			}
 			else if (numOfParsedRecords == 14) { // Not included, Harley record.
 				Assert.assertEquals("rs10002897", record.getSNPName());
@@ -83,6 +93,8 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertFalse(record.isAIM());
 				Assert.assertFalse(record.isCNV());
 				Assert.assertTrue(record.isHarley());
+				Assert.assertEquals("NA", record.getHugoSymbol());
+				Assert.assertEquals("NA", record.getFunc());
 			}
 			// Increment total number of handled records.
 			numOfParsedRecords++;
