@@ -23,7 +23,7 @@ public final class TestTabParser extends TestCase {
 		private int numOfParsedRecords = 0;
 		private int numOfBadRecords = 0;
 
-		public void handleParsedRecord(TabParser.IndividualRecord record) {
+		public void handleParsedRecord(TabParser.SampleRecord record) {
 			// Spot check specific records.
 			if (numOfParsedRecords == 0) { // First record.
 				Assert.assertEquals("560001", record.getOMRFBarCode());

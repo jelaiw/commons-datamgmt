@@ -36,14 +36,14 @@ public final class TabParser {
 	}
 
 	/**
-	 * A listener for handling parsed individual records and problems due to
+	 * A listener for handling parsed sample records and problems due to
 	 * bad record formatting.
 	 */
 	public interface RecordListener {
 		/**
-		 * Handles successfully parsed individual record.
+		 * Handles successfully parsed sample record.
 		 */
-		void handleParsedRecord(IndividualRecord record);
+		void handleParsedRecord(SampleRecord record);
 
 		/**
 		 * Handles input that could not be parsed due to a formatting problem.
@@ -53,9 +53,9 @@ public final class TabParser {
 	}
 
 	/**
-	 * An individual record.
+	 * An sample record.
 	 */
-	public interface IndividualRecord {
+	public interface SampleRecord {
 		String getOMRFBarCode();
 		String getSex();
 		String getRace();
@@ -71,10 +71,10 @@ public final class TabParser {
 	}
 
 	/**
-	 * Parses the input stream for individual records.
+	 * Parses the input stream for sample records.
 	 * @param in The input stream, typically a file input stream, of the
 	 * file to be parsed.
-	 * @param listener As the input stream is parsed, each individual record
+	 * @param listener As the input stream is parsed, each sample record
 	 * is passed to the user-supplied record listener.
 	 */
 	public void parse(InputStream in, RecordListener listener) throws IOException {
@@ -101,9 +101,9 @@ public final class TabParser {
 		// Process the rest of the rows.
 		String line = null;
 		while ((line = reader.readLine()) != null) {
-			IndividualRecord record = null;
+			SampleRecord record = null;
 			try {
-				record = new ParsedIndividualRecord(line);
+				record = new ParsedSampleRecord(line);
 			}
 			catch (RuntimeException e) {
 				listener.handleBadRecordFormat(line);
@@ -120,7 +120,7 @@ public final class TabParser {
 		return tmp;	
 	}
 
-	private class ParsedIndividualRecord implements IndividualRecord {
+	private class ParsedSampleRecord implements SampleRecord {
 		private String line;
 		private String omrfBarCode;
 		private String sex, race, age;
@@ -128,7 +128,7 @@ public final class TabParser {
 		private String paEndTiter, lfEndTiter, efEndTiter;
 		private String viability, neutralizationGroup;
 
-		private ParsedIndividualRecord(String line) {
+		private ParsedSampleRecord(String line) {
 			if (line == null)
 				throw new NullPointerException("line");
 			this.line = line;
