@@ -6,19 +6,15 @@ import java.util.*;
 /**
  * A parser for the tab-delimited text file containing the de-identified and
  * coded clinical data from the Oklahoma Medical Research Foundation (OMRF)
- * for the UAB popgen project.
+ * for the 310 samples for which the UAB popgen project has genotypes.
  *
  * <p><tt>
- * Number<br/>
  * OMRF Barcode<br/>
- * WRAMC Barcode<br/>
- * Group<br/>
  * Sex<br/>
  * Race<br/>
  * Age<br/>
  * Date Received<br/>
  * Date of Last Vacc<br/>
- * Yrs post Vacc<br/>
  * No. vacc<br/>
  * PA End Titer<br/>
  * LF End Titer<br/>
@@ -61,14 +57,11 @@ public final class TabParser {
 	 */
 	public interface IndividualRecord {
 		String getOMRFBarCode();
-		String getWRAMCBarCode();
-		String getGroup();
 		String getSex();
 		String getRace();
 		String getAge();
 		String getDateReceived();
 		String getDateLastVacc();
-		String getYearsPostVacc();
 		String getNumberOfVacc();
 		String getPAEndTiter();
 		String getLFEndTiter();
@@ -93,13 +86,17 @@ public final class TabParser {
 		String header = reader.readLine();
 		String[] tmp = header.split("\t");
 		// Spot check a few expected column names in the header.
-		if (!"OMRF Barcode".equals(dequote(tmp[1])))
+		if (!"OMRF Barcode".equals(dequote(tmp[0])))
 			throw new IllegalArgumentException(header);
-		if (!"WRAMC Barcode".equals(dequote(tmp[2])))
+		if (!"Sex".equals(dequote(tmp[1])))
 			throw new IllegalArgumentException(header);
-		if (!"Race".equals(dequote(tmp[5])))
+		if (!"Race".equals(dequote(tmp[2])))
 			throw new IllegalArgumentException(header);
-		if (!"% Viability (1:100) Average".equals(dequote(tmp[14])))
+		if (!"Age".equals(dequote(tmp[3])))
+			throw new IllegalArgumentException(header);
+		if (!"% Viability (1:100) Average".equals(dequote(tmp[10])))
+			throw new IllegalArgumentException(header);
+		if (!"Neutralization Group".equals(dequote(tmp[11])))
 			throw new IllegalArgumentException(header);
 		// Process the rest of the rows.
 		String line = null;
@@ -125,9 +122,9 @@ public final class TabParser {
 
 	private class ParsedIndividualRecord implements IndividualRecord {
 		private String line;
-		private String omrfBarCode, wramcBarCode;
-		private String group, sex, race, age;
-		private String dateReceived, dateLastVacc, yearsPostVacc, numOfVacc;
+		private String omrfBarCode;
+		private String sex, race, age;
+		private String dateReceived, dateLastVacc, numOfVacc;
 		private String paEndTiter, lfEndTiter, efEndTiter;
 		private String viability, neutralizationGroup;
 
@@ -137,34 +134,28 @@ public final class TabParser {
 			this.line = line;
 
 			String[] tmp = line.split("\t");
-			if (tmp.length < 16) // Expect at least 16 columns.
+			if (tmp.length != 12) // Expect 12 columns.
 				throw new IllegalArgumentException(tmp.length + "," + line);
-			this.omrfBarCode = dequote(tmp[1]);
-			this.wramcBarCode = dequote(tmp[2]);
-			this.group = dequote(tmp[3]);
-			this.sex = dequote(tmp[4]);
-			this.race = dequote(tmp[5]);
-			this.age = dequote(tmp[6]);
-			this.dateReceived = dequote(tmp[7]);
-			this.dateLastVacc = dequote(tmp[8]);
-			this.yearsPostVacc = dequote(tmp[9]);
-			this.numOfVacc = dequote(tmp[10]);
-			this.paEndTiter = dequote(tmp[11]);
-			this.lfEndTiter = dequote(tmp[12]);
-			this.efEndTiter = dequote(tmp[13]);
-			this.viability = dequote(tmp[14]);
-			this.neutralizationGroup = dequote(tmp[15]);
+			this.omrfBarCode = dequote(tmp[0]);
+			this.sex = dequote(tmp[1]);
+			this.race = dequote(tmp[2]);
+			this.age = dequote(tmp[3]);
+			this.dateReceived = dequote(tmp[4]);
+			this.dateLastVacc = dequote(tmp[5]);
+			this.numOfVacc = dequote(tmp[6]);
+			this.paEndTiter = dequote(tmp[7]);
+			this.lfEndTiter = dequote(tmp[8]);
+			this.efEndTiter = dequote(tmp[9]);
+			this.viability = dequote(tmp[10]);
+			this.neutralizationGroup = dequote(tmp[11]);
 		}
 
 		public String getOMRFBarCode() { return omrfBarCode; }
-		public String getWRAMCBarCode() { return wramcBarCode; }
-		public String getGroup() { return group; }
 		public String getSex() { return sex; }
 		public String getRace() { return race; }
 		public String getAge() { return age; }
 		public String getDateReceived() { return dateReceived; }
 		public String getDateLastVacc() { return dateLastVacc; }
-		public String getYearsPostVacc() { return yearsPostVacc; }
 		public String getNumberOfVacc() { return numOfVacc; }
 		public String getPAEndTiter() { return paEndTiter; }
 		public String getLFEndTiter() { return lfEndTiter; }

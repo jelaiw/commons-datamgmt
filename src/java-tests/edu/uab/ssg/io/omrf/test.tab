@@ -1,5 +1,5 @@
-"Number"	"OMRF Barcode"	"WRAMC Barcode"	"Group"	"Sex"	"Race"	"Age"	"Date Received"	"Date of Last Vacc"	"Yrs post Vacc"	"No. vacc"	"PA End Titer"	"LF End Titer"	"EF End Titer"	"% Viability (1:100) Average"	"Neutralization Group"		"PA Pins"	"LF Pins"	"EF Pins"	"OMRF Barcode"			
-1	560000	"N/A"	"None"	"M"	"PI"	22	1/31/2005	"11/03"	1.25	5	1000	0	0	57	"high"	"med"	5/23/2005			560000	1		
-2	560001	"N/A"	"Joint Pain, Cramping, Leukopenia, Depression, Anxiety, Diverticulitis"	"M"	"C"	37	2/1/2005	"6/99"	5.66	6	10	100	0	7	"neg"	"neg"	6/8/2005	"07.24.07"		560001	2		
-533	561000	"B4247"	4	"M"	"H"	25	12/7/2007	9/19/2007	0.25	3	100	10	10		"neg"	"neg"				561000	533		
-534	560045	"N/A"		"M"	"C"	24				4													
+"OMRF Barcode"	"Sex"	"Race"	"Age"	"Date Received"	"Date of Last Vacc"	"No. vacc"	"PA End Titer"	"LF End Titer"	"EF End Titer"	"% Viability (1:100) Average"	"Neutralization Group"
+560001	"M"	"C"	37	2/1/2005	"6/99"	6	10	100	0	7	"neg"
+560003	"M"	"C"	40	2/14/2005	"1/00"	5	100	0	100	7	"neg"
+560013	"F"	"C"	24	7/19/2005	"10/04"	6	10000	0	0	97	"veryhigh"
+561035	"m"	"C"	27	2/13/2008	6/8/2007	6	1000	0	0	68	"high"
