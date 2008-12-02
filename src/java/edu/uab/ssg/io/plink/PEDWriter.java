@@ -47,12 +47,17 @@ public final class PEDWriter {
 	public PEDWriter() {
 	}
 
+	public interface MetaData {
+		String getSex(String sampleName);
+		String getPhenotype(String sampleName);
+	}
+
 	/**
 	 * Writes the study population to the output stream in PLINK PED format.
 	 * @param population A study population of unrelated samples.
 	 * @param out An output stream. This stream is closed.
 	 */
-	public void write(Population population, OutputStream out) throws IOException {
+	public void write(Population population, MetaData metaData, OutputStream out) throws IOException {
 		if (population == null)
 			throw new NullPointerException("population");
 		if (out == null)
@@ -62,15 +67,26 @@ public final class PEDWriter {
 		Set<Sample> samples = population.getSamples();
 		for (Iterator<Sample> it1 = samples.iterator(); it1.hasNext(); ) {
 			Sample sample = it1.next();
+			String sampleName = sample.getName();
 			
 			StringBuilder builder = new StringBuilder();
 			// See the hapmap1.ped file in the example presented in the PLINK tutorial at http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip.
-			builder.append(sample.getName()); // Family ID
+			builder.append(sampleName); // Family ID
 			builder.append(DELIMITER).append(1); // Individual ID
 			builder.append(DELIMITER).append(MISSING_VALUE); // Paternal ID
 			builder.append(DELIMITER).append(MISSING_VALUE); // Maternal ID
-			builder.append(DELIMITER).append(MISSING_VALUE); // Sex
-			builder.append(DELIMITER).append(MISSING_VALUE); // Phenotype
+
+			String sex = metaData.getSex(sampleName);
+			if (sex != null)
+				builder.append(DELIMITER).append(sex);
+			else
+				builder.append(DELIMITER).append(MISSING_VALUE);
+			
+			String phenotype = metaData.getPhenotype(sampleName);
+			if (phenotype != null)
+				builder.append(DELIMITER).append(phenotype);
+			else
+				builder.append(DELIMITER).append(MISSING_VALUE);
 
 			for (Iterator<SNP> it2 = snps.iterator(); it2.hasNext(); ) {
 				SNP snp = it2.next();

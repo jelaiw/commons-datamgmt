@@ -24,7 +24,24 @@ public final class TestPEDWriter extends TestCase {
 
 		PEDWriter writer = new PEDWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(foo, out);
+		PEDWriter.MetaData metaData = new PEDWriter.MetaData() {
+			public String getSex(String sampleName) {
+				if ("sample2".equals(sampleName))
+					return "2";
+				else if ("sample3".equals(sampleName))
+					return "1";
+				return null;
+			}
+
+			public String getPhenotype(String sampleName) {
+				if ("sample1".equals(sampleName))
+					return "100";
+				else if ("sample3".equals(sampleName))
+					return "10000";
+				return null;
+			}
+		};
+		writer.write(foo, metaData, out);
 		Assert.assertEquals(getExpectedOutput(), out.toString());
 	}
 
