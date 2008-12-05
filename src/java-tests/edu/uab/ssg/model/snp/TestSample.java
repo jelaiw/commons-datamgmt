@@ -8,78 +8,58 @@ import junit.framework.Assert;
  */
 
 public final class TestSample extends TestCase {
-	public void testMissingData() {
-		PopulationBuilder builder = new PopulationBuilder("CEU");
-		SNP bar = SNPFactory.createSNP("bar", "chr1", 1);
-		SNP baz = SNPFactory.createSNP("baz", "chr2", 3);
-		// Test for various degrees of missing genotype data.
-		builder.setGenotype("foo", bar, "C", null, IlluminaStrand.TOP);
-		builder.setGenotype("foo", baz, null, null, null);
-		Population ceu = builder.getInstance();
-		Sample foo = ceu.getSample("foo");
+	private static SNP snp1, snp2, snp3;
 
-		Assert.assertTrue(foo.existsGenotype(bar));
+	static {
+		snp1 = SNPFactory.createSNP("snp1", "chr1", 1);
+		snp2 = SNPFactory.createSNP("snp2", "chr1", 2);
+		snp3 = SNPFactory.createSNP("snp3", "chr2", 3);
+	}
+
+	public void testMissingData() {
+		// Test for various degrees of missing genotype data.
+		DefaultSample sample1 = new DefaultSample("sample1");
+		sample1.setGenotype(snp1, "C", null, IlluminaStrand.TOP);
+		sample1.setGenotype(snp3, null, null, null);
+
+		Assert.assertTrue(sample1.existsGenotype(snp1));
 		Sample.Genotype genotype = null;
 
-		genotype = foo.getGenotype(bar);
+		genotype = sample1.getGenotype(snp1);
 		Assert.assertEquals("C", genotype.getAllele1());
 		Assert.assertEquals(null, genotype.getAllele2());
 
-		genotype = foo.getGenotype(baz);
+		genotype = sample1.getGenotype(snp3);
 		Assert.assertEquals(null, genotype.getAllele1());
 		Assert.assertEquals(null, genotype.getAllele2());
 		Assert.assertEquals(null, genotype.getStrand());
 	}
 
 	public void testNaively() {
-		PopulationBuilder builder = new PopulationBuilder("CEU");
-		SNP bar = SNPFactory.createSNP("bar", "chr1", 1);
-		builder.setGenotype("foo", bar, "C", "T", IlluminaStrand.TOP);
-		Population ceu = builder.getInstance();
-		Sample foo = ceu.getSample("foo");
+		DefaultSample sample1 = new DefaultSample("sample1");
+		sample1.setGenotype(snp1, "C", "T", IlluminaStrand.TOP);
 
-		Assert.assertEquals("foo", foo.getName());
-		Assert.assertSame(ceu, foo.getPopulation());
-		Assert.assertEquals(ceu, foo.getPopulation());
-		Assert.assertTrue(foo.existsGenotype(bar));
-		Sample.Genotype genotype = foo.getGenotype(bar);
+		Assert.assertEquals("sample1", sample1.getName());
+		Assert.assertTrue(sample1.existsGenotype(snp1));
+		Sample.Genotype genotype = sample1.getGenotype(snp1);
 		Assert.assertEquals("C", genotype.getAllele1());
 		Assert.assertEquals("T", genotype.getAllele2());
 		Assert.assertSame(IlluminaStrand.TOP, genotype.getStrand());
 
-		SNP klee = SNPFactory.createSNP("klee", "chr1", 2);
-		Assert.assertFalse(foo.existsGenotype(klee));
+		Assert.assertFalse(sample1.existsGenotype(snp2));
 		try {
-			foo.getGenotype(klee);
+			sample1.getGenotype(snp2);
 			Assert.fail();
 		}
 		catch (IllegalArgumentException e) {
 			Assert.assertTrue(true);
 		}
 
-		((DefaultSample) foo).setGenotype(klee, "A", "G", IlluminaStrand.BOT);
-		Assert.assertTrue(foo.existsGenotype(klee));
-		genotype = foo.getGenotype(klee);
+		sample1.setGenotype(snp2, "A", "G", IlluminaStrand.BOT);
+		Assert.assertTrue(sample1.existsGenotype(snp2));
+		genotype = sample1.getGenotype(snp2);
 		Assert.assertEquals("A", genotype.getAllele1());
 		Assert.assertEquals("G", genotype.getAllele2());
 		Assert.assertSame(IlluminaStrand.BOT, genotype.getStrand());
-	}
-
-	public void testBadArgs() {
-		try {
-			Sample foo = new DefaultSample(null, null);
-			Assert.fail();
-		}
-		catch (NullPointerException e) {
-			Assert.assertTrue(true);
-		}
-
-		try {
-			Sample foo = new DefaultSample("foo", null);
-			Assert.fail();
-		}
-		catch (NullPointerException e) {
-			Assert.assertTrue(true);
-		}
 	}
 }

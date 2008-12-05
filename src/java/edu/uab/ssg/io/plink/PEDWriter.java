@@ -53,18 +53,20 @@ public final class PEDWriter {
 	}
 
 	/**
-	 * Writes the study population to the output stream in PLINK PED format.
-	 * @param population A study population of unrelated samples.
+	 * Writes the genotypes and metadata of interest for the samples of a study 
+	 * population to the output stream in PLINK PED format.
 	 * @param out An output stream. This stream is closed.
 	 */
-	public void write(Population population, MetaData metaData, OutputStream out) throws IOException {
-		if (population == null)
-			throw new NullPointerException("population");
+	public void write(List<Sample> samples, List<SNP> snps, MetaData metaData, OutputStream out) throws IOException {
+		if (samples == null)
+			throw new NullPointerException("samples");
+		if (snps == null)
+			throw new NullPointerException("snps");
+		if (metaData == null)
+			throw new NullPointerException("metaData");
 		if (out == null)
 			throw new NullPointerException("out");
 		OutputStreamWriter writer = new OutputStreamWriter(out);
-		Set<SNP> snps = population.getSNPs();
-		Set<Sample> samples = population.getSamples();
 		for (Iterator<Sample> it1 = samples.iterator(); it1.hasNext(); ) {
 			Sample sample = it1.next();
 			String sampleName = sample.getName();

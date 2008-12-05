@@ -3,10 +3,13 @@ package edu.uab.ssg.model.snp;
 import java.util.*;
 
 /**
+ * Information about the alleles at a particular SNP, including names, 
+ * frequencies, and number of missing values.
+ *
  * @author Jelai Wang
  */
 
-/* package private */ final class DefaultAlleleInfo implements Population.AlleleInfo {
+/* package private */ final class DefaultAlleleInfo {
 	private Map<String, int[]> map = new HashMap<String, int[]>();
 	private int missingCount = 0;
 
@@ -27,6 +30,11 @@ import java.util.*;
 		frequency[0]++;
 	}
 
+	/**
+	 * Returns true if the minor allele exists.
+	 * The minor allele is the less frequent allele and is defined only if 
+	 * there is more than one allele at this SNP in the study population.
+	 */
 	public boolean existsMinorAllele() {
 		if (map.size() > 1) {
 			// This can probably be simplified by a more clever programmer.
@@ -46,6 +54,10 @@ import java.util.*;
 		return false;	
 	}
 
+	/**
+	 * Returns the minor allele.
+	 * If the minor allele does not exist, a runtime exception is thrown.
+	 */
 	public String getMinorAllele() {
 		if (!existsMinorAllele())
 			throw new IllegalStateException();
@@ -62,8 +74,17 @@ import java.util.*;
 		return minorAllele;
 	}
 
+	/**
+	 * Returns the number of missing (allele) values.
+	 * A value is missing if a sample from the study population was
+	 * assessed for genotype at a particular SNP, but, for whatever reason,
+	 * the allele(s) could not be determined.
+	 */
 	public int getNumberOfMissingValues() { return missingCount; }
 
+	/**
+	 * Returns the alleles.
+	 */
 	public Set<String> getAlleles() { return new HashSet<String>(map.keySet()); }
 
 	/* package private */ int getTotalNumberOfAlleles() {
@@ -75,6 +96,10 @@ import java.util.*;
 		return total;
 	}
 
+	/**
+	 * Returns the frequency, or count, of a particular allele within
+	 * the study population.
+	 */
 	public int getFrequency(String allele) {
 		if (allele == null)
 			throw new IllegalArgumentException("allele");
@@ -86,6 +111,10 @@ import java.util.*;
 		return frequency[0];
 	}
 
+	/**
+	 * Returns the relative frequency of a particular allele within
+	 * the study population.
+	 */
 	public double getRelativeFrequency(String allele) {
 		if (allele == null)
 			throw new NullPointerException("allele");

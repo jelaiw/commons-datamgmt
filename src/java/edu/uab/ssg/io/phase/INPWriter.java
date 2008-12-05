@@ -42,16 +42,16 @@ public final class INPWriter {
 	}
 
 	/**
-	 * Writes the study population to the output stream in PHASE INP format.
+	 * Writes the genotypes for the given samples in a study population 
+	 * to the output stream in PHASE INP format.
 	 */
-	public void write(Population population, OutputStream out) throws IOException {
-		if (population == null)
-			throw new NullPointerException("population");
+	public void write(List<Sample> samples, List<SNP> snps, OutputStream out) throws IOException {
+		if (samples == null)
+			throw new NullPointerException("samples");
+		if (snps == null)
+			throw new NullPointerException("snps");
 		if (out == null)
 			throw new NullPointerException("out");
-		Set<Sample> samples = population.getSamples();
-		Set<SNP> snps = population.getSNPs();
-
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
 		// Number of "individuals".
 		writer.write(String.valueOf(samples.size()));
@@ -100,7 +100,7 @@ public final class INPWriter {
 		writer.close();
 	}
 
-	private String createPositionLine(Set<SNP> snps) {
+	private String createPositionLine(List<SNP> snps) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("P");
 		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
@@ -110,7 +110,7 @@ public final class INPWriter {
 		return builder.toString();
 	}
 
-	private String createLocusTypeLine(Set<SNP> snps) {
+	private String createLocusTypeLine(List<SNP> snps) {
 		StringBuilder builder = new StringBuilder();
 		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
 			SNP snp = it.next();

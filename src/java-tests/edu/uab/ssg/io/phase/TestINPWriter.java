@@ -13,17 +13,26 @@ public final class TestINPWriter extends TestCase {
 	public void testSmallPopulation() throws IOException {
 		SNP snp1 = SNPFactory.createSNP("snp1", "chr3", 1000);
 		SNP snp2 = SNPFactory.createSNP("snp2", "chr3", 2000);
-		PopulationBuilder builder = new PopulationBuilder("foo");
-		builder.setGenotype("sample1", snp1, "A", "A", IlluminaStrand.TOP);
-		builder.setGenotype("sample1", snp2, "C", "G", IlluminaStrand.TOP);
-		builder.setGenotype("sample2", snp1, null, "A", IlluminaStrand.TOP);
-		builder.setGenotype("sample2", snp2, "G", "G", IlluminaStrand.TOP);
-		builder.setGenotype("sample3", snp1, "T", "A", IlluminaStrand.TOP);
-		Population foo = builder.getInstance();
+		List<SNP> snps = new ArrayList<SNP>();
+		snps.add(snp1);
+		snps.add(snp2);
+
+		SampleBuilder b1 = new SampleBuilder("sample1");
+		b1.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
+		b1.setGenotype(snp2, "C", "G", IlluminaStrand.TOP);
+		SampleBuilder b2 = new SampleBuilder("sample2");
+		b2.setGenotype(snp1, null, "A", IlluminaStrand.TOP);
+		b2.setGenotype(snp2, "G", "G", IlluminaStrand.TOP);
+		SampleBuilder b3 = new SampleBuilder("sample3");
+		b3.setGenotype(snp1, "T", "A", IlluminaStrand.TOP);
+		List<Sample> samples = new ArrayList<Sample>();
+		samples.add(b1.getInstance());
+		samples.add(b2.getInstance());
+		samples.add(b3.getInstance());
 
 		INPWriter writer = new INPWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(foo, out);
+		writer.write(samples, snps, out);
 		Assert.assertEquals(getExpectedOutput(), out.toString());
 	}
 

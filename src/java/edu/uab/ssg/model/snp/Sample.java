@@ -13,11 +13,6 @@ public interface Sample {
 	String getName();
 
 	/**
-	 * Returns the study population to which this sample belongs.
-	 */
-	Population getPopulation();
-
-	/**
 	 * Returns true if genotype for the given SNP was assessed in this sample.
 	 */
 	boolean existsGenotype(SNP snp);
