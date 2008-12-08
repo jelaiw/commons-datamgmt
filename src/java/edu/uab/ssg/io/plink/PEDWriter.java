@@ -53,8 +53,8 @@ public final class PEDWriter {
 	}
 
 	/**
-	 * Writes the genotypes and metadata of interest for the samples of a study 
-	 * population to the output stream in PLINK PED format.
+	 * Writes the genotypes for the given samples of a study population 
+	 * to the output stream in PLINK PED format.
 	 * @param out An output stream. This stream is closed.
 	 */
 	public void write(List<Sample> samples, List<SNP> snps, MetaData metaData, OutputStream out) throws IOException {
