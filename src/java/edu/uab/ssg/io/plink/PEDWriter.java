@@ -41,10 +41,23 @@ public final class PEDWriter {
 	private static final char MISSING_VALUE = '0';
 	private static final char EOL = '\n';
 
+	private List<SNP> snps;
+	private MetaData metaData;
+	private BufferedWriter writer;
+
 	/**
 	 * Constructs the writer.
 	 */
-	public PEDWriter() {
+	public PEDWriter(List<SNP> snps, MetaData metaData, OutputStream out) {
+		if (snps == null)
+			throw new NullPointerException("snps");
+		if (metaData == null)
+			throw new NullPointerException("metaData");
+		if (out == null)
+			throw new NullPointerException("out");
+		this.snps = new ArrayList<SNP>(snps);
+		this.metaData = metaData;
+		this.writer = new BufferedWriter(new OutputStreamWriter(out));
 	}
 
 	public interface MetaData {
@@ -53,67 +66,62 @@ public final class PEDWriter {
 	}
 
 	/**
-	 * Writes the genotypes for the given samples of a study population 
-	 * to the output stream in PLINK PED format.
-	 * @param out An output stream. This stream is closed.
+	 * Closes the writer.
 	 */
-	public void write(List<Sample> samples, List<SNP> snps, MetaData metaData, OutputStream out) throws IOException {
-		if (samples == null)
-			throw new NullPointerException("samples");
-		if (snps == null)
-			throw new NullPointerException("snps");
-		if (metaData == null)
-			throw new NullPointerException("metaData");
-		if (out == null)
-			throw new NullPointerException("out");
-		OutputStreamWriter writer = new OutputStreamWriter(out);
-		for (Iterator<Sample> it1 = samples.iterator(); it1.hasNext(); ) {
-			Sample sample = it1.next();
-			String sampleName = sample.getName();
-			
-			StringBuilder builder = new StringBuilder();
-			// See the hapmap1.ped file in the example presented in the PLINK tutorial at http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip.
-			builder.append(sampleName); // Family ID
-			builder.append(DELIMITER).append(1); // Individual ID
-			builder.append(DELIMITER).append(MISSING_VALUE); // Paternal ID
-			builder.append(DELIMITER).append(MISSING_VALUE); // Maternal ID
-
-			String sex = metaData.getSex(sampleName);
-			if (sex != null)
-				builder.append(DELIMITER).append(sex);
-			else
-				builder.append(DELIMITER).append(MISSING_VALUE);
-			
-			String phenotype = metaData.getPhenotype(sampleName);
-			if (phenotype != null)
-				builder.append(DELIMITER).append(phenotype);
-			else
-				builder.append(DELIMITER).append(MISSING_VALUE);
-
-			for (Iterator<SNP> it2 = snps.iterator(); it2.hasNext(); ) {
-				SNP snp = it2.next();
-				if (sample.existsGenotype(snp)) {
-					Sample.Genotype genotype = sample.getGenotype(snp);
-					String a1 = genotype.getAllele1();
-					String a2 = genotype.getAllele2();
-					if (a1 != null)
-						builder.append(DELIMITER).append(a1);
-					else
-						builder.append(DELIMITER).append(MISSING_VALUE);
-					if (a2 != null)
-						builder.append(DELIMITER).append(a2);
-					else
-						builder.append(DELIMITER).append(MISSING_VALUE);
-				}
-				else { // The genotype was not assessed for this sample.
-					builder.append(DELIMITER).append(MISSING_VALUE);
-					builder.append(DELIMITER).append(MISSING_VALUE);
-				}
-			}
-			builder.append(EOL);
-			writer.write(builder.toString());
-		}
+	public void close() throws IOException {
 		writer.flush();
 		writer.close();
+	}
+
+	/**
+	 * Writes the genotypes for the given sample to the output stream 
+	 * in PLINK PED format.
+	 */
+	public void write(Sample sample) throws IOException {
+		if (sample == null)
+			throw new NullPointerException("sample");
+
+		String sampleName = sample.getName();
+		StringBuilder builder = new StringBuilder();
+		// See the hapmap1.ped file in the example presented in the PLINK tutorial at http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip.
+		builder.append(sampleName); // Family ID
+		builder.append(DELIMITER).append(1); // Individual ID
+		builder.append(DELIMITER).append(MISSING_VALUE); // Paternal ID
+		builder.append(DELIMITER).append(MISSING_VALUE); // Maternal ID
+
+		String sex = metaData.getSex(sampleName);
+		if (sex != null)
+			builder.append(DELIMITER).append(sex);
+		else
+			builder.append(DELIMITER).append(MISSING_VALUE);
+		
+		String phenotype = metaData.getPhenotype(sampleName);
+		if (phenotype != null)
+			builder.append(DELIMITER).append(phenotype);
+		else
+			builder.append(DELIMITER).append(MISSING_VALUE);
+
+		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
+			SNP snp = it.next();
+			if (sample.existsGenotype(snp)) {
+				Sample.Genotype genotype = sample.getGenotype(snp);
+				String a1 = genotype.getAllele1();
+				String a2 = genotype.getAllele2();
+				if (a1 != null)
+					builder.append(DELIMITER).append(a1);
+				else
+					builder.append(DELIMITER).append(MISSING_VALUE);
+				if (a2 != null)
+					builder.append(DELIMITER).append(a2);
+				else
+					builder.append(DELIMITER).append(MISSING_VALUE);
+			}
+			else { // The genotype was not assessed for this sample.
+				builder.append(DELIMITER).append(MISSING_VALUE);
+				builder.append(DELIMITER).append(MISSING_VALUE);
+			}
+		}
+		builder.append(EOL);
+		writer.write(builder.toString());
 	}
 }

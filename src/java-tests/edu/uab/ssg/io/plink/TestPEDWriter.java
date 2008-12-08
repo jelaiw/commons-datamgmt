@@ -26,13 +26,10 @@ public final class TestPEDWriter extends TestCase {
 		b2.setGenotype(snp2, "G", "G", IlluminaStrand.TOP);
 		SampleBuilder b3 = new SampleBuilder("sample3");
 		b3.setGenotype(snp1, "T", "A", IlluminaStrand.TOP);
-		List<Sample> samples = new ArrayList<Sample>();
-		samples.add(b1.getInstance());
-		samples.add(b2.getInstance());
-		samples.add(b3.getInstance());
+		Sample sample1 = b1.getInstance();
+		Sample sample2 = b2.getInstance();
+		Sample sample3 = b3.getInstance();
 
-		PEDWriter writer = new PEDWriter();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		PEDWriter.MetaData metaData = new PEDWriter.MetaData() {
 			public String getSex(String sampleName) {
 				if ("sample2".equals(sampleName))
@@ -50,7 +47,12 @@ public final class TestPEDWriter extends TestCase {
 				return null;
 			}
 		};
-		writer.write(samples, snps, metaData, out);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		PEDWriter writer = new PEDWriter(snps, metaData, out);
+		writer.write(sample1);
+		writer.write(sample2);
+		writer.write(sample3);
+		writer.close();
 		Assert.assertEquals(getExpectedOutput(), out.toString());
 	}
 
