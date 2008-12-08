@@ -8,7 +8,8 @@ import java.util.*;
  * A writer for the PHASE INP input file format.
  *
  * This implementation uses the space character as the field delimiter, the
- * '?' character to represent missing SNP values, and Unix-style line ending.
+ * '?' character to represent missing SNP values, and the '\n' (new line)
+ * character as the line separator.
  *
  * Here is an excerpt from chapter 3 of <a href="doc-files/instruct2.1.pdf">the PHASE version 2.1 manual</a> specifying the file format:
  * <p><tt>
@@ -59,7 +60,7 @@ public final class INPWriter {
 		// Number of "loci".
 		writer.write(String.valueOf(snps.size()));
 		writer.write(EOL);
-		// Optional line of SNP positions in base-pairs.
+		// Optional line of SNP positions.
 		writer.write(createPositionLine(snps));
 		writer.write(EOL);
 		// Locus types.
