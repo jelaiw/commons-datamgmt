@@ -21,6 +21,13 @@ public final class SampleBuilder {
 	}
 
 	/**
+	 * Returns the sample name.
+	 */
+	public String getSampleName() {
+		return sample.getName();
+	}
+
+	/**
 	 * Sets the genotype at a SNP for a particular sample.
 	 * Alleles can be null to indicate that the sample was assessed for
 	 * genotype at this SNP, but data are missing.
