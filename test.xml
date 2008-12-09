@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project>
-	<property name="test.src.dir" location="src/java-tests"/>
+	<property name="test.src.dir" location="test"/>
 
 	<path id="junit.taskdef.classpath">
 		<fileset dir="${vendor.lib.dir}">

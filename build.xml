@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project basedir=".">
 	<property name="build.dir" location="build"/>
-	<property name="src.dir" location="src/java"/>
+	<property name="src.dir" location="src"/>
 	<property name="vendor.lib.dir" location="vendor/lib"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
 	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
