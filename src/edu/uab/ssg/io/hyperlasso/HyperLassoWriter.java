@@ -5,9 +5,10 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * A writer for the HyperLasso DAT file format described in the <a href="http://www.ebi.ac.uk/projects/BARGEN/download/HyperLasso/readme.txt">README</a>.
+ *
  * @author Jelai Wang
  */
-
 public final class HyperLassoWriter {
 	private static final String FIELD_DELIMITER = "\t";
 	private static final String EOL = "\n";
@@ -18,6 +19,9 @@ public final class HyperLassoWriter {
 	// Map from SNP to allele of interest (for genotype encoding purposes).
 	private Map<SNP, String> snp2allele = new LinkedHashMap<SNP, String>();
 
+	/**
+	 * Constructs a writer.
+	 */
 	public HyperLassoWriter(List<SNP> snps, OutputStream out) {
 		if (snps == null)
 			throw new NullPointerException("snps");
@@ -27,6 +31,10 @@ public final class HyperLassoWriter {
 		this.writer = new BufferedWriter(new OutputStreamWriter(out));
 	}
 
+	/**
+	 * Writes the header (first line, of SNP names) according to the
+	 * HyperLasso DAT file format.
+	 */
 	public void writeHeader() throws IOException {
 		StringBuilder builder = new StringBuilder();
 		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
@@ -37,6 +45,10 @@ public final class HyperLassoWriter {
 		writer.write(EOL);
 	}
 
+	/**
+	 * Writes the genotypes for the given sample to the output stream 
+	 * in HyperLasso DAT file format.
+	 */
 	public void write(Sample sample) throws IOException {
 		if (sample == null)
 			throw new NullPointerException("sample");
@@ -75,6 +87,9 @@ public final class HyperLassoWriter {
 		writer.write(EOL);
 	}
 
+	/**
+	 * Closes the writer.
+	 */
 	public void close() throws IOException {
 		writer.flush();
 		writer.close();
