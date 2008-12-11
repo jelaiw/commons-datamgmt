@@ -27,6 +27,16 @@ public final class HyperLassoWriter {
 		this.writer = new BufferedWriter(new OutputStreamWriter(out));
 	}
 
+	public void writeHeader() throws IOException {
+		StringBuilder builder = new StringBuilder();
+		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
+			SNP snp = it.next();
+			builder.append(FIELD_DELIMITER).append(snp.getName());
+		}
+		writer.write(builder.toString().trim()); // LOOK!!
+		writer.write(EOL);
+	}
+
 	public void write(Sample sample) throws IOException {
 		if (sample == null)
 			throw new NullPointerException("sample");

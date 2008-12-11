@@ -25,6 +25,7 @@ public final class TestHyperLassoWriter extends TestCase {
 		SampleBuilder b1 = new SampleBuilder("sample1");
 		b1.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
 		b1.setGenotype(snp2, "C", null, IlluminaStrand.TOP);
+		// LOOK!! snp3 was not assessed for genotype.
 		b1.setGenotype(snp4, "T", "A", IlluminaStrand.TOP);
 		SampleBuilder b2 = new SampleBuilder("sample2");
 		b2.setGenotype(snp1, "T", "A", IlluminaStrand.TOP);
@@ -34,6 +35,8 @@ public final class TestHyperLassoWriter extends TestCase {
 		SampleBuilder b3 = new SampleBuilder("sample3");
 		b3.setGenotype(snp1, "T", "T", IlluminaStrand.TOP);
 		b3.setGenotype(snp2, "G", "G", IlluminaStrand.TOP);
+		// snp3 was assessed for genotype, but the data were missing
+		// for this sample.
 		b3.setGenotype(snp3, null, null, IlluminaStrand.TOP);
 		b3.setGenotype(snp4, "A", "T", IlluminaStrand.TOP);
 		Sample sample1 = b1.getInstance();
@@ -42,6 +45,7 @@ public final class TestHyperLassoWriter extends TestCase {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		HyperLassoWriter writer = new HyperLassoWriter(snps, out);
+		writer.writeHeader();
 		writer.write(sample1);
 		writer.write(sample2);
 		writer.write(sample3);
