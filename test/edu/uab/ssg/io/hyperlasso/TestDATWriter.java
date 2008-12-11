@@ -10,7 +10,7 @@ import edu.uab.ssg.model.snp.*;
  * @author Jelai Wang
  */
 
-public final class TestHyperLassoWriter extends TestCase {
+public final class TestDATWriter extends TestCase {
 	public void testSmallPopulation() throws IOException {
 		SNP snp1 = SNPFactory.createSNP("snp1", "chr5", 1000);
 		SNP snp2 = SNPFactory.createSNP("snp2", "chr3", 2000);
@@ -44,7 +44,7 @@ public final class TestHyperLassoWriter extends TestCase {
 		Sample sample3 = b3.getInstance();
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		HyperLassoWriter writer = new HyperLassoWriter(snps, out);
+		DATWriter writer = new DATWriter(snps, out);
 		writer.writeHeader();
 		writer.write(sample1);
 		writer.write(sample2);

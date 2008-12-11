@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author Jelai Wang
  */
-public final class HyperLassoWriter {
+public final class DATWriter {
 	private static final String FIELD_DELIMITER = "\t";
 	private static final String EOL = "\n";
 	private static final String MISSING_VALUE = "NA"; // Can also be 9 or -1.
@@ -22,7 +22,7 @@ public final class HyperLassoWriter {
 	/**
 	 * Constructs a writer.
 	 */
-	public HyperLassoWriter(List<SNP> snps, OutputStream out) {
+	public DATWriter(List<SNP> snps, OutputStream out) {
 		if (snps == null)
 			throw new NullPointerException("snps");
 		if (out == null)
