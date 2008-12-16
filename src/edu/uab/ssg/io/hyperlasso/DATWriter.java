@@ -5,7 +5,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A writer for the HyperLasso DAT file format described in the <a href="http://www.ebi.ac.uk/projects/BARGEN/download/HyperLasso/readme.txt">README</a>.
+ * A writer for the HyperLasso DAT file format described in <a href="http://www.ebi.ac.uk/projects/BARGEN/download/HyperLasso/readme.txt">this README</a>.
+ * More information is available on <a href="http://www.ebi.ac.uk/projects/BARGEN/">the BARGEN home page</a>.
  *
  * @author Jelai Wang
  */
@@ -32,8 +33,9 @@ public final class DATWriter {
 	}
 
 	/**
-	 * Writes the header (first line, of SNP names) according to the
-	 * HyperLasso DAT file format.
+	 * Writes the header (first line, of SNP names).
+	 * For a fully-compliant HyperLasso file, this method should be called
+	 * before any sample genotype data are written.
 	 */
 	public void writeHeader() throws IOException {
 		StringBuilder builder = new StringBuilder();
