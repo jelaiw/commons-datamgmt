@@ -2,13 +2,6 @@
 <project>
 	<property name="test.src.dir" location="test"/>
 
-	<path id="junit.taskdef.classpath">
-		<fileset dir="${vendor.lib.dir}">
-			<include name="junit-3.8.1.jar"/>
-			<include name="ant-1.6.5-junit.jar"/>
-		</fileset>
-	</path>
-
 	<path id="test.compile.classpath">
 		<fileset dir="${vendor.lib.dir}">
 			<include name="junit-3.8.1.jar"/>
@@ -35,9 +28,6 @@
 	</target>
 
 	<target name="test" depends="-prepare-tests" description="Run the unit tests.">
-		<!-- Remove $ANT_HOME/lib/ant-junit.jar in ant 1.6.5 -->
-		<!-- http://ant.apache.org/faq.html#delegating-classloader -->
-		<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="junit.taskdef.classpath"/>
 		<junit fork="true" showoutput="no">
 			<classpath>
 				<pathelement location="${classes.dir}"/>
