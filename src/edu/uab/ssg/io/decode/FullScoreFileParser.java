@@ -39,6 +39,8 @@ public final class FullScoreFileParser {
 			throw new IllegalArgumentException(header[3]);
 		if (!"Coordinate".equals(header[4]))
 			throw new IllegalArgumentException(header[4]);
+		if (!"iSelectable".equals(header[48]))
+			throw new IllegalArgumentException(header[48]);
 		if (!"INCLUDE".equals(header[49]))
 			throw new IllegalArgumentException(header[49]);
 		if (!"MHC".equals(header[50]))
@@ -93,6 +95,7 @@ public final class FullScoreFileParser {
 		String getSNPName();
 		String getChr();
 		int getCoordinate();
+		String getISelectable();
 		boolean isInclude();
 		boolean isMHC();
 		boolean isAIM();
@@ -106,6 +109,7 @@ public final class FullScoreFileParser {
 		private String line;
 		private String name, chr;
 		private int coordinate;
+		private String iSelectable;
 		private boolean include, mhc, aim, cnv, harley;
 		private String hugo, func;
 
@@ -122,6 +126,7 @@ public final class FullScoreFileParser {
 			this.coordinate = Integer.parseInt(tmp[4]);
 			if (coordinate < 1)
 				throw new IllegalArgumentException(String.valueOf(coordinate));
+			this.iSelectable = tmp[48];
 			this.include = "1".equals(tmp[49]);
 			this.mhc = "1".equals(tmp[50]);
 			this.aim = "1".equals(tmp[51]);
@@ -134,6 +139,7 @@ public final class FullScoreFileParser {
 		public String getSNPName() { return name; }
 		public String getChr() { return chr; }
 		public int getCoordinate() { return coordinate; }
+		public String getISelectable() { return iSelectable; }
 		public boolean isInclude() { return include; }
 		public boolean isMHC() { return mhc; }
 		public boolean isAIM() { return aim; }

@@ -28,6 +28,7 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertEquals("rs714630", record.getSNPName());
 				Assert.assertEquals("12", record.getChr());
 				Assert.assertEquals(8657652, record.getCoordinate());
+				Assert.assertEquals("GOOD", record.getISelectable());
 				Assert.assertTrue(record.isInclude());
 				Assert.assertFalse(record.isMHC());
 				Assert.assertFalse(record.isAIM());
@@ -40,6 +41,7 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertEquals("rs592625", record.getSNPName());
 				Assert.assertEquals("6", record.getChr());
 				Assert.assertEquals(33080668, record.getCoordinate());
+				Assert.assertEquals("GOOD", record.getISelectable());
 				Assert.assertTrue(record.isInclude());
 				Assert.assertTrue(record.isMHC());
 				Assert.assertFalse(record.isAIM());
@@ -52,6 +54,7 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertEquals("rs10313", record.getSNPName());
 				Assert.assertEquals("5", record.getChr());
 				Assert.assertEquals(180615011, record.getCoordinate());
+				Assert.assertEquals("GOOD", record.getISelectable());
 				Assert.assertFalse(record.isInclude());
 				Assert.assertFalse(record.isMHC());
 				Assert.assertTrue(record.isAIM());
@@ -64,6 +67,7 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertEquals("CNV_cnv11927p2", record.getSNPName());
 				Assert.assertEquals("8", record.getChr());
 				Assert.assertEquals(6727787, record.getCoordinate());
+				Assert.assertEquals("QUEST", record.getISelectable());
 				Assert.assertFalse(record.isInclude());
 				Assert.assertFalse(record.isMHC());
 				Assert.assertFalse(record.isAIM());
@@ -76,6 +80,7 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertEquals("rs2280789", record.getSNPName());
 				Assert.assertEquals("17", record.getChr());
 				Assert.assertEquals(31231116, record.getCoordinate());
+				Assert.assertEquals("GOOD", record.getISelectable());
 				Assert.assertTrue(record.isInclude());
 				Assert.assertFalse(record.isMHC());
 				Assert.assertFalse(record.isAIM());
@@ -88,6 +93,7 @@ public final class TestFullScoreFileParser extends TestCase {
 				Assert.assertEquals("rs10002897", record.getSNPName());
 				Assert.assertEquals("4", record.getChr());
 				Assert.assertEquals(74489288, record.getCoordinate());
+				Assert.assertEquals("QUEST", record.getISelectable());
 				Assert.assertFalse(record.isInclude());
 				Assert.assertFalse(record.isMHC());
 				Assert.assertFalse(record.isAIM());
