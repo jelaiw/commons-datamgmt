@@ -3,20 +3,26 @@ package edu.uab.ssg.model.snp;
 import java.util.*;
 
 /**
- * Information about the alleles at a particular SNP, including names, 
- * frequencies, and number of missing values.
+ * Collects information based on alleles and their counts, including
+ * the names of the observed alleles, their frequencies, the name of the
+ * minor allele (if it exists), and the number of missing values.
  *
  * @author Jelai Wang
  */
-
-/* package private */ final class DefaultAlleleInfo {
+public final class AlleleCounter {
 	private Map<String, int[]> map = new HashMap<String, int[]>();
 	private int missingCount = 0;
 
-	/* package private */ DefaultAlleleInfo() {
+	/**
+	 * Constructs an allele counter.
+	 */
+	public AlleleCounter() {
 	}
 
-	/* package private */ void addAllele(String allele) {
+	/**
+	 * Adds an allele to the count.
+	 */
+	public void addAllele(String allele) {
 		if (allele == null) {
 			missingCount++;
 			return;
