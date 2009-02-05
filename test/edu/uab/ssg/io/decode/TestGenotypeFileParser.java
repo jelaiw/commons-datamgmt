@@ -14,7 +14,7 @@ public final class TestGenotypeFileParser extends TestCase {
 		GenotypeFileParser parser = new GenotypeFileParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);
-		Assert.assertEquals(10, helper.getNumberOfParsedRecords());
+		Assert.assertEquals(11, helper.getNumberOfParsedRecords());
 		Assert.assertEquals(3, helper.getNumberOfBadRecords());
 	}
 
@@ -33,13 +33,23 @@ public final class TestGenotypeFileParser extends TestCase {
 				Assert.assertEquals("C", record.getAllele2Forward());
 				Assert.assertTrue(Double.compare(0.4495, record.getGCScore()) == 0);
 			}
-			else if (numOfParsedRecords == 9) { // Last record.
+			else if (numOfParsedRecords == 9) { // Next to last record.
 				Assert.assertEquals("CASP12-001606", record.getSNPName());
+				Assert.assertEquals("AVA1001", record.getSampleID());
 				Assert.assertEquals("G", record.getAllele1Top());
 				Assert.assertEquals("G", record.getAllele2Top());
 				Assert.assertEquals("G", record.getAllele1Forward());
 				Assert.assertEquals("G", record.getAllele2Forward());
 				Assert.assertTrue(Double.compare(0.7598, record.getGCScore()) == 0);
+			}
+			else if (numOfParsedRecords == 10) { // Last record.
+				Assert.assertEquals("TNFSF7-006847", record.getSNPName());
+				Assert.assertEquals("deCODE control", record.getSampleID());
+				Assert.assertEquals("A", record.getAllele1Top());
+				Assert.assertEquals("A", record.getAllele2Top());
+				Assert.assertEquals("T", record.getAllele1Forward());
+				Assert.assertEquals("T", record.getAllele2Forward());
+				Assert.assertTrue(Double.compare(0.3556, record.getGCScore()) == 0);
 			}
 			// Increment total number of handled records.
 			numOfParsedRecords++;

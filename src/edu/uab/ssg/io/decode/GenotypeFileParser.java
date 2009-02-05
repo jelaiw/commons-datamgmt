@@ -25,7 +25,7 @@ import java.io.*;
  * ...
  * </tt></p>
  *
- * <p>Missing alleles are coded with the '-' character (i.e. the hyphen, minus sign). The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
+ * <p>Missing alleles are coded with the '-' character (i.e. the hyphen, minus sign) and the data table record delimiter is the tab character. The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
  * Read more about the "TOP/BOT" strand in <a href="doc-files/GenotypeFileParser-1.pdf">this technical note</a> from Illumina.</p>
  *
  * @author Jelai Wang
@@ -144,7 +144,7 @@ public final class GenotypeFileParser {
 				throw new NullPointerException("line");
 			this.line = line;
 
-			StringTokenizer tokenizer = new StringTokenizer(line);
+			StringTokenizer tokenizer = new StringTokenizer(line, "\t");
 			if (tokenizer.countTokens() != 7)
 				throw new IllegalArgumentException(line);
 			this.snpName = tokenizer.nextToken();
