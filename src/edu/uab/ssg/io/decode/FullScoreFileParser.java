@@ -53,6 +53,10 @@ public final class FullScoreFileParser {
 			throw new IllegalArgumentException(header[53]);
 		if (!"HUGO symbol".equals(header[56]))
 			throw new IllegalArgumentException(header[56]);
+		if (!"chr".equals(header[60]))
+			throw new IllegalArgumentException(header[60]);
+		if (!"pos".equals(header[61]))
+			throw new IllegalArgumentException(header[61]);
 		if (!"func".equals(header[64]))
 			throw new IllegalArgumentException(header[64]);
 		// Process other rows.
@@ -103,12 +107,19 @@ public final class FullScoreFileParser {
 		boolean isHarley();
 		String getHugoSymbol();
 		String getFunc();
+		String getchr();
+
+		/**
+		 * Returns the zero-based position of this SNP on the chromosome or 
+		 * Integer.MIN_VALUE if the value is "NA" in the full score file.
+		 */
+		int getpos();
 	}
 
 	private class ParsedSNPRecord implements SNPRecord {
 		private String line;
-		private String name, chr;
-		private int coordinate;
+		private String name, Chr, chr;
+		private int coordinate, pos;
 		private String iSelectable;
 		private boolean include, mhc, aim, cnv, harley;
 		private String hugo, func;
@@ -122,7 +133,7 @@ public final class FullScoreFileParser {
 			if (tmp.length != 90) // LOOK!! We expect 90 fields per record.
 				throw new IllegalArgumentException(line);
 			this.name = tmp[0];
-			this.chr = tmp[3];
+			this.Chr = tmp[3];
 			this.coordinate = Integer.parseInt(tmp[4]);
 			if (coordinate < 1)
 				throw new IllegalArgumentException(String.valueOf(coordinate));
@@ -133,11 +144,20 @@ public final class FullScoreFileParser {
 			this.cnv = "1".equals(tmp[52]);
 			this.harley = "1".equals(tmp[53]);
 			this.hugo = tmp[56];
+			this.chr = tmp[60];
+			if ("NA".equals(tmp[61])) { 
+				this.pos = Integer.MIN_VALUE; // Is there a better magic value?
+			}
+			else {
+				this.pos = Integer.parseInt(tmp[61]);
+				if (pos < 1)
+					throw new IllegalArgumentException(String.valueOf(pos));
+			}
 			this.func = tmp[64];
 		}
 
 		public String getSNPName() { return name; }
-		public String getChr() { return chr; }
+		public String getChr() { return Chr; }
 		public int getCoordinate() { return coordinate; }
 		public String getISelectable() { return iSelectable; }
 		public boolean isInclude() { return include; }
@@ -147,6 +167,8 @@ public final class FullScoreFileParser {
 		public boolean isHarley() { return harley; }
 		public String getHugoSymbol() { return hugo; }
 		public String getFunc() { return func; }
+		public String getchr() { return chr; }
+		public int getpos() { return pos; }
 		public String toString() { return line; }
 	}
 }
