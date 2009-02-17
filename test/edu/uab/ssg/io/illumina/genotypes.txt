@@ -1,0 +1,24 @@
+[Header]
+BSGT Version	3.3.4
+Processing Date	2/4/2009 11:30 AM
+Content		Human1M-Duov3_B.bpm
+Num SNPs	1199187
+Total SNPs	1199187
+Num Samples	297
+Total Samples	320
+[Data]
+SNP Name	Sample ID	Allele1 - Forward	Allele2 - Forward
+200003	A0001	G	G
+200006	A0001	T	T
+missing_field	T	T
+200047	A0001	A	A
+200050	A0001	C	C
+200052	A0001	T	T
+200053	A0001	T	T
+200070	A0001	G	C
+200078	A0001	C	C
+200087	A0001	T	G
+200091	A0001	A	C
+extra_field	cnvi0048854	A0280	-	-
+cnvi0048854	A0280	-	-
+cnvi0048855	A0280	-	-
