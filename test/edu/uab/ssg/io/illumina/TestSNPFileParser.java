@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.decode;
+package edu.uab.ssg.io.illumina;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -10,7 +10,7 @@ import java.io.*;
 
 public final class TestSNPFileParser extends TestCase {
 	public void testExampleFile() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/decode/snps.txt");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/illumina/snps.txt");
 		SNPFileParser parser = new SNPFileParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);

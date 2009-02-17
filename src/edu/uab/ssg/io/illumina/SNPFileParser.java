@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.decode;
+package edu.uab.ssg.io.illumina;
 
 import java.util.*;
 import java.io.*;
