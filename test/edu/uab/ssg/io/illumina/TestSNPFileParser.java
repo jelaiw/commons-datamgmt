@@ -11,7 +11,7 @@ import java.io.*;
 public final class TestSNPFileParser extends TestCase {
 	public void testExampleFile() throws IOException {
 		// This input file contains a "mix" of representative records from the Kaslow anthrax vaccine study and the Limdi warfarin study as well as purposefully spiked-in file format errors.
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/illumina/snps.txt");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/illumina/SNP_Map.txt");
 		SNPFileParser parser = new SNPFileParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);
