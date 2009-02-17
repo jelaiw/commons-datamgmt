@@ -4,8 +4,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * A parser for the file format of the "SNP_Map.txt" that accompanies the 
- * deCODE genotyping results file.
+ * A parser for the Illumina "SNP_Map.txt" file format.
  *
  * This file format has the following fields: <i>Index, Name, Chromosome,
  * Position, GenTrain Score, SNP, ILMN Strand, Customer Strand, and NormID</i>.
