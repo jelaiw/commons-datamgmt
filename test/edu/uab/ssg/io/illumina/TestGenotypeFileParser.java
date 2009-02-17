@@ -10,6 +10,7 @@ import java.io.*;
 
 public final class TestGenotypeFileParser extends TestCase {
 	public void testExampleFile() throws IOException {
+		// This input file contains representative records from the Illumina genotype report in the Limdi warfarin study as well as purposefully spiked-in file format errors.
 		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/illumina/genotypes.txt");
 		GenotypeFileParser parser = new GenotypeFileParser();
 		TestHelper helper = new TestHelper();
