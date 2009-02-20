@@ -112,10 +112,15 @@ public final class TabParser {
 			if (tmp.length != 4) // Expect 4 columns.
 				throw new IllegalArgumentException(tmp.length + "," + line);
 			this.idnum = dequote(tmp[0]);
+			if ("".equals(idnum))
+				throw new IllegalArgumentException(tmp.length + "," + line);
 			this.gender = dequote(tmp[1]);
+			if ("".equals(gender))
+				throw new IllegalArgumentException(tmp.length + "," + line);
 			this.avgdose = dequote(tmp[2]);
+			if ("".equals(avgdose)) avgdose = null;
 			this.stabledose = dequote(tmp[3]);
-			if ("".equals(stabledose)) stabledose = null; // LOOK!!
+			if ("".equals(stabledose)) stabledose = null;
 		}
 
 		public String getIDNum() { return idnum; }

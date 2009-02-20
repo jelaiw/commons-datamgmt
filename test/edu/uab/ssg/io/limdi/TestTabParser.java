@@ -14,7 +14,7 @@ public final class TestTabParser extends TestCase {
 		TabParser parser = new TabParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);
-		Assert.assertEquals(6, helper.getNumberOfParsedRecords());
+		Assert.assertEquals(7, helper.getNumberOfParsedRecords());
 		Assert.assertEquals(0, helper.getNumberOfBadRecords());
 	}
 
@@ -36,10 +36,16 @@ public final class TestTabParser extends TestCase {
 				Assert.assertEquals("6.061213134", record.getAvgDose());
 				Assert.assertEquals("5.714285851", record.getStabledose());
 			}
-			else if (numOfParsedRecords == 5) { // Last record in file.
+			else if (numOfParsedRecords == 5) {
 				Assert.assertEquals("B0109", record.getIDNum());
 				Assert.assertEquals("M", record.getGender());
 				Assert.assertEquals("4.563492094", record.getAvgDose());
+				Assert.assertNull(record.getStabledose());
+			}
+			else if (numOfParsedRecords == 6) {
+				Assert.assertEquals("A0073", record.getIDNum());
+				Assert.assertEquals("F", record.getGender());
+				Assert.assertNull(record.getAvgDose());
 				Assert.assertNull(record.getStabledose());
 			}
 			// Increment total number of handled records.
