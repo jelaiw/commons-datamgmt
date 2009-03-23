@@ -8,21 +8,21 @@ import java.util.*;
 /**
  * @author Jelai Wang
  */
-public final class TestTabParser extends TestCase {
+public final class TestDoseTabParser extends TestCase {
 	public void testExampleFile() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/limdi/test.tab");
-		TabParser parser = new TabParser();
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/limdi/test_dose.tab");
+		DoseTabParser parser = new DoseTabParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);
 		Assert.assertEquals(7, helper.getNumberOfParsedRecords());
 		Assert.assertEquals(0, helper.getNumberOfBadRecords());
 	}
 
-	private static final class TestHelper implements TabParser.RecordListener {
+	private static final class TestHelper implements DoseTabParser.RecordListener {
 		private int numOfParsedRecords = 0;
 		private int numOfBadRecords = 0;
 
-		public void handleParsedRecord(TabParser.SampleRecord record) {
+		public void handleParsedRecord(DoseTabParser.SampleRecord record) {
 			// Spot check specific records.
 			if (numOfParsedRecords == 0) { // First record in file.
 				Assert.assertEquals("A0001", record.getIDNum());
