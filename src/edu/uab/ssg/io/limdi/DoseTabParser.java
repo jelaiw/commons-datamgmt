@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A parser for the tab-delimited text file, called <i>GWAS_AA_feb19_09_B109.tab</i>, containing the dose data from the Limdi warfarin analysis.
+ * A parser for the tab-delimited text file, called <i>GWAS_AA_feb19_09_B109.tab</i>, containing the dose data for the Limdi warfarin analysis.
  *
  * <p><tt>
  * IDnum<br/>
