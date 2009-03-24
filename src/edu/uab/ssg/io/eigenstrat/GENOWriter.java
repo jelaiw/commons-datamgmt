@@ -48,7 +48,8 @@ public final class GENOWriter {
 
 		String referenceAllele = findReferenceAllele(snp, samples);
 		if (referenceAllele == null) { // Data are completely missing.
-			throw new RuntimeException();
+			System.err.println("Data are missing for " + snp.getName() + ".");
+			return; 
 		}
 
 		StringBuilder builder = new StringBuilder();
