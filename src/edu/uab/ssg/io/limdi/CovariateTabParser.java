@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A parser for the tab-delimited text file, called <i>Dose_18march09_jelai.tab</i>, containing the covariate data for the Limdi warfarin analysis.
+ * A parser for the tab-delimited text file, called <i>Data_jelai_25March_09.tab</i>, containing the covariate data for the Limdi warfarin analysis.
  *
  * <p><tt>
  * IDnum<br/>
@@ -15,22 +15,19 @@ import java.util.*;
  * Weight<br/>
  * BMI<br/>
  * CYP2C9<br/>
+ * C2C9<br/>
  * VKOR<br/>
  * rfCHF<br/>
+ * rfDM<br/>
  * Statin<br/>
- * Amiod<br/>
  * AvgMaint<br/>
  * Avg1Maint<br/>
  * AvgOfK<br/>
- * Dose_Target<br/>
- * Dose_Stable<br/>
  * alcohol<br/>
  * smoke<br/>
- * cyp2c9v<br/>
- * vkorv<br/>
+ * amiod<br/>
  * CKD<br/>
  * CKD1<br/>
- * aged<br/>
  * logdose<br/>
  * sqdose<br/>
  * </tt></p>
@@ -76,22 +73,19 @@ public final class CovariateTabParser {
 		String getWeight();
 		String getBMI();
 		String getCYP2C9();
+		String getC2C9();
 		String getVKOR();
 		String getrfCHF();
+		String getrfDM();
 		String getStatin();
-		String getAmiod();
 		String getAvgMaint();
 		String getAvg1Maint();
 		String getAvgOfK();
-		String getDose_Target();
-		String getDose_Stable();
 		String getalcohol();
 		String getsmoke();
-		String getcyp2c9v();
-		String getvkorv();
+		String getamiod();
 		String getCKD();
 		String getCKD1();
-		String getaged();
 		String getlogdose();
 		String getsqdose();
 	}
@@ -126,13 +120,11 @@ public final class CovariateTabParser {
 			throw new IllegalArgumentException(header);
 		if (!"BMI".equals(tmp[6]))
 			throw new IllegalArgumentException(header);
-		if (!"alcohol".equals(tmp[17]))
+		if (!"alcohol".equals(tmp[16]))
 			throw new IllegalArgumentException(header);
-		if (!"smoke".equals(tmp[18]))
+		if (!"smoke".equals(tmp[17]))
 			throw new IllegalArgumentException(header);
-		if (!"aged".equals(tmp[23]))
-			throw new IllegalArgumentException(header);
-		if (!"sqdose".equals(tmp[25]))
+		if (!"sqdose".equals(tmp[22]))
 			throw new IllegalArgumentException(header);
 		// Process the rest of the rows.
 		String line = null;
@@ -157,7 +149,7 @@ public final class CovariateTabParser {
 	private class ParsedSampleRecord implements SampleRecord {
 		private String line;
 		private String idnum, age, gender, race, height, weight, bmi;
-		private String cyp2c9, vkor, rfchf, statin, amiod, avgMaint, avg1Maint, avgOfK, doseTarget, doseStable, alcohol, smoke, cyp2c9v, vkorv, ckd, ckd1, aged, logdose, sqdose;
+		private String cyp2c9, c2c9, vkor, rfchf, rfdm, statin, avgMaint, avg1Maint, avgOfK, alcohol, smoke, amiod, ckd, ckd1, logdose, sqdose;
 
 		private ParsedSampleRecord(String line) {
 			if (line == null)
@@ -166,10 +158,10 @@ public final class CovariateTabParser {
 
 			String[] tmp = line.split("\t", -1); // See String API.
 
-			if (tmp.length != 26) // Expect 26 columns.
+			if (tmp.length != 23) // Expect 23 columns.
 				throw new IllegalArgumentException(tmp.length + "," + line);
 			this.idnum = translateEmptyStringToNull(tmp[0]); this.age = translateEmptyStringToNull(tmp[1]); this.gender = translateEmptyStringToNull(tmp[2]); this.race = translateEmptyStringToNull(tmp[3]); this.height = translateEmptyStringToNull(tmp[4]); this.weight = translateEmptyStringToNull(tmp[5]); this.bmi = translateEmptyStringToNull(tmp[6]);
-			this.cyp2c9 = translateEmptyStringToNull(tmp[7]); this.vkor = translateEmptyStringToNull(tmp[8]); this.rfchf = translateEmptyStringToNull(tmp[9]); this.statin = translateEmptyStringToNull(tmp[10]); this.amiod = translateEmptyStringToNull(tmp[11]); this.avgMaint = translateEmptyStringToNull(tmp[12]); this.avg1Maint = translateEmptyStringToNull(tmp[13]); this.avgOfK = translateEmptyStringToNull(tmp[14]); this.doseTarget = translateEmptyStringToNull(tmp[15]); this.doseStable = translateEmptyStringToNull(tmp[16]); this.alcohol = translateEmptyStringToNull(tmp[17]); this.smoke = translateEmptyStringToNull(tmp[18]); this.cyp2c9v = translateEmptyStringToNull(tmp[19]); this.vkorv = translateEmptyStringToNull(tmp[20]); this.ckd = translateEmptyStringToNull(tmp[21]); this.ckd1 = translateEmptyStringToNull(tmp[22]); this.aged = translateEmptyStringToNull(tmp[23]); this.logdose = translateEmptyStringToNull(tmp[24]); this.sqdose = translateEmptyStringToNull(tmp[25]);
+			this.cyp2c9 = translateEmptyStringToNull(tmp[7]); this.c2c9 = translateEmptyStringToNull(tmp[8]); this.vkor = translateEmptyStringToNull(tmp[9]); this.rfchf = translateEmptyStringToNull(tmp[10]); this.rfdm = translateEmptyStringToNull(tmp[11]); this.statin = translateEmptyStringToNull(tmp[12]); this.avgMaint = translateEmptyStringToNull(tmp[13]); this.avg1Maint = translateEmptyStringToNull(tmp[14]); this.avgOfK = translateEmptyStringToNull(tmp[15]); this.alcohol = translateEmptyStringToNull(tmp[16]); this.smoke = translateEmptyStringToNull(tmp[17]); this.amiod = translateEmptyStringToNull(tmp[18]); this.ckd = translateEmptyStringToNull(tmp[19]); this.ckd1 = translateEmptyStringToNull(tmp[20]); this.logdose = translateEmptyStringToNull(tmp[21]); this.sqdose = translateEmptyStringToNull(tmp[22]);
 		}
 
 		public String getIDNum() { return idnum; }
@@ -180,22 +172,19 @@ public final class CovariateTabParser {
 		public String getWeight() { return weight; }
 		public String getBMI() { return bmi; }
 		public String getCYP2C9() { return cyp2c9; }
+		public String getC2C9() { return c2c9; }
 		public String getVKOR() { return vkor; }
 		public String getrfCHF() { return rfchf; }
+		public String getrfDM() { return rfdm; }
 		public String getStatin() { return statin; }
-		public String getAmiod() { return amiod; }
 		public String getAvgMaint() { return avgMaint; }
 		public String getAvg1Maint() { return avg1Maint; }
 		public String getAvgOfK() { return avgOfK; }
-		public String getDose_Target() { return doseTarget; }
-		public String getDose_Stable() { return doseStable; }
 		public String getalcohol() { return alcohol; }
 		public String getsmoke() { return smoke; }
-		public String getcyp2c9v() { return cyp2c9v; }
-		public String getvkorv() { return vkorv; }
+		public String getamiod() { return amiod; }
 		public String getCKD() { return ckd; }
 		public String getCKD1() { return ckd1; }
-		public String getaged() { return aged; }
 		public String getlogdose() { return logdose; }
 		public String getsqdose() { return sqdose; }
 
