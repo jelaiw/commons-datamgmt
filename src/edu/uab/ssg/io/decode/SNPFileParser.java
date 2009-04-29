@@ -1,20 +1,19 @@
-package edu.uab.ssg.io.illumina;
+package edu.uab.ssg.io.decode;
 
 import java.util.*;
 import java.io.*;
 
 /**
- * A parser for the Illumina "SNP_Map.txt" file format.
+ * A parser for the "JHY_SNP.txt" file format.
  *
- * This file format has the following fields: <i>Index, Name, Chromosome,
- * Position, GenTrain Score, SNP, ILMN Strand, Customer Strand, and NormID</i>.
+ * This file format has the following fields: <i>Name, Chr, Position, ILMN Strand, Customer Strand, and SNP</i>.
  * Here is an abbreviated example:
  *
  * <p><tt>
- * Index   Name    Chromosome      Position        GenTrain Score  SNP     ILMN Strand     Customer Strand NormID<br/>
- * 1       AICDA-007875    12      8650011 0.5980  [T/C]   BOT     TOP     0<br/>
- * 2       AICDA-007902    12      8649984 0.7706  [T/C]   BOT     TOP     0<br/>
- * 3       AICDA-007922    12      8649964 0.5139  [T/C]   BOT     BOT     0<br/>
+ * Name    Chr     Position        ILMN Strand     Customer Strand SNP
+ * AICDA-007875    12      8650011 BOT     TOP     [T/C]
+ * AICDA-007902    12      8649984 BOT     TOP     [T/C]
+ * AICDA-007922    12      8649964 BOT     BOT     [T/C]
  * ...
  * </tt></p>
  *
@@ -40,25 +39,20 @@ public final class SNPFileParser {
 		if (listener == null)
 			throw new NullPointerException("listener");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
 		String[] header = reader.readLine().split("\t", -1);
-		if (!"Index".equals(header[0]))
+		if (!"Name".equals(header[0]))
 			throw new IllegalArgumentException(header[0]);
-		if (!"Name".equals(header[1]))
+		if (!"Chr".equals(header[1]))
 			throw new IllegalArgumentException(header[1]);
-		if (!"Chromosome".equals(header[2]))
+		if (!"Position".equals(header[2]))
 			throw new IllegalArgumentException(header[2]);
-		if (!"Position".equals(header[3]))
+		if (!"ILMN Strand".equals(header[3]))
 			throw new IllegalArgumentException(header[3]);
-		if (!"GenTrain Score".equals(header[4]))
+		if (!"Customer Strand".equals(header[4]))
 			throw new IllegalArgumentException(header[4]);
 		if (!"SNP".equals(header[5]))
 			throw new IllegalArgumentException(header[5]);
-		if (!"ILMN Strand".equals(header[6]))
-			throw new IllegalArgumentException(header[6]);
-		if (!"Customer Strand".equals(header[7]))
-			throw new IllegalArgumentException(header[7]);
-		if (!"NormID".equals(header[8]))
-			throw new IllegalArgumentException(header[8]);
 
 		String line = null;
 		while ((line = reader.readLine()) != null) {
@@ -104,20 +98,12 @@ public final class SNPFileParser {
 		/**
 		 * Returns the chromosome name.
 		 */
-		String getChromosome();
+		String getChr();
 
 		/**
 		 * Returns the position of this SNP on the chromosome.
 		 */
 		int getPosition();
-
-		double getGenTrainScore();
-
-		/**
-		 * Returns a text representation of the nucleotides found at this 
-		 * SNP position, for example, "[A/G]".
-		 */
-		String getSNP();
 
 		/**
 		 * Returns the Illumina TOP/BOT strand.
@@ -130,17 +116,19 @@ public final class SNPFileParser {
 		 */
 		String getCustomerStrand();
 
-		String getNormID();
+		/**
+		 * Returns a text representation of the nucleotides found at this 
+		 * SNP position, for example, "[A/G]".
+		 */
+		String getSNP();
 	}
 
 	private class ParsedSNPRecord implements SNPRecord {
 		private String line;
 		private String name, chromosome;
 		private int position;
-		private double genTrainScore;
-		private String SNP;
 		private String ilmnStrand, customerStrand;
-		private String normID;
+		private String SNP;
 
 		private ParsedSNPRecord(String line) {
 			if (line == null)
@@ -148,29 +136,24 @@ public final class SNPFileParser {
 			this.line = line;
 
 			StringTokenizer tokenizer = new StringTokenizer(line);
-			if (tokenizer.countTokens() != 9)
+			if (tokenizer.countTokens() != 6)
 				throw new IllegalArgumentException(line);
-			tokenizer.nextToken(); // Discard index field.
 			this.name = tokenizer.nextToken();
 			this.chromosome = tokenizer.nextToken();
 			this.position = Integer.parseInt(tokenizer.nextToken());
 			if (position < 1)
 				throw new IllegalArgumentException(String.valueOf(position));
-			this.genTrainScore = Double.parseDouble(tokenizer.nextToken());
-			this.SNP = tokenizer.nextToken();
 			this.ilmnStrand = tokenizer.nextToken();
 			this.customerStrand = tokenizer.nextToken();
-			this.normID = tokenizer.nextToken();
+			this.SNP = tokenizer.nextToken();
 		}
 
 		public String getName() { return name; }
-		public String getChromosome() { return chromosome; }
+		public String getChr() { return chromosome; }
 		public int getPosition() { return position; }
-		public double getGenTrainScore() { return genTrainScore; }
-		public String getSNP() { return SNP; }
 		public String getILMNStrand() { return ilmnStrand; }
 		public String getCustomerStrand() { return customerStrand; }
-		public String getNormID() { return normID; }
+		public String getSNP() { return SNP; }
 		public String toString() { return line; }
 	}
 }
