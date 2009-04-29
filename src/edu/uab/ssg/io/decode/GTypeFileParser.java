@@ -48,6 +48,7 @@ public final class GTypeFileParser {
 		String getChr();
 		int getPosition();
 		List<String> getSampleNames();
+		boolean existsGenotype(String sampleName);
 		String getGenotype(String sampleName);
 	}
 
