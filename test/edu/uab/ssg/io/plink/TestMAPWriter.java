@@ -11,7 +11,7 @@ import edu.uab.ssg.model.snp.*;
  */
 
 public final class TestMAPWriter extends TestCase {
-	public void testSmallPopulation() throws IOException {
+	public void testSmallExample() throws IOException {
 		List<SNP> snps = new ArrayList<SNP>();
 		snps.add(SNPFactory.createSNP("snp1", "chr5", 1000));
 		snps.add(SNPFactory.createSNP("snp2", "chr3", 2000));
