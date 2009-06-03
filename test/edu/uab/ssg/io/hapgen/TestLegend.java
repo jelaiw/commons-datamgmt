@@ -47,7 +47,7 @@ public final class TestLegend extends TestCase {
 		samples.add(sample2);
 		samples.add(sample3);
 
-		Legend legend = new Legend(snps, samples);
+		Legend legend = new MinorAlleleLegend(snps, samples);
 		Assert.assertEquals(2, legend.getSNPs().size());
 		Assert.assertNull(legend.getAllele0(snp3));
 		Assert.assertNull(legend.getAllele1(snp3));
