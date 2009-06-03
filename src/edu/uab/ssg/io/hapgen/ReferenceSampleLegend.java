@@ -5,28 +5,32 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A Legend implementation that recodes to allele 0 or 1 based on the minor allele at a SNP in samples provided by the client programmer.
+ * A Legend implementation that recodes alleles to 0 or 1 based on the haplotype of a reference sample provided by the client programmer.
  *
  * @author Jelai Wang
  */
-public final class MinorAlleleLegend implements Legend {
+public final class ReferenceSampleLegend implements Legend {
+	private Sample referenceSample;
 	private Map<SNP, AlleleCounter> snp2counter = new LinkedHashMap<SNP, AlleleCounter>();
 
 	/**
 	 * Constructs the legend.
+	 * @param referenceSample A haplotype of the given reference sample will
+	 * be used to establish how the alleles (usually in nucleotide bases)
+	 * are recoded to 0 or 1.
 	 * @param snps The given samples will be queried at the SNPs provided in
-	 * this list to establish how the alleles (usually in nucleotide bases)
-	 * are recoded as allele 0 or 1.
+	 * this list to create the legend.
 	 * @param samples The set of samples of interest in the study population.
 	 */
-	public MinorAlleleLegend(List<SNP> snps, Set<Sample> samples) {
+	public ReferenceSampleLegend(Sample referenceSample, List<SNP> snps, Set<Sample> samples) {
+		if (referenceSample == null)
+			throw new NullPointerException("referenceSample");
 		if (snps == null)
 			throw new NullPointerException("snps");
 		if (samples == null)
 			throw new NullPointerException("samples");
-		// Figure out the minor allele for the SNPs of interest
-		// amongst the given samples; this information will be
-		// used to establish allele0 and allele1.
+		this.referenceSample = referenceSample;
+
 		for (Iterator<SNP> it1 = snps.iterator(); it1.hasNext(); ) {
 			SNP snp = it1.next();
 			AlleleCounter counter = new AlleleCounter();
@@ -56,17 +60,19 @@ public final class MinorAlleleLegend implements Legend {
 		if (snp == null)
 			throw new NullPointerException("snp");
 		AlleleCounter counter = snp2counter.get(snp);
-		if (counter != null) {
-			if (counter.existsMinorAllele()) { // The major allele is coded as 0.
-				Set<String> alleles = counter.getAlleles();
-				alleles.remove(counter.getMinorAllele());
-				if (alleles.size() > 1)
-					throw new RuntimeException(counter.getAlleles().toString());
+		if (counter != null && referenceSample.existsGenotype(snp)) {
+			Sample.Genotype genotype = referenceSample.getGenotype(snp);
+			String a1 = genotype.getAllele1();
+			Set<String> alleles = counter.getAlleles();
+			if (alleles.size() == 2) { // biallelic SNP.
+				alleles.remove(a1);
 				return alleles.iterator().next();
 			}
-			else { // Samples are monomorphic at this SNP, we code the observed allele as 0.
-				Set<String> alleles = counter.getAlleles();
-				return alleles.iterator().next();
+			else if (alleles.size() == 1) { // monomorphic SNP.
+				return null;
+			}
+			else {
+				throw new RuntimeException(counter.getAlleles().toString());
 			}
 		}
 		return null;
@@ -75,14 +81,11 @@ public final class MinorAlleleLegend implements Legend {
 	public String getAllele1(SNP snp) {
 		if (snp == null)
 			throw new NullPointerException("snp");
-		AlleleCounter counter = snp2counter.get(snp);
-		if (counter != null) {
-			if (counter.existsMinorAllele()) { // The minor allele is coded as 1.
-				return counter.getMinorAllele();
-			}
-			else { // Samples are monomorphic at this SNP, there is no available allele to code as 1 so we return null.
-				return null;
-			}
+		if (snp2counter.containsKey(snp) && referenceSample.existsGenotype(snp)) {
+			Sample.Genotype genotype = referenceSample.getGenotype(snp);
+			// We assume the genotype data are phased and use the first
+			// haplotype to establish the reference allele (a1).
+			return genotype.getAllele1();
 		}
 		return null;
 	}

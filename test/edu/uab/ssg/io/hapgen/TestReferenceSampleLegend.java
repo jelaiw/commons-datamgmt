@@ -10,7 +10,7 @@ import edu.uab.ssg.model.snp.*;
  * @author Jelai Wang
  */
 
-public final class TestLegend extends TestCase {
+public final class TestReferenceSampleLegend extends TestCase {
 	public void testSmallExample() throws IOException {
 		// Set up markers.
 		SNP snp1 = SNPFactory.createSNP("snp1", "chr2", 1000);
@@ -47,7 +47,7 @@ public final class TestLegend extends TestCase {
 		samples.add(sample2);
 		samples.add(sample3);
 
-		Legend legend = new MinorAlleleLegend(snps, samples);
+		Legend legend = new ReferenceSampleLegend(sample1, snps, samples);
 		Assert.assertEquals(2, legend.getSNPs().size());
 		Assert.assertNull(legend.getAllele0(snp3));
 		Assert.assertNull(legend.getAllele1(snp3));
@@ -59,7 +59,7 @@ public final class TestLegend extends TestCase {
 	}
 
 	private String getExpectedOutput() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/hapgen/expected.leg");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/hapgen/reference_sample.leg");
 		StringBuilder builder = new StringBuilder();
 		int ch = -1;
 		while ((ch = in.read()) != -1) {
