@@ -7,11 +7,11 @@ import java.util.*;
  * @author Jelai Wang
  */
 
-public final class ReferenceSampleLegendBuilder {
+public final class LegendBuilder {
 	private Map<SNP, AlleleCounter> snp2counter = new LinkedHashMap<SNP, AlleleCounter>();
 	private Map<SNP, AlleleCounter> badsnps = new LinkedHashMap<SNP, AlleleCounter>();
 
-	public ReferenceSampleLegendBuilder() {
+	public LegendBuilder() {
 	}
 
 	public void countAllele(SNP snp, String allele) {
@@ -39,7 +39,11 @@ public final class ReferenceSampleLegendBuilder {
 		}
 	}
 
-	public Legend getInstance(Sample referenceSample) {
+	public Legend createMinorAlleleLegend() {
+		return new MinorAlleleLegend(snp2counter);
+	}
+
+	public Legend createReferenceSampleLegend(Sample referenceSample) {
 		return new ReferenceSampleLegend(referenceSample, snp2counter);
 	}
 

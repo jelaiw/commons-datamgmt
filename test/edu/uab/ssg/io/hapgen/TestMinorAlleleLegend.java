@@ -17,7 +17,7 @@ public final class TestMinorAlleleLegend extends TestCase {
 		SNP snp2 = SNPFactory.createSNP("snp2", "chr3", 2000);
 		SNP snp3 = SNPFactory.createSNP("snp3", "chr4", 3000);
 
-		MinorAlleleLegendBuilder builder = new MinorAlleleLegendBuilder();
+		LegendBuilder builder = new LegendBuilder();
 		// snp1 is monomorphic.
 		builder.countAllele(snp1, "A");
 		builder.countAllele(snp1, "A");
@@ -34,7 +34,7 @@ public final class TestMinorAlleleLegend extends TestCase {
 		builder.countAllele(snp3, "C");
 		builder.countAllele(snp3, "A");
 
-		Legend legend = builder.getInstance();
+		Legend legend = builder.createMinorAlleleLegend();
 		Assert.assertEquals(2, legend.getSNPs().size());
 		Assert.assertEquals(1, builder.getBadSNPs().size());
 		Assert.assertEquals(3, builder.getAllelesForBadSNP(snp3).size());

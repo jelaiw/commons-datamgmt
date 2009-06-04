@@ -23,7 +23,7 @@ public final class TestReferenceSampleLegend extends TestCase {
 		builder1.setGenotype(snp3, "C", "A", IlluminaStrand.TOP);
 		Sample sample1 = builder1.getInstance();
 
-		ReferenceSampleLegendBuilder builder = new ReferenceSampleLegendBuilder();
+		LegendBuilder builder = new LegendBuilder();
 		// snp1 is monomorphic.
 		builder.countAllele(snp1, "A");
 		builder.countAllele(snp1, "A");
@@ -40,7 +40,7 @@ public final class TestReferenceSampleLegend extends TestCase {
 		builder.countAllele(snp3, "C");
 		builder.countAllele(snp3, "A");
 
-		Legend legend = builder.getInstance(sample1);
+		Legend legend = builder.createReferenceSampleLegend(sample1);
 		Assert.assertEquals(2, legend.getSNPs().size());
 		Assert.assertEquals(1, builder.getBadSNPs().size());
 		Assert.assertEquals(3, builder.getAllelesForBadSNP(snp3).size());
