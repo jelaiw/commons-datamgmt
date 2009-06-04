@@ -16,42 +16,34 @@ public final class TestReferenceSampleLegend extends TestCase {
 		SNP snp1 = SNPFactory.createSNP("snp1", "chr2", 1000);
 		SNP snp2 = SNPFactory.createSNP("snp2", "chr3", 2000);
 		SNP snp3 = SNPFactory.createSNP("snp3", "chr4", 3000);
-		// Set up samples so that snp1 is monomorphic, snp2 is bi-allelic,
-		// snp3 is tri-allelic.
+		// Set up reference sample.
 		SampleBuilder builder1 = new SampleBuilder("sample1");
 		builder1.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
 		builder1.setGenotype(snp2, "G", "A", IlluminaStrand.TOP);
 		builder1.setGenotype(snp3, "C", "A", IlluminaStrand.TOP);
 		Sample sample1 = builder1.getInstance();
 
-		SampleBuilder builder2 = new SampleBuilder("sample2");
-		builder2.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
-		builder2.setGenotype(snp2, "A", "A", IlluminaStrand.TOP);
-		builder2.setGenotype(snp3, "G", "A", IlluminaStrand.TOP);
-		Sample sample2 = builder2.getInstance();
+		ReferenceSampleLegendBuilder builder = new ReferenceSampleLegendBuilder();
+		// snp1 is monomorphic.
+		builder.countAllele(snp1, "A");
+		builder.countAllele(snp1, "A");
+		builder.countAllele(snp1, "A");
+		builder.countAllele(snp1, "A");
+		// snp2 is biallelic.
+		builder.countAllele(snp2, "G");
+		builder.countAllele(snp2, "A");
+		builder.countAllele(snp2, "A");
+		builder.countAllele(snp2, "A");
+		// snp3 is triallelic.
+		builder.countAllele(snp3, "G");
+		builder.countAllele(snp3, "A");
+		builder.countAllele(snp3, "C");
+		builder.countAllele(snp3, "A");
 
-		SampleBuilder builder3 = new SampleBuilder("sample3");
-		builder3.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
-		builder3.setGenotype(snp2, "A", "A", IlluminaStrand.TOP);
-		builder3.setGenotype(snp3, "C", "A", IlluminaStrand.TOP);
-		Sample sample3 = builder3.getInstance();
-
-		// Assemble input data structures.
-		List<SNP> snps = new ArrayList<SNP>();
-		snps.add(snp1);
-		snps.add(snp2);
-		snps.add(snp3);
-
-		Set<Sample> samples = new LinkedHashSet<Sample>();
-		samples.add(sample1);
-		samples.add(sample2);
-		samples.add(sample3);
-
-		Legend legend = new ReferenceSampleLegend(sample1, snps, samples);
+		Legend legend = builder.getInstance(sample1);
 		Assert.assertEquals(2, legend.getSNPs().size());
-		Assert.assertNull(legend.getAllele0(snp3));
-		Assert.assertNull(legend.getAllele1(snp3));
-//		System.out.println(legend);
+		Assert.assertEquals(1, builder.getBadSNPs().size());
+		Assert.assertEquals(3, builder.getAllelesForBadSNP(snp3).size());
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		legend.write(out);

@@ -5,49 +5,15 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A Legend implementation that recodes to allele 0 or 1 based on the minor allele at a SNP in samples provided by the client programmer.
- *
  * @author Jelai Wang
  */
-public final class MinorAlleleLegend implements Legend {
-	private Map<SNP, AlleleCounter> snp2counter = new LinkedHashMap<SNP, AlleleCounter>();
+/* package private */ final class MinorAlleleLegend implements Legend {
+	private Map<SNP, AlleleCounter> snp2counter;
 
-	/**
-	 * Constructs the legend.
-	 * @param snps The given samples will be queried at the SNPs provided in
-	 * this list to establish how the alleles (usually in nucleotide bases)
-	 * are recoded as allele 0 or 1.
-	 * @param samples The set of samples of interest in the study population.
-	 */
-	public MinorAlleleLegend(List<SNP> snps, Set<Sample> samples) {
-		if (snps == null)
-			throw new NullPointerException("snps");
-		if (samples == null)
-			throw new NullPointerException("samples");
-		// Figure out the minor allele for the SNPs of interest
-		// amongst the given samples; this information will be
-		// used to establish allele0 and allele1.
-		for (Iterator<SNP> it1 = snps.iterator(); it1.hasNext(); ) {
-			SNP snp = it1.next();
-			AlleleCounter counter = new AlleleCounter();
-
-			for (Iterator<Sample> it2 = samples.iterator(); it2.hasNext(); ) {
-				Sample sample = it2.next();
-				if (sample.existsGenotype(snp)) {
-					Sample.Genotype genotype = sample.getGenotype(snp);
-					counter.addAllele(genotype.getAllele1());
-					counter.addAllele(genotype.getAllele2());
-				}
-			}
-			// The 0 and 1 allele encodings are only defined for biallelic SNPs.
-			Set<String> alleles = counter.getAlleles();
-			if (alleles.size() > 0 && alleles.size() <= 2) {
-				snp2counter.put(snp, counter);
-			}
-			else if (alleles.size() > 2) { // We don't handle this, but log it.
-				System.err.println(snp.getName() + "\t" + alleles);
-			}
-		}
+	/* package private */ MinorAlleleLegend(Map<SNP, AlleleCounter> snp2counter) {
+		if (snp2counter == null)
+			throw new NullPointerException("snp2counter");
+		this.snp2counter = new LinkedHashMap<SNP, AlleleCounter>(snp2counter);
 	}
 
 	public List<SNP> getSNPs() { return new ArrayList<SNP>(snp2counter.keySet()); }

@@ -5,53 +5,19 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A Legend implementation that recodes alleles to 0 or 1 based on the haplotype of a reference sample provided by the client programmer.
- *
  * @author Jelai Wang
  */
-public final class ReferenceSampleLegend implements Legend {
+/* package private */ final class ReferenceSampleLegend implements Legend {
 	private Sample referenceSample;
 	private Map<SNP, AlleleCounter> snp2counter = new LinkedHashMap<SNP, AlleleCounter>();
 
-	/**
-	 * Constructs the legend.
-	 * @param referenceSample A haplotype of the given reference sample will
-	 * be used to establish how the alleles (usually in nucleotide bases)
-	 * are recoded to 0 or 1.
-	 * @param snps The given samples will be queried at the SNPs provided in
-	 * this list to create the legend.
-	 * @param samples The set of samples of interest in the study population.
-	 */
-	public ReferenceSampleLegend(Sample referenceSample, List<SNP> snps, Set<Sample> samples) {
+	/* package private */ ReferenceSampleLegend(Sample referenceSample, Map<SNP, AlleleCounter> snp2counter) {
 		if (referenceSample == null)
 			throw new NullPointerException("referenceSample");
-		if (snps == null)
-			throw new NullPointerException("snps");
-		if (samples == null)
-			throw new NullPointerException("samples");
+		if (snp2counter == null)
+			throw new NullPointerException("snp2counter");
 		this.referenceSample = referenceSample;
-
-		for (Iterator<SNP> it1 = snps.iterator(); it1.hasNext(); ) {
-			SNP snp = it1.next();
-			AlleleCounter counter = new AlleleCounter();
-
-			for (Iterator<Sample> it2 = samples.iterator(); it2.hasNext(); ) {
-				Sample sample = it2.next();
-				if (sample.existsGenotype(snp)) {
-					Sample.Genotype genotype = sample.getGenotype(snp);
-					counter.addAllele(genotype.getAllele1());
-					counter.addAllele(genotype.getAllele2());
-				}
-			}
-			// The 0 and 1 allele encodings are only defined for biallelic SNPs.
-			Set<String> alleles = counter.getAlleles();
-			if (alleles.size() > 0 && alleles.size() <= 2) {
-				snp2counter.put(snp, counter);
-			}
-			else if (alleles.size() > 2) { // We don't handle this, but log it.
-				System.err.println(snp.getName() + "\t" + alleles);
-			}
-		}
+		this.snp2counter = new LinkedHashMap<SNP, AlleleCounter>(snp2counter);
 	}
 
 	public List<SNP> getSNPs() { return new ArrayList<SNP>(snp2counter.keySet()); }
