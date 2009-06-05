@@ -27,8 +27,9 @@ public final class LegendBuilder {
 	public void countAllele(SNP snp, String allele) {
 		if (snp == null)
 			throw new NullPointerException("snp");
-		if (allele == null)
-			throw new NullPointerException("allele");
+		// This can be null because the allele counter records missing data.
+//		if (allele == null)
+//			throw new NullPointerException("allele");
 		
 		if (badsnps.containsKey(snp)) {
 			AlleleCounter counter = badsnps.get(snp);
