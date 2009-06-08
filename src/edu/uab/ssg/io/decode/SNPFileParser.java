@@ -10,10 +10,10 @@ import java.io.*;
  * Here is an abbreviated example:
  *
  * <p><tt>
- * Name    Chr     Position        ILMN Strand     Customer Strand SNP
- * AICDA-007875    12      8650011 BOT     TOP     [T/C]
- * AICDA-007902    12      8649984 BOT     TOP     [T/C]
- * AICDA-007922    12      8649964 BOT     BOT     [T/C]
+ * Name    Chr     Position        ILMN Strand     Customer Strand SNP<br/>
+ * AICDA-007875    12      8650011 BOT     TOP     [T/C]<br/>
+ * AICDA-007902    12      8649984 BOT     TOP     [T/C]<br/>
+ * AICDA-007922    12      8649964 BOT     BOT     [T/C]<br/>
  * ...
  * </tt></p>
  *
