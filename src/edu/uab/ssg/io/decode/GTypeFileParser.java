@@ -4,9 +4,38 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A parser for the <i>JHY_GType.txt</i> file format from deCODE containing A/B allele calls.
+ * An example is below:
+ * <p><tt>
+ * Name	Chr	Position	AVA1001.GType	AVA1002.GType	AVA1007.GType	AVA1011.GType	AVA1017_1.GType	AVA1017.GType	AVA1018.GType<br/>
+ * AICDA-007875	12	8650011	BB	BB	BB	BB	BB	BB	BB<br/>
+ * AICDA-011435	12	8646452	AA	AA	AA	AA	AA	AA	AA<br/>
+ * BLR1-011551	11	118269327	BB	BB	BB	BB	AB	AB	BB<br/>
+ * BLR1-014511	11	118272286	BB	BB	BB	BB	NC	BB	NC<br/>
+ * CCL24-004508	7	75278461	NC	NC	NC	NC	NC	NC	NC<br/>
+ * CCR3-000155	3	46257282	BB	BB	BB	BB	AB	AB	BB<br/>
+ * CCR4-000898	3	32966966	AB	AB	BB	AA	BB	BB	BB<br/>
+ * ...
+ * </tt></p>
+ *
+ * The field delimiter is the tab character.
+ *
  * @author Jelai Wang
  */
 public final class GTypeFileParser {
+	/**
+	 * Constructs the parser.
+	 */
+	public GTypeFileParser() {
+	}
+
+	/**
+	 * Parses the input stream for SNP records.
+	 * @param in The input stream, typically a file input stream, of the
+	 * SNP file to be parsed.
+	 * @param listener As the input stream is parsed, each SNP record
+	 * is passed to the user-supplied record listener.
+	 */
 	public void parse(InputStream in, RecordListener listener) throws IOException {
 		if (in == null)
 			throw new NullPointerException("in");
@@ -38,17 +67,55 @@ public final class GTypeFileParser {
 		}
 	}
 
+	/**
+	 * A listener for handling parsed SNP records and problems due to
+	 * bad record formatting.
+	 */
 	public interface RecordListener {
+		/**
+		 * Handles successfully parsed SNP record.
+		 */
 		void handleParsedRecord(SNPRecord record);
+
+		/**
+		 * Handles input that could not be parsed due to a formatting problem.
+		 * @param line The line of text that could not be parsed.
+		 */
 		void handleBadRecordFormat(String line);
 	}
 
+	/**
+	 * A SNP record.
+	 */
 	public interface SNPRecord {
+		/**
+		 * Returns the SNP name.
+		 */
 		String getName();
+
+		/**
+		 * Returns the chromosome name.
+		 */
 		String getChr();
+
+		/**
+		 * Returns the position of this SNP on the chromosome.
+		 */
 		int getPosition();
+
+		/**
+		 * Returns the samples for which this record contains genotypes.
+		 */
 		List<String> getSampleNames();
+
+		/**
+		 * Returns true if this record contains a genotype (at this SNP) for the given sample.
+		 */
 		boolean existsGenotype(String sampleName);
+
+		/**
+		 * Returns the genotype at this SNP for the given sample.
+		 */
 		String getGenotype(String sampleName);
 	}
 
