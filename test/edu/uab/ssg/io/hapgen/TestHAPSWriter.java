@@ -59,7 +59,8 @@ public final class TestHAPSWriter extends TestCase {
 				}
 			}
 		}
-		return builder.createMinorAlleleLegend();
+//		return builder.createMinorAlleleLegend();
+		return builder.createReferenceSampleLegend(samples[0]);
 	}
 
 	private String getExpectedOutput() throws IOException {

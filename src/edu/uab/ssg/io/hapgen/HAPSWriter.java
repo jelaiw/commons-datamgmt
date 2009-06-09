@@ -75,12 +75,12 @@ public final class HAPSWriter {
 	}
 
 	// Recode allele to 0 or 1 using legend.
-	private String recode(Legend legend, SNP snp, String allele) {
+	/* package private */ String recode(Legend legend, SNP snp, String allele) {
 		if (allele == null)
 			return String.valueOf(MISSING);
-		else if (legend.getAllele0(snp).equals(allele))
+		else if (allele.equals(legend.getAllele0(snp)))
 			return "0";
-		else if (legend.getAllele1(snp).equals(allele))
+		else if (allele.equals(legend.getAllele1(snp)))
 			return "1";
 		else
 			throw new RuntimeException(snp + "\t" + allele);
