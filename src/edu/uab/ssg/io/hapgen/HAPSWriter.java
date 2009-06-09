@@ -5,6 +5,20 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A writer for the HAPS file format of the HapGen software at <a href="http://www.stats.ox.ac.uk/~marchini/software/gwas/hapgen.html">http://www.stats.ox.ac.uk/~marchini/software/gwas/hapgen.html</a>. This is also the HapMap phase2 haplotype file format, see the files at <a href="http://www.hapmap.org/downloads/phasing/2006-07_phaseII/all/">http://www.hapmap.org/downloads/phasing/2006-07_phaseII/all/</a>.
+ *
+ * A simple example of this file format, with six haplotypes at three SNPs, is below:
+ * <p><tt>
+ * 0 0 0<br/>
+ * 0 1 1<br/>
+ * 0 0 0<br/>
+ * - - -<br/>
+ * 0 0 -<br/>
+ * 0 1 -<br/>
+ * </tt></p>
+ *
+ * Alleles are recoded to 0 or 1 according to the user-supplied legend. The field delimiter is the space character. Missing data are coded as the hyphen character (dash).
+ *
  * @author Jelai Wang
  */
 public final class HAPSWriter {
@@ -12,9 +26,18 @@ public final class HAPSWriter {
 	private static final char MISSING = '-';
 	private static final String EOL = "\n";
 
+	/**
+	 * Constructs the writer.
+	 */
 	public HAPSWriter() {
 	}
 
+	/**
+	 * Writes the samples to the output stream in the HAPS file format, recoding alleles to 0 or 1 according to the legend.
+	 * @param samples The samples to write to the output stream.
+	 * @param legend The legend contains the mapping of alleles at a biallelic SNP to 0 or 1.
+	 * @param out This output stream is closed after the write operation completes.
+	 */
 	public void write(Set<Sample> samples, Legend legend, OutputStream out) throws IOException {
 		if (samples == null)
 			throw new NullPointerException("samples");
