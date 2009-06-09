@@ -22,16 +22,26 @@ import java.util.*;
 		if (snp == null)
 			throw new NullPointerException("snp");
 		AlleleCounter counter = snp2counter.get(snp);
+		Set<String> alleles = counter.getAlleles();
 		if (counter != null) {
 			if (counter.existsMinorAllele()) { // The major allele is coded as 0.
-				Set<String> alleles = counter.getAlleles();
 				alleles.remove(counter.getMinorAllele());
 				if (alleles.size() > 1)
 					throw new RuntimeException(counter.getAlleles().toString());
 				return alleles.iterator().next();
 			}
+			else if (!counter.existsMinorAllele() && alleles.size() == 2) { // There is no minor allele because the allele counts are equal. Rare, but it happens. See rs11927748 on chr3 in HapMap phase3 samples across all populations.
+				Iterator<String> it = alleles.iterator();
+				String firstAllele = it.next();
+				String secondAllele = it.next();
+				if (firstAllele.compareTo(secondAllele) < 0)
+					return firstAllele;
+				else if (firstAllele.compareTo(secondAllele) > 0)
+					return secondAllele;
+				else // This should be impossible.
+					throw new RuntimeException(alleles.toString());
+			}
 			else { // Samples are monomorphic at this SNP, we code the observed allele as 0.
-				Set<String> alleles = counter.getAlleles();
 				return alleles.iterator().next();
 			}
 		}
@@ -42,9 +52,21 @@ import java.util.*;
 		if (snp == null)
 			throw new NullPointerException("snp");
 		AlleleCounter counter = snp2counter.get(snp);
+		Set<String> alleles = counter.getAlleles();
 		if (counter != null) {
 			if (counter.existsMinorAllele()) { // The minor allele is coded as 1.
 				return counter.getMinorAllele();
+			}
+			else if (!counter.existsMinorAllele() && alleles.size() == 2) { // There is no minor allele because the allele counts are equal. Rare, but it happens. See rs11927748 on chr3 in HapMap phase3 samples across all populations.
+				Iterator<String> it = alleles.iterator();
+				String firstAllele = it.next();
+				String secondAllele = it.next();
+				if (firstAllele.compareTo(secondAllele) < 0)
+					return secondAllele;
+				else if (firstAllele.compareTo(secondAllele) > 0)
+					return firstAllele;
+				else // This should be impossible.
+					throw new RuntimeException(alleles.toString());
 			}
 			else { // Samples are monomorphic at this SNP, there is no available allele to code as 1 so we return null.
 				return null;
