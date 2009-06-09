@@ -5,6 +5,8 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A file-based Legend implementation.
+ *
  * @author Jelai Wang
  */
 public final class LegendFile implements Legend {
@@ -12,6 +14,10 @@ public final class LegendFile implements Legend {
 	private static final String MISSING_VALUE = "-";
 	private Map<SNP, String[]> map = new LinkedHashMap<SNP, String[]>();
 
+	/**
+	 * Constructs the legend from a user-supplied input stream.
+	 * @param in The input stream, usually a FileInputStream, from which to construct this legend.
+	 */
 	public LegendFile(InputStream in) throws IOException {
 		if (in == null)
 			throw new NullPointerException("in");
