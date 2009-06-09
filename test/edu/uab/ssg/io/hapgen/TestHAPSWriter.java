@@ -40,9 +40,9 @@ public final class TestHAPSWriter extends TestCase {
 		samples.add(sample1);
 		samples.add(sample2);
 		samples.add(sample3);
-		HAPSWriter writer = new HAPSWriter(legend, samples);
+		HAPSWriter writer = new HAPSWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(out);
+		writer.write(samples, legend, out);
 		Assert.assertEquals(getExpectedOutput(), out.toString());
 	}
 

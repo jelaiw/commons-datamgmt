@@ -11,22 +11,15 @@ public final class HAPSWriter {
 	private static final char DELIMITER = ' ';
 	private static final char MISSING = '-';
 	private static final String EOL = "\n";
-	private Legend legend;
-	private Set<Sample> samples;
 
-	public HAPSWriter(Legend legend, Set<Sample> samples) {
-		if (legend == null)
-			throw new NullPointerException("legend");
-		if (samples == null)
-			throw new NullPointerException("samples");
-		this.legend = legend;
-		this.samples = new LinkedHashSet<Sample>(samples);
+	public HAPSWriter() {
 	}
 
-	public Legend getLegend() { return legend; }
-	public Set<Sample> getSamples() { return new LinkedHashSet<Sample>(); }
-
-	public void write(OutputStream out) throws IOException {
+	public void write(Set<Sample> samples, Legend legend, OutputStream out) throws IOException {
+		if (samples == null)
+			throw new NullPointerException("samples");
+		if (legend == null)
+			throw new NullPointerException("legend");
 		if (out == null)
 			throw new NullPointerException("out");
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
