@@ -24,11 +24,13 @@ import java.io.*;
  * ...
  * </tt></p>
  *
- * <p>Missing alleles are coded with the '-' character (i.e. the hyphen, minus sign) and the data table record delimiter is the tab character. 
+ * <p>In this file format, missing alleles are coded with the '-' character (i.e. the hyphen, minus sign) and the data table record delimiter is the tab character.</p>
  *
  * @author Jelai Wang
  */
 public final class GenotypeFileParser {
+	private static final String MISSING_ALLELE = "-";
+
 	/**
 	 * Constructs the parser.
 	 */
@@ -103,12 +105,12 @@ public final class GenotypeFileParser {
 		String getSampleID();
 
 		/**
-		 * Returns the first allele from the forward strand.
+		 * Returns the first allele from the forward strand or null if the data are missing.
 		 */
 		String getAllele1Forward();
 
 		/**
-		 * Returns the second allele from the forward strand.
+		 * Returns the second allele from the forward strand or null if the data are missing.
 		 */
 		String getAllele2Forward();
 	}
@@ -129,14 +131,15 @@ public final class GenotypeFileParser {
 			this.snpName = tokenizer.nextToken();
 			this.sampleID = tokenizer.nextToken();
 			this.a1Forward = tokenizer.nextToken();
+			if (MISSING_ALLELE.equals(a1Forward)) a1Forward = null;
 			this.a2Forward = tokenizer.nextToken();
+			if (MISSING_ALLELE.equals(a2Forward)) a2Forward = null;
 		}
 
 		public String getSNPName() { return snpName; }
 		public String getSampleID() { return sampleID; }
 		public String getAllele1Forward() { return a1Forward; }
 		public String getAllele2Forward() { return a2Forward; }
-
 		public String toString() { return line; }
 	}
 }
