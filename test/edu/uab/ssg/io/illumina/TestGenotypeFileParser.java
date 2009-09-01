@@ -34,8 +34,8 @@ public final class TestGenotypeFileParser extends TestCase {
 			else if (numOfParsedRecords == 11) { // Last record in file.
 				Assert.assertEquals("cnvi0048855", record.getSNPName());
 				Assert.assertEquals("A0280", record.getSampleID());
-				Assert.assertNull(record.getAllele1Forward());
-				Assert.assertNull(record.getAllele2Forward());
+				Assert.assertEquals(null, record.getAllele1Forward());
+				Assert.assertEquals(null, record.getAllele2Forward());
 			}
 			// Increment total number of handled records.
 			numOfParsedRecords++;
