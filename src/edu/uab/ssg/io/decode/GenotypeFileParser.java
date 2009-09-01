@@ -25,12 +25,14 @@ import java.io.*;
  * ...
  * </tt></p>
  *
- * <p>Missing alleles are coded with the '-' character (i.e. the hyphen, minus sign) and the data table record delimiter is the tab character. The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
+ * <p>In this file format, missing alleles are coded with the '-' character (i.e. the hyphen, minus sign) and the data table record delimiter is the tab character. The file format is described in more detail in <a href="doc-files/GenotypeFileParser-1.doc">this MS Word document</a>.
  * Read more about the "TOP/BOT" strand in <a href="doc-files/GenotypeFileParser-1.pdf">this technical note</a> from Illumina.</p>
  *
  * @author Jelai Wang
  */
 public final class GenotypeFileParser {
+	private static final String MISSING_ALLELE = "-";
+
 	/**
 	 * Constructs the parser.
 	 */
@@ -150,9 +152,13 @@ public final class GenotypeFileParser {
 			this.snpName = tokenizer.nextToken();
 			this.sampleID = tokenizer.nextToken();
 			this.a1Top = tokenizer.nextToken();
+			if (MISSING_ALLELE.equals(a1Top)) this.a1Top = null;
 			this.a2Top = tokenizer.nextToken();
+			if (MISSING_ALLELE.equals(a2Top)) this.a2Top = null;
 			this.a1Forward = tokenizer.nextToken();
+			if (MISSING_ALLELE.equals(a1Forward)) this.a1Forward = null;
 			this.a2Forward = tokenizer.nextToken();
+			if (MISSING_ALLELE.equals(a2Forward)) this.a2Forward = null;
 			this.gcScore = Double.parseDouble(tokenizer.nextToken());
 		}
 
