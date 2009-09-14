@@ -20,14 +20,14 @@
 		</copy>
 	</target>
 
-	<target name="compile-tests" depends="compile" description="Compile the unit tests.">
+	<target name="compile-tests" depends="compile" description="Compiles the unit tests.">
 		<javac srcdir="${test.src.dir}" destdir="${classes.dir}" debug="true">
 			<classpath refid="test.compile.classpath"/>
 			<compilerarg value="-Xlint:unchecked"/>			
 		</javac>
 	</target>
 
-	<target name="test" depends="-prepare-tests" description="Run the unit tests.">
+	<target name="test" depends="-prepare-tests" description="Runs the unit tests.">
 		<junit fork="true" showoutput="no">
 			<classpath>
 				<pathelement location="${classes.dir}"/>

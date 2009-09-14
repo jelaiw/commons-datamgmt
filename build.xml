@@ -22,18 +22,18 @@
 		<mkdir dir="${classes.dir}"/>
 	</target>
 
-	<target name="compile" depends="-prepare-compile" description="Compile the source code.">
+	<target name="compile" depends="-prepare-compile" description="Compiles the source code.">
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="compile.classpath" debug="true">
 			<compilerarg value="-Xlint:unchecked"/>	
 			<compilerarg value="-Xlint:deprecation"/>	
 		</javac>	
 	</target>
 	
-	<target name="clean" description="Clean up the build outputs.">
+	<target name="clean" description="Cleans up the build outputs.">
 		<delete dir="${build.dir}"/>
 	</target>
 
-	<target name="javadoc" depends="-prepare" description="Generate Javadoc API documentation.">
+	<target name="javadoc" depends="-prepare" description="Generates the Javadoc API documentation.">
 		<javadoc packagenames="edu.uab.ssg.io.*, edu.uab.ssg.model.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath" link="http://java.sun.com/j2se/1.5.0/docs/api"/>
 	</target>
 </project>
