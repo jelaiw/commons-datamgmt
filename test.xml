@@ -3,7 +3,7 @@
 	<property name="test.src.dir" location="test"/>
 
 	<path id="test.compile.classpath">
-		<fileset dir="${vendor.lib.dir}">
+		<fileset dir="${lib.dir}">
 			<include name="junit-3.8.1.jar"/>
 		</fileset>
 	</path>
