@@ -5,9 +5,10 @@
 	<property name="lib.dir" location="lib"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
 	<property name="javadoc.dir" location="${build.dir}/javadoc"/>
+	<property name="dist.dir" location="${build.dir}/dist"/>
+	<property name="jar.name" value="commons-datamgmt"/>
 
 	<import file="test.xml"/>
-	<import file="dist.xml"/>
 
 	<path id ="compile.classpath">
 		<fileset dir="${lib.dir}">
@@ -35,5 +36,10 @@
 
 	<target name="javadoc" depends="-prepare" description="Generates the Javadoc API documentation.">
 		<javadoc packagenames="edu.uab.ssg.io.*, edu.uab.ssg.model.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath" link="http://java.sun.com/javase/6/docs/api/"/>
+	</target>
+
+	<target name="jar" description="Creates a jar from the compiled classes.">
+		<mkdir dir="${dist.dir}"/>
+		<jar basedir="${classes.dir}" destfile="${dist.dir}/${jar.name}.jar"/>
 	</target>
 </project>

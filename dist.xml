@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<project>
-	<target name="jar">
-		<fail message="Need to define output.filename property." unless="output.filename"/>
-		<jar basedir="${classes.dir}" destfile="${output.filename}"/>
-	</target>
-</project>
