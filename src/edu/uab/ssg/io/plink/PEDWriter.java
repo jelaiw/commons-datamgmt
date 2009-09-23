@@ -32,7 +32,9 @@ import java.util.*;
  * Also see the hapmap1.ped file in the PLINK tutorial <a href="http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip">example data archive</a>.
  * 
  * <p>This implementation uses the tab character as the field delimiter, the
- * zero character to represent missing values, and Unix-style line ending.</p>
+ * zero character to represent missing values, and the Unix-style line ending.
+ * It also encodes the sex and phenotype fields as missing values to encourage
+ * the use of PLINK phenotype and covariate input files.</p>
  *
  * @author Jelai Wang
  */
@@ -42,27 +44,18 @@ public final class PEDWriter {
 	private static final char EOL = '\n';
 
 	private List<SNP> snps;
-	private MetaData metaData;
 	private BufferedWriter writer;
 
 	/**
 	 * Constructs the writer.
 	 */
-	public PEDWriter(List<SNP> snps, MetaData metaData, OutputStream out) {
+	public PEDWriter(List<SNP> snps, OutputStream out) {
 		if (snps == null)
 			throw new NullPointerException("snps");
-		if (metaData == null)
-			throw new NullPointerException("metaData");
 		if (out == null)
 			throw new NullPointerException("out");
 		this.snps = new ArrayList<SNP>(snps);
-		this.metaData = metaData;
 		this.writer = new BufferedWriter(new OutputStreamWriter(out));
-	}
-
-	public interface MetaData {
-		String getSex(String sampleName);
-		String getPhenotype(String sampleName);
 	}
 
 	/**
@@ -88,18 +81,8 @@ public final class PEDWriter {
 		builder.append(DELIMITER).append(1); // Individual ID
 		builder.append(DELIMITER).append(MISSING_VALUE); // Paternal ID
 		builder.append(DELIMITER).append(MISSING_VALUE); // Maternal ID
-
-		String sex = metaData.getSex(sampleName);
-		if (sex != null)
-			builder.append(DELIMITER).append(sex);
-		else
-			builder.append(DELIMITER).append(MISSING_VALUE);
-		
-		String phenotype = metaData.getPhenotype(sampleName);
-		if (phenotype != null)
-			builder.append(DELIMITER).append(phenotype);
-		else
-			builder.append(DELIMITER).append(MISSING_VALUE);
+		builder.append(DELIMITER).append(MISSING_VALUE); // Sex
+		builder.append(DELIMITER).append(MISSING_VALUE); // Phenotype
 
 		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
 			SNP snp = it.next();

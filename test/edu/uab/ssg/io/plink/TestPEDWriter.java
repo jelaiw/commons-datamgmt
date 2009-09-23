@@ -30,25 +30,8 @@ public final class TestPEDWriter extends TestCase {
 		Sample sample2 = b2.getInstance();
 		Sample sample3 = b3.getInstance();
 
-		PEDWriter.MetaData metaData = new PEDWriter.MetaData() {
-			public String getSex(String sampleName) {
-				if ("sample2".equals(sampleName))
-					return "2";
-				else if ("sample3".equals(sampleName))
-					return "1";
-				return null;
-			}
-
-			public String getPhenotype(String sampleName) {
-				if ("sample1".equals(sampleName))
-					return "100";
-				else if ("sample3".equals(sampleName))
-					return "10000";
-				return null;
-			}
-		};
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		PEDWriter writer = new PEDWriter(snps, metaData, out);
+		PEDWriter writer = new PEDWriter(snps, out);
 		writer.write(sample1);
 		writer.write(sample2);
 		writer.write(sample3);
