@@ -62,7 +62,7 @@ public final class CovariateTabParser {
 	}
 
 	/**
-	 * An sample record.
+	 * A sample record.
 	 */
 	public interface SampleRecord {
 		String getIDNum();

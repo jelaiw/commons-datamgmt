@@ -43,7 +43,7 @@ public final class DoseTabParser {
 	}
 
 	/**
-	 * An sample record.
+	 * A sample record.
 	 */
 	public interface SampleRecord {
 		String getIDNum();
