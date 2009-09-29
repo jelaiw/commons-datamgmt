@@ -23,6 +23,8 @@ import java.util.regex.*;
  *<br/>
  * BEGIN GENOTYPES<br/>
  * HGDP00001  # subpop. label: 1  (internally 1)<br/>
+ * 0 0 1 1 0 0 0 0 1 0 0 0 1 0 1 0 1 0 1 1 0 0 1 1 0 ...<br/>
+ * 0 1 0 0 1 0 1 0 0 1 0 0 1 0 1 0 1 0 1 1 0 0 1 1 0 ...<br/>
  * </tt></p>
  *
  * <p>These data are taken from the HGDP project at <a href="http://hgdp.uchicago.edu/Phased_data/">http://hgdp.uchicago.edu/Phased_data/</a>.</p>
