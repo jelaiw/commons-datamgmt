@@ -4,6 +4,31 @@ import java.io.*;
 import java.util.regex.*;
 
 /**
+ * A parser for the fastPHASE inferred haplotypes output file format.
+ * Here is an example:
+ *
+ * <p><tt>
+ * BEGIN COMMAND_LINE<br/>
+ * ./fastPHASE -ochrom16 -uchrom16.subpop -K20 -s10 -bchrom16.knownhap chrom16.in <br/>
+ * END COMMAND_LINE<br/>
+ *<br/>
+ * BEGIN COMMAND_EXPLAIN<br/>
+ *  K no. clusters (chosen or supplied): 20<br/>
+ *  S seed for random numbers (chosen or supplied): 1186943850<br/>
+ * END COMMAND_EXPLAIN<br/>
+ *<br/>
+ * BEGIN DESCRIBE_TASKS<br/>
+ * minimize switch error<br/>
+ * END DESCRIBE_TASKS<br/>
+ *<br/>
+ * BEGIN GENOTYPES<br/>
+ * HGDP00001  # subpop. label: 1  (internally 1)<br/>
+ * </tt></p>
+ *
+ * <p>These data are taken from the HGDP project at <a href="http://hgdp.uchicago.edu/Phased_data/">http://hgdp.uchicago.edu/Phased_data/</a>.</p>
+ *
+ * This implementation parses the sample records between the BEGIN GENOTYPES and END GENTOTYPES sections of the file format and ignores all other lines. Each sample record consists of three lines: <i>a sample line</i> (with sample ID and subpop label), <i>a line containing alleles from the first haplotype of the sample</i>, and <i>a line containing alleles from the second haplotype of the sample</i>. In this file format, the separator for the fields of the haplotype lines is a single space character.
+ *
  * @author Jelai Wang
  */
 public final class OUTParser {
@@ -25,6 +50,9 @@ public final class OUTParser {
 
 		/**
 		 * Handles input that could not be parsed due to a formatting problem.
+		 * @param sampleLine The line containing the sample identifier and subpop label.
+		 * @param haplotype1Line The line containing alleles from the first haplotype of the sample.
+		 * @param haplotype2Line The line containing alleles from the second haplotype of the sample.
 		 */
 		void handleBadRecordFormat(String sampleLine, String haplotype1Line, String haplotype2Line);
 	}
@@ -33,10 +61,29 @@ public final class OUTParser {
 	 * A sample record.
 	 */
 	public interface SampleRecord {
+		/**
+		 *	Returns the sample identifier.
+		 */
 		String getSampleID();
+
+		/**
+		 * Returns the subpopulation label.
+		 */
 		String getSubpopLabel();
+
+		/**
+		 * Returns the number of SNPs in each haplotype.
+		 */
 		int getNumberOfSNPs();
+
+		/**
+		 * Returns the allele at the given SNP index on the first haplotype.
+		 */
 		String getAllele1At(int index);
+
+		/**
+		 * Returns the allele at the given SNP index on the second haplotype.
+		 */
 		String getAllele2At(int index);
 	}
 
