@@ -14,8 +14,8 @@ public final class TestOUTParser extends TestCase {
 		OUTParser parser = new OUTParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);
-		Assert.assertEquals(26, helper.getNumberOfParsedRecords());
-		Assert.assertEquals(0, helper.getNumberOfBadRecords());
+		Assert.assertEquals(24, helper.getNumberOfParsedRecords());
+		Assert.assertEquals(2, helper.getNumberOfBadRecords());
 	}
 
 	private static final class TestHelper implements OUTParser.RecordListener {
@@ -42,7 +42,7 @@ public final class TestOUTParser extends TestCase {
 				Assert.assertEquals("1", record.getAllele1At(19631));
 				Assert.assertEquals("1", record.getAllele2At(19631));
 			}
-			else if (numOfParsedRecords == 25) { // Last record in file.
+			else if (numOfParsedRecords == 23) { // Last record in file.
 				Assert.assertEquals("HGDP00052", record.getSampleID());
 				Assert.assertEquals("foo", record.getSubpopLabel());
 				Assert.assertEquals(19632, record.getNumberOfSNPs());
@@ -57,6 +57,14 @@ public final class TestOUTParser extends TestCase {
 
 		public void handleBadRecordFormat(String sampleLine, String haplotype1Line, String haplotype2Line) {
 			numOfBadRecords++;
+			if (numOfBadRecords == 1) { // Deleted the commented subpop label text content for HGDP00047, creating a non-conformant sample line.
+				Assert.assertEquals("HGDP00047", sampleLine);
+			}
+			else if (numOfBadRecords == 2) { // Deleted a token from the 2nd haplotype line for HGDP00049, creating an unequal number of tokens in the two haplotype lines.
+				Assert.assertEquals("HGDP00049  # subpop. label: 1  (internally 1)", sampleLine);
+				Assert.assertEquals(19632, haplotype1Line.split("\\s+").length);
+				Assert.assertEquals(19631, haplotype2Line.split("\\s+").length);
+			}
 		}
 
 		private int getNumberOfParsedRecords() { return numOfParsedRecords; }
