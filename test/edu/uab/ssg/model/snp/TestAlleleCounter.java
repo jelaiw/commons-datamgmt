@@ -15,11 +15,12 @@ public final class TestAlleleCounter extends TestCase {
 		// No alleles.
 		Assert.assertFalse(counter.existsMinorAllele());
 		Assert.assertEquals(0, counter.getAlleles().size());
+		Assert.assertEquals(0, counter.getNumberOfCountedValues());
 
 		// One allele.
 		counter.addAllele("foo");
 		Assert.assertEquals(1, counter.getFrequency("foo"));
-		Assert.assertEquals(1, counter.getTotalNumberOfAlleles());
+		Assert.assertEquals(1, counter.getNumberOfCountedValues());
 		Assert.assertEquals(Double.doubleToLongBits(1.), Double.doubleToLongBits(counter.getRelativeFrequency("foo")));
 		Assert.assertFalse(counter.existsMinorAllele()); // Minor allele is undefined in this situation.
 		Assert.assertEquals(1, counter.getAlleles().size());
@@ -33,7 +34,7 @@ public final class TestAlleleCounter extends TestCase {
 		counter.addAllele("foo");
 		Assert.assertEquals(3, counter.getFrequency("foo"));
 		Assert.assertEquals(1, counter.getFrequency("bar"));
-		Assert.assertEquals(4, counter.getTotalNumberOfAlleles());
+		Assert.assertEquals(4, counter.getNumberOfCountedValues());
 		Assert.assertTrue(counter.existsMinorAllele());
 		Assert.assertEquals(1, counter.getFrequency(counter.getMinorAllele()));
 		Assert.assertEquals(Double.doubleToLongBits(0.25), Double.doubleToLongBits(counter.getRelativeFrequency(counter.getMinorAllele())));
@@ -44,7 +45,9 @@ public final class TestAlleleCounter extends TestCase {
 
 		// Test missing.
 		Assert.assertEquals(0, counter.getNumberOfMissingValues());
+		Assert.assertEquals(4, counter.getNumberOfCountedValues());
 		counter.addAllele(null);
 		Assert.assertEquals(1, counter.getNumberOfMissingValues());
+		Assert.assertEquals(4, counter.getNumberOfCountedValues());
 	}
 }

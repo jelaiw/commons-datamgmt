@@ -3,9 +3,9 @@ package edu.uab.ssg.model.snp;
 import java.util.*;
 
 /**
- * Collects information based on alleles and their counts, including
- * the names of the observed alleles, their frequencies, the name of the
- * minor allele (if it exists), and the number of missing values.
+ * Collects data on alleles and their counts, including the names of the 
+ * observed alleles, their frequencies, the name of the minor allele 
+ * (if it exists), and the number of missing values.
  *
  * @author Jelai Wang
  */
@@ -81,7 +81,7 @@ public final class AlleleCounter {
 	}
 
 	/**
-	 * Returns the number of missing (allele) values.
+	 * Returns the number of missing allele values.
 	 * A value is missing if a sample from the study population was
 	 * assessed for genotype at a particular SNP, but, for whatever reason,
 	 * the allele(s) could not be determined.
@@ -89,11 +89,15 @@ public final class AlleleCounter {
 	public int getNumberOfMissingValues() { return missingCount; }
 
 	/**
-	 * Returns the alleles.
+	 * Returns the set of "counted" allele values.
+	 * An allele value is counted when the <code>addAllele</code> method is called.
 	 */
 	public Set<String> getAlleles() { return new HashSet<String>(map.keySet()); }
 
-	/* package private */ int getTotalNumberOfAlleles() {
+	/**
+	 * Returns the number of counted, non-missing allele values.
+	 */
+	public int getNumberOfCountedValues() {
 		int total = 0;
 		for (Iterator<String> it = getAlleles().iterator(); it.hasNext(); ) {
 			String allele = it.next();
@@ -124,9 +128,12 @@ public final class AlleleCounter {
 	public double getRelativeFrequency(String allele) {
 		if (allele == null)
 			throw new NullPointerException("allele");
-		return (double) getFrequency(allele) / (double) getTotalNumberOfAlleles();
+		return (double) getFrequency(allele) / (double) getNumberOfCountedValues();
 	}
 
+	/**
+	 * Returns a string representation of this <code>AlleleCounter</code> object.
+	 */
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		Set alleles = getAlleles();
@@ -134,8 +141,8 @@ public final class AlleleCounter {
 			String allele = (String) it.next();
 			buffer.append(allele).append('\t').append(getFrequency(allele)).append('\t').append(getRelativeFrequency(allele)).append('\n');
 		}
-		buffer.append("Number of missing values: " + getNumberOfMissingValues()).append('\n');
-		buffer.append("Total number of alleles: " + getTotalNumberOfAlleles()).append('\n');
+		buffer.append("Number of missing allele values: " + getNumberOfMissingValues()).append('\n');
+		buffer.append("Number of counted allele values: " + getNumberOfCountedValues()).append('\n');
 		if (existsMinorAllele())
 			buffer.append("Minor allele (MA): " + getMinorAllele());
 		else	
