@@ -37,6 +37,15 @@ public final class AlleleCounter {
 	}
 
 	/**
+	 * Returns true if the given allele has been counted at least once.
+	 */
+	public boolean existsAllele(String allele) {
+		if (allele == null)
+			throw new NullPointerException("allele");
+		return map.containsKey(allele);
+	}
+
+	/**
 	 * Returns true if the minor allele exists.
 	 * The minor allele is the less frequent allele and is defined only if 
 	 * there is more than one allele at this SNP in the study population.
@@ -89,7 +98,7 @@ public final class AlleleCounter {
 	public int getNumberOfMissingValues() { return missingCount; }
 
 	/**
-	 * Returns the set of "counted" allele values.
+	 * Returns the set of counted allele values.
 	 * An allele value is counted when the <code>addAllele</code> method is called.
 	 */
 	public Set<String> getAlleles() { return new HashSet<String>(map.keySet()); }
