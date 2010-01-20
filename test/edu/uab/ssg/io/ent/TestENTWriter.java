@@ -28,11 +28,14 @@ public final class TestENTWriter extends TestCase {
 		SampleBuilder b4 = new SampleBuilder("sample4");
 		b4.setGenotype(snp1, "T", "T", IlluminaStrand.TOP);
 		b4.setGenotype(snp2, "C", "C", IlluminaStrand.TOP);
+		SampleBuilder b5 = new SampleBuilder("sample5");
+		b5.setGenotype(snp1, null, null, IlluminaStrand.TOP);
 		List<Sample> samples = new ArrayList<Sample>();
 		samples.add(b1.getInstance());
 		samples.add(b2.getInstance());
 		samples.add(b3.getInstance());
 		samples.add(b4.getInstance());
+		samples.add(b5.getInstance());
 
 		ENTWriter writer = new ENTWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

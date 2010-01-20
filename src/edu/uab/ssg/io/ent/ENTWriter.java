@@ -99,8 +99,10 @@ public final class ENTWriter {
 					Sample.Genotype genotype = sample.getGenotype(snp);
 					String a1 = genotype.getAllele1();
 					String a2 = genotype.getAllele2();
-					// See spec for details regarding the genotype coding.
-					if (counter.existsMinorAllele()) {
+					if (a1 == null && a2 == null) {
+						builder.append(MISSING_GENOTYPE);
+					}
+					else if (counter.existsMinorAllele()) {
 						String minorAllele = counter.getMinorAllele();
 						if (!a1.equals(a2)) {
 							builder.append(HETEROZYGOUS);
