@@ -50,7 +50,6 @@
 
 	<target name="jar" description="Creates a jar from the compiled classes.">
 		<mkdir dir="${dist.dir}"/>
-		<echo message="${basedir}"/>
 		<svn javahl="false" svnkit="true">
 			<wcVersion path="${basedir}"/>
 		</svn>
