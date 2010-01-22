@@ -50,8 +50,9 @@
 
 	<target name="jar" description="Creates a jar from the compiled classes.">
 		<mkdir dir="${dist.dir}"/>
+		<echo message="${basedir}"/>
 		<svn javahl="false" svnkit="true">
-			<wcVersion path="."/>
+			<wcVersion path="${basedir}"/>
 		</svn>
 		<jar basedir="${classes.dir}" destfile="${dist.dir}/${jar.name}-r${revision.max}.jar"/>
 	</target>
