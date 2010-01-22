@@ -38,8 +38,21 @@
 		<javadoc packagenames="edu.uab.ssg.io.*, edu.uab.ssg.model.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath" link="http://java.sun.com/javase/6/docs/api/"/>
 	</target>
 
+	<path id ="svnant.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="svnant-1.3.0.jar"/>
+			<include name="svnClientAdapter.jar"/>
+			<include name="svnkit.jar"/>
+		</fileset>
+	</path>
+
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.classpath"/>
+
 	<target name="jar" description="Creates a jar from the compiled classes.">
 		<mkdir dir="${dist.dir}"/>
-		<jar basedir="${classes.dir}" destfile="${dist.dir}/${jar.name}.jar"/>
+		<svn javahl="false" svnkit="true">
+			<wcVersion path="."/>
+		</svn>
+		<jar basedir="${classes.dir}" destfile="${dist.dir}/${jar.name}-r${revision.max}.jar"/>
 	</target>
 </project>
