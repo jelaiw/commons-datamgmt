@@ -31,7 +31,7 @@ public final class TestAlleleCounter extends TestCase {
 
 		// Two alleles.
 		counter.addAllele("bar");
-		Assert.assertFalse(counter.existsMinorAllele()); // Minor allele is undefined in this situation, too.
+		Assert.assertFalse(counter.existsMinorAllele()); // Minor allele is undefined in this situation too, because there is an equal number of both alleles.
 		counter.addAllele("foo");
 		counter.addAllele("foo");
 		Assert.assertEquals(3, counter.getFrequency("foo"));
