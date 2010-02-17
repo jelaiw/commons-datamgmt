@@ -42,6 +42,15 @@ public final class TestOUTParser extends TestCase {
 				Assert.assertEquals("1", record.getAllele1At(19631));
 				Assert.assertEquals("1", record.getAllele2At(19631));
 			}
+			else if (numOfParsedRecords == 22) { // Test custom sample line, i.e. without the "(internally ???)" trailing text.
+				Assert.assertEquals("HGDP00045", record.getSampleID());
+				Assert.assertEquals("1", record.getSubpopLabel());
+				Assert.assertEquals(19632, record.getNumberOfSNPs());
+				Assert.assertEquals("0", record.getAllele1At(0));
+				Assert.assertEquals("0", record.getAllele2At(0));
+				Assert.assertEquals("1", record.getAllele1At(19631));
+				Assert.assertEquals("1", record.getAllele2At(19631));
+			}
 			else if (numOfParsedRecords == 23) { // Last record in file.
 				Assert.assertEquals("HGDP00052", record.getSampleID());
 				Assert.assertEquals("foo", record.getSubpopLabel());

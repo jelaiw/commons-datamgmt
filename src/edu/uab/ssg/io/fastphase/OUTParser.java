@@ -143,7 +143,7 @@ public final class OUTParser {
 			this.haplotype1Line = haplotype1Line;
 			this.haplotype2Line = haplotype2Line;
 			// Pick apart the sample line for the identifier and subpop label.
-			Pattern sampleLinePattern = Pattern.compile("(\\w+)\\s+# subpop. label: (\\w+)\\s+");
+			Pattern sampleLinePattern = Pattern.compile("(\\w+)\\s+# subpop. label: (\\w+)");
 			Matcher matcher = sampleLinePattern.matcher(sampleLine);
 			if (matcher.find()) {
 				this.sampleID = matcher.group(1);
