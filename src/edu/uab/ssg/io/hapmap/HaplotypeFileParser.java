@@ -97,7 +97,7 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 		String getName();
 
 		/**
-		 * Returns the position of this SNP on the chromosome.
+		 * Returns the position of the SNP on the chromosome.
 		 * The chromosome and position for a given SNP with an rsid is probably best retrieved directly from an authoritative source, like, dbSNP, but in a pinch, this info also appears to be encoded in the file name.  
 		 * For example, for <i>hapmap3_r2_b36_fwd.consensus.qc.poly.chr1_asw.unr.phased</i>, the chromosome is "chr1" and the position is from "b36".
 		 */
