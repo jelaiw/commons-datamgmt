@@ -24,7 +24,7 @@ public final class TestGenotypeFileParser extends TestCase {
 
 		public void handleParsedRecord(GenotypeFileParser.GenotypeRecord record) {
 			String sampleID = record.getSampleID();
-			String snp = record.getSNP();
+			String snp = record.getSNPName();
 			if ("NA18524".equals(sampleID) && "rs3743872".equals(snp)) {
 				Assert.assertEquals("chr16", record.getChromosome());
 				Assert.assertEquals(24045, record.getPosition());
