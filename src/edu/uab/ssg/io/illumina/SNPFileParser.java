@@ -21,6 +21,8 @@ import java.io.*;
  * @author Jelai Wang
  */
 public final class SNPFileParser {
+	private static final String DELIMITER = "\t";
+
 	/**
 	 * Constructs the parser.
 	 */
@@ -40,7 +42,7 @@ public final class SNPFileParser {
 		if (listener == null)
 			throw new NullPointerException("listener");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		String[] header = reader.readLine().split("\t", -1);
+		String[] header = reader.readLine().split(DELIMITER, -1);
 		if (!"Index".equals(header[0]))
 			throw new IllegalArgumentException(header[0]);
 		if (!"Name".equals(header[1]))

@@ -116,6 +116,7 @@ public final class GenotypeFileParser {
 	}
 
 	private class ParsedGenotypeRecord implements GenotypeRecord {
+		private static final String DELIMITER = "\t";
 		private String line;
 		private String snpName, sampleID;
 		private String a1Forward, a2Forward;
@@ -125,7 +126,7 @@ public final class GenotypeFileParser {
 				throw new NullPointerException("line");
 			this.line = line;
 
-			StringTokenizer tokenizer = new StringTokenizer(line, "\t");
+			StringTokenizer tokenizer = new StringTokenizer(line, DELIMITER);
 			if (tokenizer.countTokens() != 4)
 				throw new IllegalArgumentException(line);
 			this.snpName = tokenizer.nextToken();
