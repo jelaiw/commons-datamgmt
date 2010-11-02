@@ -28,7 +28,7 @@
 	</target>
 
 	<target name="test" depends="-prepare-tests" description="Runs the unit tests.">
-		<junit fork="true" showoutput="no">
+		<junit fork="true" showoutput="no" maxmemory="128M">
 			<classpath>
 				<pathelement location="${classes.dir}"/>
 				<path refid="test.compile.classpath"/>

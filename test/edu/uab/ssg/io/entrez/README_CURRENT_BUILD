@@ -1,0 +1,66 @@
+======================================================================
+Organism: Homo sapiens (human)
+NCBI Build Number: 37    
+Version: 1
+Release date: 04 August 2009
+
+Freeze date for component genomic sequences: February 2009
+Freeze date for other genomic sequences: 12 March 2009
+Freeze date for mRNAs/ESTs used for annotation: 12 March 2009
+
+This build consists of a reference assembly for the whole genome, plus
+several alternate assemblies for all or part of the genome.
+
+Assemblies in NCBI Build 37.1
+Label           Description
+-----           -----------
+GRCh37          The human genome assembly released on March 2, 2009 by
+                the Genome Reference Consortium. GRCh37 is comprised
+                of a 'primary assembly' and a set of 'alternate loci'.
+                The primary assembly represents the assembled
+                chromosomes, plus any unlocalized or unplaced sequence
+                that represent the non-redundant, haploid
+                assembly. The nine alternate loci represent regions
+                for which there is large scale variation from the
+                sequence in the primary assembly. For more details,
+                see http://www.ncbi.nlm.nih.gov/projects/genome/
+                assembly/grc/human/index.shtml.
+                This is the reference assembly for the nuclear genome.
+Homo sapiens MT The NCBI Reference Sequence (RefSeq) for the human
+                mitochondrion genome.
+Celera          Celera Genomics whole genome shotgun assembly (AADB),
+                November 2001. This assembly included both WGS and BAC
+                sequence data. 
+HuRef           J Craig Venter Institute whole genome shotgun assembly
+                (May 2007) (see http://www.jcvi.org/research/huref/). 
+                This assembly represents a composite haploid version 
+                of the diploid genome sequence from a single 
+                individual (J. Craig Venter).
+CRA_TCAGchr7v2  The Center for Applied Genomics at the Hospital for
+                Sick Children (Toronto) chromosome 7 assembly, (April
+                2004). 
+   
+----------------------------------------------------------------------
+
+NOTE: The sequence used to represent the human mitochondrion genome in
+this build (NC_001807.4) is no longer current. After the genomic
+sequences in this build were frozen, the accepted reference sequence
+for the Homo sapiens mitochondrion was switched to be the rCRS/Mitomap
+sequence, which is now available as the record NC_012920.
+
+----------------------------------------------------------------------
+
+NOTE (added 23 November 2009): The full GRCh37 assembly is comprised 
+of 10 assembly-units which have the following labels:
+Primary_Assembly
+ALT_REF_LOCI_1
+ALT_REF_LOCI_2
+ALT_REF_LOCI_3
+ALT_REF_LOCI_4
+ALT_REF_LOCI_5
+ALT_REF_LOCI_6
+ALT_REF_LOCI_7
+ALT_REF_LOCI_8
+ALT_REF_LOCI_9
+
+======================================================================
