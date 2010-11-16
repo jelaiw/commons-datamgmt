@@ -8,10 +8,27 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ *	A parser for the Entrez Gene gene_info file located at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz</a>.
+ *	<p>The gene_info file format is described at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/README">ftp://ftp.ncbi.nih.gov/gene/DATA/README</a>. A locally cached version is <a href="doc-files/README">available here</a>. This parser should also work for the species-specific extractions of gene_info available at, for example, <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/">ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/</a>.</p>
+ * 	
+ * 	<p>The field delimiter is a tab character and the dash character, '-', indicates that a value is not available.</p>
+ *
+ *	@author Jelai Wang
+ */
 public final class GeneInfoParser {
 	private static final String DELIMITER = "\t";
 	private static final String NOT_AVAILABLE = "-";
 
+	/**
+	 *	Constructs the parser.
+	 */
+	public GeneInfoParser() {
+	}
+
+	/**
+	 *	Parses the input stream for gene info records.
+	 */
 	public List<Record> parse(InputStream in) throws IOException {
 		if (in == null)
 			throw new NullPointerException("in");
@@ -50,21 +67,84 @@ public final class GeneInfoParser {
 		return list;
 	}
 
+	/**
+	 *	A gene info record.
+	 */
 	public interface Record {
+		/**
+		 *	Returns the unique identifier provided by the NCBI Taxonomy for the species or strain/isolate.
+		 */
 		String getTaxID();
+
+		/**
+		 *	Returns the unique identifier for this gene.
+		 */
 		String getGeneID();
+
+		/**
+		 *	Returns the default symbol for this gene.
+		 */
 		String getSymbol();
+
+		/**
+		 *	Returns the LocusTag value.
+		 */
 		String getLocusTag();
+
+		/**
+		 *	Returns a pipe-delimited set of unofficial symbols or aliases for this gene.
+		 */
 		List<String> getSynonyms();
+
+		/**
+		 *	Returns a pipe-delimited set of identifiers, of the form <code>database:value</code>, in other databases for this gene.
+		 */
 		List<String> getdbXrefs();
+
+		/**
+		 *	Returns the chromosome on which this gene is located.
+		 *	For mitochondrial genomes, the value 'MT' is used.
+		 */
 		String getChromosome();
+
+		/**
+		 *	Returns the map location for this gene.
+		 */
 		String getMapLocation();
+
+		/**
+		 *	Returns a description for this gene.
+		 */
 		String getDescription();
+
+		/**
+		 *	Returns the type assigned to this gene according to the list of options provided in <a href="http://www.ncbi.nlm.nih.gov/IEB/ToolBox/CPP_DOC/lxr/source/src/objects/entrezgene/entrezgene.asn">http://www.ncbi.nlm.nih.gov/IEB/ToolBox/CPP_DOC/lxr/source/src/objects/entrezgene/entrezgene.asn</a>.
+		 */
 		String getTypeOfGene();
+
+		/**
+		 *	Returns the symbol from nomenclature authority, if available.
+		 */
 		String getSymbolFromNomenclatureAuthority();
+
+		/**
+		 *	Returns the full name from nomenclature authority, if available.
+		 */
 		String getFullNameFromNomenclatureAuthority();
+
+		/**
+		 *	Returns the status (O for official, I for interim) of the name from the nomenclature authority, if available.
+		 */
 		String getNomenclatureStatus();
+
+		/**
+		 *	Returns a pipe-delimited set of alternate descriptions that have been assigned to this gene.
+		 */
 		String getOtherDesignations();
+
+		/**
+		 *	Returns the last date, in YYYYMMDD format, this record was updated.
+		 */
 		String getModificationDate();
 	}
 
