@@ -35,7 +35,7 @@
 	</target>
 
 	<target name="javadoc" depends="-prepare" description="Generates the Javadoc API documentation.">
-		<javadoc packagenames="edu.uab.ssg.io.*, edu.uab.ssg.model.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath" link="http://java.sun.com/javase/6/docs/api/"/>
+		<javadoc packagenames="edu.uab.ssg.io.*, edu.uab.ssg.model.*" sourcepath="${src.dir}" destdir="${javadoc.dir}" version="false" classpathref="compile.classpath" link="http://download.oracle.com/javase/6/docs/api/"/>
 	</target>
 
 	<path id ="svnant.classpath">
