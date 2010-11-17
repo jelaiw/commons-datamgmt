@@ -12,13 +12,14 @@ import java.util.Collections;
  *	A parser for the Entrez Gene gene_info file located at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz</a>.
  *	<p>The gene_info file format is described at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/README">ftp://ftp.ncbi.nih.gov/gene/DATA/README</a>. A locally cached version is <a href="doc-files/README">available here</a>. This parser should also work for the species-specific extractions of gene_info available at, for example, <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/">ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/</a>.</p>
  * 	
- * 	<p>The field delimiter is a tab character and the dash character, '-', indicates that a value is not available.</p>
+ * 	<p>The field delimiter is a tab character and the dash character, '-', indicates that a value is not available. Also, within certain fields, like synonyms and dbXrefs, multiple values are concatenated with a pipe character, '|', as the delimiter.</p>
  *
  *	@author Jelai Wang
  */
 public final class GeneInfoParser {
 	private static final String DELIMITER = "\t";
 	private static final String NOT_AVAILABLE = "-";
+	private static final String PIPE_DELIMITER = "\\|";
 
 	/**
 	 *	Constructs the parser.
@@ -178,7 +179,7 @@ public final class GeneInfoParser {
 		private List<String> parsePipeDelimitedText(String text) {
 			List<String> list = new ArrayList<String>();
 			if (!NOT_AVAILABLE.equals(text)) {
-				String[] tmp = text.split("\\|");
+				String[] tmp = text.split(PIPE_DELIMITER);
 				for (int i = 0; i < tmp.length; i++) {
 					list.add(tmp[i]);
 				}
