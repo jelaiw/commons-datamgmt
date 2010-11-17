@@ -12,7 +12,7 @@ import java.util.Collections;
  *	A parser for the Entrez Gene gene_info file located at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz</a>.
  *	<p>The gene_info file format is described at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/README">ftp://ftp.ncbi.nih.gov/gene/DATA/README</a>. A locally cached version is <a href="doc-files/README">available here</a>. This parser should also work for the species-specific extractions of gene_info available at, for example, <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/">ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/</a>.</p>
  * 	
- * 	<p>The field delimiter is a tab character and the dash character, '-', indicates that a value is not available. Also, within certain fields, like synonyms and dbXrefs, multiple values are concatenated with a pipe character, '|', as the delimiter.</p>
+ * 	<p>The field delimiter is a tab character. The dash character, '-', indicates that a value is not available, and will be returned as null in this API. For certain fields, like synonyms and dbXrefs, multiple values are concatenated with a pipe character, '|', as the delimiter. These values will be parsed and returned as a list.</p>
  *
  *	@author Jelai Wang
  */
@@ -43,6 +43,10 @@ public final class GeneInfoParser {
 			if (tmp.length != 15) {
 				System.err.println("Ignoring line with " + tmp.length + " tokens: " + line);
 				continue;
+			}
+			// Replace values coded as "-" with null.
+			for (int i = 0; i < tmp.length; i++) {
+				if (NOT_AVAILABLE.equals(tmp[i])) tmp[i] = null;
 			}
 
 			String taxID = tmp[0];
@@ -178,7 +182,7 @@ public final class GeneInfoParser {
 
 		private List<String> parsePipeDelimitedText(String text) {
 			List<String> list = new ArrayList<String>();
-			if (!NOT_AVAILABLE.equals(text)) {
+			if (text != null) { // See NOT_AVAILABLE named constant.
 				String[] tmp = text.split(PIPE_DELIMITER);
 				for (int i = 0; i < tmp.length; i++) {
 					list.add(tmp[i]);

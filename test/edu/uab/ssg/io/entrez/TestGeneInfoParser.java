@@ -22,7 +22,7 @@ public final class TestGeneInfoParser extends TestCase {
 		Assert.assertEquals("9606", firstRecord.getTaxID());
 		Assert.assertEquals("1", firstRecord.getGeneID());
 		Assert.assertEquals("A1BG", firstRecord.getSymbol());
-		Assert.assertEquals("-", firstRecord.getLocusTag());
+		Assert.assertNull(firstRecord.getLocusTag());
 		Assert.assertEquals(5, firstRecord.getSynonyms().size());
 		Assert.assertEquals("A1B", firstRecord.getSynonyms().get(0));
 		Assert.assertEquals("HYST2477", firstRecord.getSynonyms().get(4));
@@ -44,19 +44,19 @@ public final class TestGeneInfoParser extends TestCase {
 		Assert.assertEquals("9606", lastRecord.getTaxID());
 		Assert.assertEquals("100526648", lastRecord.getGeneID());
 		Assert.assertEquals("MIR1273E", lastRecord.getSymbol());
-		Assert.assertEquals("-", lastRecord.getLocusTag());
+		Assert.assertNull(lastRecord.getLocusTag());
 		Assert.assertEquals(1, lastRecord.getSynonyms().size());
 		Assert.assertEquals("hsa-mir-1273e", lastRecord.getSynonyms().get(0));
 		Assert.assertEquals(1, lastRecord.getdbXrefs().size());
 		Assert.assertEquals("miRBase:MI0016059", lastRecord.getdbXrefs().get(0));
-		Assert.assertEquals("-", lastRecord.getChromosome());
-		Assert.assertEquals("-", lastRecord.getMapLocation());
+		Assert.assertNull(lastRecord.getChromosome());
+		Assert.assertNull(lastRecord.getMapLocation());
 		Assert.assertEquals("microRNA mir-1273e", lastRecord.getDescription());
 		Assert.assertEquals("miscRNA", lastRecord.getTypeOfGene());
-		Assert.assertEquals("-", lastRecord.getSymbolFromNomenclatureAuthority());
-		Assert.assertEquals("-", lastRecord.getFullNameFromNomenclatureAuthority());
-		Assert.assertEquals("-", lastRecord.getNomenclatureStatus());
-		Assert.assertEquals("-", lastRecord.getOtherDesignations());
+		Assert.assertNull(lastRecord.getSymbolFromNomenclatureAuthority());
+		Assert.assertNull(lastRecord.getFullNameFromNomenclatureAuthority());
+		Assert.assertNull(lastRecord.getNomenclatureStatus());
+		Assert.assertNull(lastRecord.getOtherDesignations());
 		Assert.assertEquals("20101030", lastRecord.getModificationDate());
 	}
 }
