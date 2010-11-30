@@ -163,6 +163,7 @@ public final class GeneInfoParser {
 		private String otherDesignations, modificationDate;
 
 		private DefaultRecord(String line, String taxID, String geneID, String symbol, String locusTag, String synonyms, String dbXrefs, String chromosome, String mapLocation, String description, String typeOfGene, String symbolFromNomenclatureAuthority, String fullNameFromNomenclatureAuthority, String nomenclatureStatus, String otherDesignations, String modificationDate) {
+			this.line = line;
 			this.taxID = taxID;
 			this.geneID = geneID;
 			this.symbol = symbol;

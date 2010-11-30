@@ -38,6 +38,7 @@ public final class TestGeneInfoParser extends TestCase {
 		Assert.assertEquals("O", firstRecord.getNomenclatureStatus());
 		Assert.assertEquals("alpha-1B-glycoprotein", firstRecord.getOtherDesignations());
 		Assert.assertEquals("20101029", firstRecord.getModificationDate());
+		Assert.assertNotNull(firstRecord.toString());
 		
 		// Spot check values from last record.
 		GeneInfoParser.Record lastRecord = records.get(records.size() - 1);
@@ -58,5 +59,6 @@ public final class TestGeneInfoParser extends TestCase {
 		Assert.assertNull(lastRecord.getNomenclatureStatus());
 		Assert.assertNull(lastRecord.getOtherDesignations());
 		Assert.assertEquals("20101030", lastRecord.getModificationDate());
+		Assert.assertNotNull(firstRecord.toString());
 	}
 }
