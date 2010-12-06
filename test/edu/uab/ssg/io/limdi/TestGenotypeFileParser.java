@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.illumina;
+package edu.uab.ssg.io.limdi;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -11,7 +11,7 @@ import java.io.*;
 public final class TestGenotypeFileParser extends TestCase {
 	public void testExampleFile() throws IOException {
 		// This input file contains representative records from the Illumina genotype report in the Limdi warfarin study as well as purposefully spiked-in file format errors.
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/illumina/genotypes.txt");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/limdi/genotypes.txt");
 		GenotypeFileParser parser = new GenotypeFileParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);

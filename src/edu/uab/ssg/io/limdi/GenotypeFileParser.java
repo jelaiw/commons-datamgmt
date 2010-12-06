@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.illumina;
+package edu.uab.ssg.io.limdi;
 
 import java.util.*;
 import java.io.*;
