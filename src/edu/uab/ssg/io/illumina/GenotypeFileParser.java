@@ -30,7 +30,7 @@ import java.io.*;
  */
 public final class GenotypeFileParser {
 	/**
-	 * A string constant for the dash character that represents a missing allele call in the Illumina genotyping report format.
+	 * A string constant for the character (a dash, '-') that represents a missing allele call in the Illumina genotyping report format.
 	 */
 	public static final String MISSING_ALLELE = "-";
 
@@ -97,10 +97,31 @@ public final class GenotypeFileParser {
 	 * A genotype record.
 	 */
 	public interface GenotypeRecord {
+		/**
+		 * Returns the value for this record at the given column index.
+		 */
 		String getValue(int columnIndex);
+
+		/**
+		 * Returns the value for this record at the given column index.
+		 * If the value to be returned equals the given <tt>matchValue</tt>, then <tt>replacementValue</tt> is instead returned.
+		 */
 		String getValue(int columnIndex, String matchValue, String replacementValue);
+
+		/**
+		 * Returns the value for this record corresponding to the given column name.
+		 */
 		String getValue(String columnName);
+
+		/**
+		 * Returns the value for this record corresponding to the given column name.
+		 * If the value to be returned equals the given <tt>matchValue</tt>, then <tt>replacementValue</tt> is instead returned.
+		 */
 		String getValue(String columnName, String matchValue, String replacementValue);
+
+		/**
+		 * Returns the list of column names available for this record.
+		 */
 		List<String> getColumnNames();
 	}
 
