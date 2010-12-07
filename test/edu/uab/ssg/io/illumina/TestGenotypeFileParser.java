@@ -45,6 +45,18 @@ public final class TestGenotypeFileParser extends TestCase {
 				Assert.assertEquals("1", record.getValue("Chr"));
 				Assert.assertEquals("211076006", record.getValue("Position"));
 			}
+			else if (numOfParsedRecords == 80) { // Test recoding.
+				Assert.assertEquals("1_201131303", record.getValue("SNP Name"));
+				Assert.assertEquals("AVA1001a", record.getValue("Sample ID"));
+				Assert.assertEquals("-", record.getValue("Allele1 - Top"));
+				Assert.assertEquals("-", record.getValue("Allele2 - Top"));
+				Assert.assertNull(record.getValue("Allele1 - Top", GenotypeFileParser.MISSING_ALLELE, null));
+				Assert.assertNull(record.getValue("Allele2 - Top", GenotypeFileParser.MISSING_ALLELE, null));
+				Assert.assertEquals("-", record.getValue("Allele1 - AB"));
+				Assert.assertEquals("-", record.getValue("Allele2 - AB"));
+				Assert.assertEquals("1", record.getValue("Chr"));
+				Assert.assertEquals("201131303", record.getValue("Position"));
+			}
 			// Increment total number of handled records.
 			numOfParsedRecords++;
 		}

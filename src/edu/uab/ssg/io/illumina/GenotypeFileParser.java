@@ -29,7 +29,10 @@ import java.io.*;
  * @author Jelai Wang
  */
 public final class GenotypeFileParser {
-	private static final String MISSING_ALLELE = "-";
+	/**
+	 * A string constant for the dash character that represents a missing allele call in the Illumina genotyping report format.
+	 */
+	public static final String MISSING_ALLELE = "-";
 
 	/**
 	 * Constructs the parser.
@@ -95,7 +98,9 @@ public final class GenotypeFileParser {
 	 */
 	public interface GenotypeRecord {
 		String getValue(int columnIndex);
+		String getValue(int columnIndex, String matchValue, String replacementValue);
 		String getValue(String columnName);
+		String getValue(String columnName, String matchValue, String replacementValue);
 		List<String> getColumnNames();
 	}
 
@@ -120,12 +125,30 @@ public final class GenotypeFileParser {
 			return tokens[columnIndex];
 		}
 
+		public String getValue(int columnIndex, String matchValue, String replacementValue) {
+			if (matchValue == null)
+				throw new NullPointerException("matchValue");
+			String value = getValue(columnIndex);
+			if (matchValue.equals(value)) {
+				value = replacementValue;
+			}
+			return value;
+		}
+
 		public String getValue(String columnName) {
 			if (columnName == null)
 				throw new NullPointerException("columnName");
 			if (!header.contains(columnName))
 				throw new IllegalArgumentException(columnName);
 			return getValue(header.indexOf(columnName));
+		}
+
+		public String getValue(String columnName, String matchValue, String replacementValue) {
+			if (columnName == null)
+				throw new NullPointerException("columnName");
+			if (!header.contains(columnName))
+				throw new IllegalArgumentException(columnName);
+			return getValue(header.indexOf(columnName), matchValue, replacementValue);
 		}
 
 		public List<String> getColumnNames() { return new ArrayList<String>(header); }
