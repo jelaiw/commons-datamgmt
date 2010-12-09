@@ -44,7 +44,7 @@ public final class LegendFile implements Legend {
 			String a1 = tmp[3];
 			if (MISSING_VALUE.equals(a1)) a1 = null;
 
-			SNP snp = SNPFactory.createSNP(snpName, chr, position);
+			SNP snp = new DefaultSNP(snpName, chr, position);
 			map.put(snp, new String[] { a0, a1 });
 		}
 		reader.close();

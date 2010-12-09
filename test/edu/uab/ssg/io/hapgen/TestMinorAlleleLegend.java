@@ -13,10 +13,10 @@ import edu.uab.ssg.model.snp.*;
 public final class TestMinorAlleleLegend extends TestCase {
 	public void testSmallExample() throws IOException {
 		// Set up markers.
-		SNP snp1 = SNPFactory.createSNP("snp1", "chr2", 1000);
-		SNP snp2 = SNPFactory.createSNP("snp2", "chr3", 2000);
-		SNP snp3 = SNPFactory.createSNP("snp3", "chr4", 3000);
-		SNP snp4 = SNPFactory.createSNP("snp4", "chr4", 4000);
+		SNP snp1 = new DefaultSNP("snp1", "chr2", 1000);
+		SNP snp2 = new DefaultSNP("snp2", "chr3", 2000);
+		SNP snp3 = new DefaultSNP("snp3", "chr4", 3000);
+		SNP snp4 = new DefaultSNP("snp4", "chr4", 4000);
 
 		LegendBuilder builder = new LegendBuilder();
 		// snp1 is monomorphic.

@@ -11,9 +11,9 @@ public final class TestSample extends TestCase {
 	private static SNP snp1, snp2, snp3;
 
 	static {
-		snp1 = SNPFactory.createSNP("snp1", "chr1", 1);
-		snp2 = SNPFactory.createSNP("snp2", "chr1", 2);
-		snp3 = SNPFactory.createSNP("snp3", "chr2", 3);
+		snp1 = new DefaultSNP("snp1", "chr1", 1);
+		snp2 = new DefaultSNP("snp2", "chr1", 2);
+		snp3 = new DefaultSNP("snp3", "chr2", 3);
 	}
 
 	public void testMissingData() {

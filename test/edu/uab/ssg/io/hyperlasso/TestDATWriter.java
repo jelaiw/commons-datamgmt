@@ -12,10 +12,10 @@ import edu.uab.ssg.model.snp.*;
 
 public final class TestDATWriter extends TestCase {
 	public void testSmallPopulation() throws IOException {
-		SNP snp1 = SNPFactory.createSNP("snp1", "chr5", 1000);
-		SNP snp2 = SNPFactory.createSNP("snp2", "chr3", 2000);
-		SNP snp3 = SNPFactory.createSNP("snp3", "chr3", 3000);
-		SNP snp4 = SNPFactory.createSNP("snp4", "chr3", 4000);
+		SNP snp1 = new DefaultSNP("snp1", "chr5", 1000);
+		SNP snp2 = new DefaultSNP("snp2", "chr3", 2000);
+		SNP snp3 = new DefaultSNP("snp3", "chr3", 3000);
+		SNP snp4 = new DefaultSNP("snp4", "chr3", 4000);
 		List<SNP> snps = new ArrayList<SNP>();
 		snps.add(snp1);
 		snps.add(snp2);

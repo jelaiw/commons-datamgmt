@@ -53,7 +53,7 @@ public final class MAPWriter {
 		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
 			SNP snp = it.next();
 			StringBuilder builder = new StringBuilder();
-			builder.append(snp.getChromosome().getName());
+			builder.append(snp.getChromosome());
 			builder.append(DELIMITER).append(snp.getName());
 			builder.append(DELIMITER).append("0"); // LOOK!!
 			builder.append(DELIMITER).append(snp.getPosition());

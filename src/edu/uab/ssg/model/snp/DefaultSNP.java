@@ -1,15 +1,19 @@
 package edu.uab.ssg.model.snp;
 
 /**
+ * A default SNP implementation that defines equals() and hashCode() in terms of chromosome location, not SNP name.
+ *
  * @author Jelai Wang
  */
 
-/* package private */ final class DefaultSNP implements SNP {
-	private String name;
-	private Chromosome chromosome;
+public final class DefaultSNP implements SNP {
+	private String name, chromosome;
 	private int position;
 
-	/* package private */ DefaultSNP(String name, Chromosome chromosome, int position) {
+	/**
+	 * Constructs a SNP.
+	 */
+	public DefaultSNP(String name, String chromosome, int position) {
 		if (name == null)
 			throw new NullPointerException("name");
 		if (chromosome == null)
@@ -22,7 +26,7 @@ package edu.uab.ssg.model.snp;
 	}
 
 	public String getName() { return name; }
-	public Chromosome getChromosome() { return chromosome; }
+	public String getChromosome() { return chromosome; }
 	public int getPosition() { return position; }
 
 	/**
@@ -37,6 +41,9 @@ package edu.uab.ssg.model.snp;
 		return false;
 	}
 
+	/**
+	 * Returns the hash code.
+	 */
 	public int hashCode() {
 		int tmp = 17;
 		tmp = 37 * tmp + chromosome.hashCode();
@@ -44,5 +51,11 @@ package edu.uab.ssg.model.snp;
 		return tmp;
 	}
 
-	public String toString() { return name + " " + chromosome + " " + position; }
+	/**
+	 * Returns a string representation.
+	 */
+	public String toString() { 
+		String DELIMITER = " ";
+		return name + DELIMITER + chromosome + DELIMITER + position; 
+	}
 }

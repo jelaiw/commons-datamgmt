@@ -13,9 +13,9 @@ import edu.uab.ssg.model.snp.*;
 public final class TestMAPWriter extends TestCase {
 	public void testSmallExample() throws IOException {
 		List<SNP> snps = new ArrayList<SNP>();
-		snps.add(SNPFactory.createSNP("snp1", "chr5", 1000));
-		snps.add(SNPFactory.createSNP("snp2", "chr3", 2000));
-		snps.add(SNPFactory.createSNP("snp3", "chrX", 5000));
+		snps.add(new DefaultSNP("snp1", "chr5", 1000));
+		snps.add(new DefaultSNP("snp2", "chr3", 2000));
+		snps.add(new DefaultSNP("snp3", "chrX", 5000));
 
 		MAPWriter writer = new MAPWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

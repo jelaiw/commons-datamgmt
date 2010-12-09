@@ -13,9 +13,9 @@ import edu.uab.ssg.model.snp.*;
 public final class TestReferenceSampleLegend extends TestCase {
 	public void testSmallExample() throws IOException {
 		// Set up markers.
-		SNP snp1 = SNPFactory.createSNP("snp1", "chr2", 1000);
-		SNP snp2 = SNPFactory.createSNP("snp2", "chr3", 2000);
-		SNP snp3 = SNPFactory.createSNP("snp3", "chr4", 3000);
+		SNP snp1 = new DefaultSNP("snp1", "chr2", 1000);
+		SNP snp2 = new DefaultSNP("snp2", "chr3", 2000);
+		SNP snp3 = new DefaultSNP("snp3", "chr4", 3000);
 		// Set up reference sample.
 		SampleBuilder builder1 = new SampleBuilder("sample1");
 		builder1.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);

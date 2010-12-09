@@ -15,7 +15,7 @@ public interface SNP {
 	/**
 	 * Returns the chromosome where the SNP is located.
 	 */
-	Chromosome getChromosome();
+	String getChromosome();
 
 	/**
 	 * Returns the position on the chromosome where the SNP is located.
