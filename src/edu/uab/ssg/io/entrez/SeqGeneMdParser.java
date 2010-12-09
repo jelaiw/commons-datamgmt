@@ -10,7 +10,16 @@ import java.util.Collections;
 
 /**
  *	A parser for the Entrez Gene seq_gene.md file located at <a href="ftp://ftp.ncbi.nih.gov/genomes/H_sapiens/mapview/seq_gene.md.gz">ftp://ftp.ncbi.nih.gov/genomes/H_sapiens/mapview/seq_gene.md.gz</a>.
- * 	<p>The field delimiter is a tab character. The dash character, '-', indicates that a value is not available, and will be returned as null in this API.</p>
+ *	<p>An abbreviated example is shown below:</p>
+ *	<p><tt>
+ *	#tax_id chromosome      chr_start       chr_stop        chr_orient      contig ctg_start        ctg_stop        ctg_orient      feature_name    feature_id     feature_type     group_label     transcript      evidence_code<br/>
+ *	9606    1       716     2038    +       NW_001838563.2  3842    5164    -      LOC100131754     GeneID:100131754        GENE    HuRef-Primary Assembly  -      <br/>
+ *	9606    1       716     2038    +       NW_001838563.2  3842    5164    -      LOC100131754     GeneID:100131754        PSEUDO  HuRef-Primary Assembly  -      <br/>
+ *	9606    1       716     2038    +       NW_001838563.2  3842    5164    -      XR_112033.1      GeneID:100131754        RNA     HuRef-Primary Assembly  XR_112033.1     <br/>
+ *	9606    1       716     1724    +       NW_001838563.2  4156    5164    -      XR_112033.1      GeneID:100131754        UTR     HuRef-Primary Assembly  XR_112033.1     -<br/>
+ *	...
+ *	</tt></p>
+ * 	<p>The field delimiter is a tab character. The dash character, '-', and sometimes the empty string, in fields like transcript and evidence code, indicates that a value is not available.</p>
  *
  *	@author Jelai Wang
  */
@@ -41,21 +50,15 @@ public final class SeqGeneMdParser {
 				System.err.println("Ignoring line with " + tmp.length + " tokens: " + line);
 				continue;
 			}
-			/*
-			// Replace values coded as "-" with null.
-			for (int i = 0; i < tmp.length; i++) {
-				if (NOT_AVAILABLE.equals(tmp[i])) tmp[i] = null;
-			}
-			*/
 
 			String taxID = tmp[0];
 			String chromosome = tmp[1];
-			String chrStart = tmp[2];
-			String chrStop = tmp[3];
+			int chrStart = Integer.parseInt(tmp[2]);
+			int chrStop = Integer.parseInt(tmp[3]);
 			String chrOrient = tmp[4];
 			String contig = tmp[5];
-			String ctgStart = tmp[6];
-			String ctgStop = tmp[7];
+			int ctgStart = Integer.parseInt(tmp[6]);
+			int ctgStop = Integer.parseInt(tmp[7]);
 			String ctgOrient = tmp[8];
 			String featureName = tmp[9];
 			String featureID = tmp[10];
@@ -80,31 +83,88 @@ public final class SeqGeneMdParser {
 		 */
 		String getTaxID();
 
+		/**
+		 * Returns the chromosome name.
+		 */
 		String getChromosome();
-		String getChrStart();
-		String getChrStop();
+
+		/**
+		 * Returns the start position of this feature on the chromosome for this assembly.
+		 */
+		int getChrStart();
+
+		/**
+		 * Returns the stop position of this feature on the chromosome for this assembly.
+		 */
+		int getChrStop();
+
+		/**
+		 * Returns the orientation of this feature on the chromosome for this asembly.
+		 */
 		String getChrOrient();
+
+		/**
+		 * Returns the contig name.
+		 */
 		String getContig();
-		String getCtgStart();
-		String getCtgStop();
+
+		/**
+		 * Returns the start position of this feature on the contig.
+		 */
+		int getCtgStart();
+
+		/**
+		 * Returns the stop position of this feature on the contig.
+		 */
+		int getCtgStop();
+
+		/**
+		 * Returns the orientation of this feature on the contig.
+		 */
 		String getCtgOrient();
+
+		/**
+		 * Returns the name of this feature.
+		 */
 		String getFeatureName();
+
+		/**
+		 * Returns the ID of this feature.
+		 */
 		String getFeatureID();
+
+		/**
+		 * Returns the type of this feature, usually GENE, PSEUDO, RNA, UTR, or CDS.
+		 */
 		String getFeatureType();
+
+		/**
+		 * Returns the group label, usually the name and version of the assembly.
+		 */
 		String getGroupLabel();
+
+		/**
+		 * Returns the transcript name (for RNA-related features).
+		 */
 		String getTranscript();
+
+		/**
+		 * Returns the evidence code.
+		 */
 		String getEvidenceCode();
 	}
 
 	private class DefaultRecord implements Record {
 		private String line;
 		private String taxID;
-		private String chromosome, chrStart, chrStop, chrOrient;
-		private String contig, ctgStart, ctgStop, ctgOrient;
+		private String chromosome, chrOrient;
+		private int chrStart, chrStop;
+		private String contig, ctgOrient;
+		private int ctgStart, ctgStop;
 		private String featureName, featureID, featureType;
 		private String groupLabel, transcript, evidenceCode;
 
-		private DefaultRecord(String line, String taxID, String chromosome, String chrStart, String chrStop, String chrOrient, String contig, String ctgStart, String ctgStop, String ctgOrient, String featureName, String featureID, String featureType, String groupLabel, String transcript, String evidenceCode) {
+		private DefaultRecord(String line, String taxID, String chromosome, int chrStart, int chrStop, String chrOrient, String contig, int ctgStart, int ctgStop, String ctgOrient, String featureName, String featureID, String featureType, String groupLabel, String transcript, String evidenceCode) {
 			this.line = line;
 			this.taxID = taxID;
 			this.chromosome = chromosome;
@@ -125,12 +185,12 @@ public final class SeqGeneMdParser {
 
 		public String getTaxID() { return taxID; }
 		public String getChromosome() { return chromosome; }
-		public String getChrStart() { return chrStart; }
-		public String getChrStop() { return chrStop; }
+		public int getChrStart() { return chrStart; }
+		public int getChrStop() { return chrStop; }
 		public String getChrOrient() { return chrOrient; }
 		public String getContig() { return contig; }
-		public String getCtgStart() { return ctgStart; }
-		public String getCtgStop() { return ctgStop; }
+		public int getCtgStart() { return ctgStart; }
+		public int getCtgStop() { return ctgStop; }
 		public String getCtgOrient() { return ctgOrient; }
 		public String getFeatureName() { return featureName; }
 		public String getFeatureID() { return featureID; }
