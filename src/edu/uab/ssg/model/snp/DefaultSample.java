@@ -7,6 +7,8 @@ import java.util.*;
  */
 
 /* package private */ final class DefaultSample implements Sample {
+	private static final Map<SNP, List<Sample.Genotype>> genotypeCache = new LinkedHashMap<SNP, List<Sample.Genotype>>();
+
 	private String name;
 	private Map<SNP, Sample.Genotype> genotypes = new LinkedHashMap<SNP, Sample.Genotype>();
 
@@ -38,28 +40,30 @@ import java.util.*;
 	}
 
 	/* package private */ void setGenotype(SNP snp, String a1, String a2, Strand strand) {
-		genotypes.put(snp, new DefaultGenotype(snp, a1, a2, strand));
+		if (snp == null)
+			throw new NullPointerException("snp");
+		if (strand == null)
+			throw new NullPointerException("strand");
+		if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
+			throw new IllegalArgumentException("half-null unsupported");
+		genotypes.put(snp, getGenotype(snp, a1, a2, strand));
 	}
 
-	private static final class DefaultGenotype implements Sample.Genotype {
-		private SNP snp;
-		private String a1, a2;
-		private Strand strand;
-
-		// Missing genotype data is indicated by a null value for a1 or a2.
-		private DefaultGenotype(SNP snp, String a1, String a2, Strand strand) {
-			if (snp == null)
-				throw new NullPointerException("snp");
-			this.snp = snp;
-			this.a1 = a1;
-			this.a2 = a2;
-			this.strand = strand;
+	/* package private */ Sample.Genotype getGenotype(SNP snp, String a1, String a2, Strand strand) {
+		if (snp == null)
+			throw new NullPointerException("snp");
+		List<Sample.Genotype> list = genotypeCache.get(snp);
+		if (list == null) {
+			list = new ArrayList<Sample.Genotype>();
+			genotypeCache.put(snp, list);
 		}
-
-		public SNP getSNP() { return snp; }
-		public String getAllele1() { return a1; }
-		public String getAllele2() { return a2; }
-		public Strand getStrand() { return strand; }
-		public String toString() { return snp.getName() + " " + a1 + " " + a2 + " " + strand; }
+		Sample.Genotype genotype = new DefaultGenotype(snp, a1, a2, strand);
+		if (!list.contains(genotype)) {
+			list.add(genotype); // Cache this genotype for later.
+			return genotype;
+		}
+		else { // Return cached copy of this genotype.
+			return list.get(list.indexOf(genotype));
+		}
 	}
 }

@@ -21,7 +21,7 @@ public final class TestINPWriter extends TestCase {
 		b1.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
 		b1.setGenotype(snp2, "C", "G", IlluminaStrand.TOP);
 		SampleBuilder b2 = new SampleBuilder("sample2");
-		b2.setGenotype(snp1, null, "A", IlluminaStrand.TOP);
+		b2.setGenotype(snp1, "A", "T", IlluminaStrand.TOP);
 		b2.setGenotype(snp2, "G", "G", IlluminaStrand.TOP);
 		SampleBuilder b3 = new SampleBuilder("sample3");
 		b3.setGenotype(snp1, "T", "A", IlluminaStrand.TOP);

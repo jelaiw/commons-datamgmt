@@ -24,9 +24,9 @@ public final class TestHAPSWriter extends TestCase {
 		Sample sample1 = builder1.getInstance();
 		// Sample with a missing haplotype.
 		SampleBuilder builder2 = new SampleBuilder("sample2");
-		builder2.setGenotype(snp1, "A", null, IlluminaStrand.TOP);
-		builder2.setGenotype(snp2, "C", null, IlluminaStrand.TOP);
-		builder2.setGenotype(snp3, "C", null, IlluminaStrand.TOP);
+		builder2.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
+		builder2.setGenotype(snp2, "C", "C", IlluminaStrand.TOP);
+		builder2.setGenotype(snp3, "C", "C", IlluminaStrand.TOP);
 		Sample sample2 = builder2.getInstance();
 		// Sample with missing data for a SNP.
 		SampleBuilder builder3 = new SampleBuilder("sample3");

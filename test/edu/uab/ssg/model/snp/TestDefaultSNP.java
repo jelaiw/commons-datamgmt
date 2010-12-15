@@ -8,7 +8,7 @@ import java.util.*;
  * @author Jelai Wang
  */
 
-public final class TestSNP extends TestCase {
+public final class TestDefaultSNP extends TestCase {
 	public void testFoo() {
 		SNP foo = new DefaultSNP("foo", "chr1", 1);
 		Assert.assertEquals("foo", foo.getName());

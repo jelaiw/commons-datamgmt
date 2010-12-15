@@ -24,7 +24,7 @@ public final class TestDATWriter extends TestCase {
 
 		SampleBuilder b1 = new SampleBuilder("sample1");
 		b1.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
-		b1.setGenotype(snp2, "C", null, IlluminaStrand.TOP);
+		b1.setGenotype(snp2, "C", "G", IlluminaStrand.TOP);
 		// LOOK!! snp3 was not assessed for genotype.
 		b1.setGenotype(snp4, "T", "A", IlluminaStrand.TOP);
 		SampleBuilder b2 = new SampleBuilder("sample2");
