@@ -10,7 +10,7 @@ import java.util.Collections;
 
 /**
  *	A parser for the Entrez Gene seq_gene.md file located at <a href="ftp://ftp.ncbi.nih.gov/genomes/H_sapiens/mapview/seq_gene.md.gz">ftp://ftp.ncbi.nih.gov/genomes/H_sapiens/mapview/seq_gene.md.gz</a>.
- *	<p>An abbreviated example is shown below:</p>
+ *	<p>An example is shown below:</p>
  *	<p><tt>
  *	#tax_id chromosome      chr_start       chr_stop        chr_orient      contig ctg_start        ctg_stop        ctg_orient      feature_name    feature_id     feature_type     group_label     transcript      evidence_code<br/>
  *	9606    1       716     2038    +       NW_001838563.2  3842    5164    -      LOC100131754     GeneID:100131754        GENE    HuRef-Primary Assembly  -      <br/>

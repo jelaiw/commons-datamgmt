@@ -10,6 +10,14 @@ import java.util.Collections;
 
 /**
  *	A parser for the Entrez Gene gene_info file located at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz">ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz</a>.
+ *	<p>An example is shown below:</p>
+ *	<p><tt>
+ *	#Format: tax_id GeneID Symbol LocusTag Synonyms dbXrefs chromosome map_location description type_of_gene Symbol_from_nomenclature_authority Full_name_from_nomenclature_authority Nomenclature_status Other_designations Modification_date (tab is used as a separator, pound sign - start of a comment)<br/>
+ *	9606    1       A1BG    -       A1B|ABG|DKFZp686F0970|GAB|HYST2477      HGNC:5|MIM:138670|Ensembl:ENSG00000121410|HPRD:00726    19      19q13.4 alpha-1-B glycoprotein  protein-coding  A1BG    alpha-1-B glycoprotein  O       alpha-1B-glycoprotein   20101029<br/>
+ *	9606    2       A2M     FWP007  CPAMD5|DKFZp779B086|S863-7      HGNC:7|MIM:103950|Ensembl:ENSG00000175899|HPRD:00072    12      12p13.31        alpha-2-macroglobulin   protein-coding  A2M     alpha-2-macroglobulin   O       C3 and PZP-like alpha-2-macroglobulin domain-containing protein 5|alpha-2-M     20101029<br/>
+ *	...<br/>
+ *	9606    100526648       MIR1273E        -       hsa-mir-1273e   miRBase:MI0016059       -       -       microRNA mir-1273e      miscRNA -       -       -      -20101030<br/>
+ *	</tt></p>
  *	<p>The gene_info file format is described at <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/README">ftp://ftp.ncbi.nih.gov/gene/DATA/README</a>. A locally cached version is <a href="doc-files/README">available here</a>. This parser should also work for the species-specific extractions of gene_info available at, for example, <a href="ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/">ftp://ftp.ncbi.nih.gov/gene/DATA/GENE_INFO/Mammalia/</a>.</p>
  * 	
  * 	<p>The field delimiter is a tab character. The dash character, '-', indicates that a value is not available, and will be returned as null in this API. For certain fields, like synonyms and dbXrefs, multiple values are concatenated with a pipe character, '|', as the delimiter. These values will be parsed and returned as a list.</p>
