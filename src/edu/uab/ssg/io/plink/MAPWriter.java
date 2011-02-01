@@ -5,7 +5,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * A writer for the PLINK MAP input file format described in <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml">the basic usage/data formats section</a> of the online documentation.
+ * A writer for the PLINK MAP input file format described in the <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml">basic usage/data formats section</a> of the online documentation.
  *
  * <p><tt>
  * chromosome (1-22, X, Y or 0 if unplaced)<br/>
@@ -25,7 +25,7 @@ import java.io.*;
  * Also see the hapmap1.map file in the PLINK tutorial <a href="http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip">example data archive</a>.
  *
  * <p>This implementation uses the tab character as the field delimiter and 
- * Unix-style line ending.</p>
+ * the Unix-style line ending.</p>
  *
  * @author Jelai Wang
  */
