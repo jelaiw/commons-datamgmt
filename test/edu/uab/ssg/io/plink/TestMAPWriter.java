@@ -24,7 +24,7 @@ public final class TestMAPWriter extends TestCase {
 	}
 
 	private String getExpectedOutput() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/plink/expected.map");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/plink/test.map");
 		StringBuilder builder = new StringBuilder();
 		int ch = -1;
 		while ((ch = in.read()) != -1) {
