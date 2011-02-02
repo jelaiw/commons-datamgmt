@@ -19,7 +19,13 @@ public final class GeneReport {
 		List<GeneInfoParser.Record> geneInfoRecords = geneInfoParser.parse(new GZIPInputStream(new FileInputStream(args[1])));
 
 		SeqGeneMdParser seqGeneMdParser = new SeqGeneMdParser();
-		List<SeqGeneMdParser.Record> seqGeneMdRecords = seqGeneMdParser.parse(new GZIPInputStream(new FileInputStream(args[2])));
+		List<SeqGeneMdParser.Record> seqGeneMdRecords = seqGeneMdParser.parse(new GZIPInputStream(new FileInputStream(args[2])), new SeqGeneMdParser.RecordFilter() {
+			public boolean acceptRecord(SeqGeneMdParser.Record record) {
+				// See NCBI Entrez Gene FAQ for further detail.
+				if ("GENE".equals(record.getFeatureType()) && "GRCh37.p2-Primary Assembly".equals(record.getGroupLabel())) return true;
+				return false;
+			}
+		});
 
 		StringBuilder builder = new StringBuilder();
 		// Header.
@@ -113,8 +119,6 @@ public final class GeneReport {
 	private static SeqGeneMdParser.Record findSeqGeneMd(String entrez, List<SeqGeneMdParser.Record> seqGeneMdRecords) {
 		for (Iterator<SeqGeneMdParser.Record> it = seqGeneMdRecords.iterator(); it.hasNext(); ) {
 			SeqGeneMdParser.Record record = it.next();
-			// See NCBI Entrez Gene FAQ for further detail.
-			if (!"GENE".equals(record.getFeatureType()) || !"GRCh37.p2-Primary Assembly".equals(record.getGroupLabel())) continue;
 			// Find record with matching Entrez Gene ID.
 			String featureID = record.getFeatureID();
 			String[] tmp = featureID.split(":");
