@@ -37,8 +37,21 @@ public final class SeqGeneMdParser {
 	 *	Parses the input stream for gene info records.
 	 */
 	public List<Record> parse(InputStream in) throws IOException {
+		return parse(in, new RecordFilter() {
+			public boolean acceptRecord(Record record) {
+				return true;
+			}
+		});
+	}
+
+	/**
+	 *	Parses the input stream for gene info records that meet the filtering criteria.
+	 */
+	public List<Record> parse(InputStream in, RecordFilter recordFilter) throws IOException {
 		if (in == null)
 			throw new NullPointerException("in");
+		if (recordFilter == null)
+			throw new NullPointerException("recordFilter");
 		List<Record> list = new ArrayList<Record>();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		String line = null;
@@ -68,10 +81,20 @@ public final class SeqGeneMdParser {
 			String evidenceCode = tmp[14];
 
 			DefaultRecord record = new DefaultRecord(line, taxID, chromosome, chrStart, chrStop, chrOrient, contig, ctgStart, ctgStop, ctgOrient, featureName, featureID, featureType, groupLabel, transcript, evidenceCode);
-			list.add(record);
+			if (recordFilter.acceptRecord(record)) list.add(record);
 		}
 		reader.close();
 		return list;
+	}
+
+	/**
+	 * 	A record filter.
+	 */
+	public interface RecordFilter {
+		/**
+		 *	Returns true if the given record meets the filter criteria.
+		 */
+		boolean acceptRecord(Record record);
 	}
 
 	/**
