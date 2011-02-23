@@ -21,7 +21,7 @@
 	</target>
 
 	<target name="compile-tests" depends="compile" description="Compiles the unit tests.">
-		<javac srcdir="${test.src.dir}" destdir="${classes.dir}" debug="true">
+		<javac srcdir="${test.src.dir}" destdir="${classes.dir}" debug="true" includeantruntime="false">
 			<classpath refid="test.compile.classpath"/>
 			<compilerarg value="-Xlint:unchecked"/>			
 		</javac>
