@@ -11,6 +11,9 @@ import java.io.*;
 public final class VCFParser {
 	private static final String DELIMITER = "\t";
 	private static final String MISSING_VALUE = ".";
+	private static final String GENOTYPE_FIELD_DELIMITER = ":";
+	private static final char PHASED_GENOTYPE_SEPARATOR = '|';
+	private static final char UNPHASED_GENOTYPE_SEPARATOR = '/';
 
 	/**
 	 * Constructs the parser.
@@ -100,6 +103,10 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 		String getID();
 		String getReferenceAllele();
 		String getAlternateAllele();
+		List<String> getSamples();
+		String getAllele1(String sample);
+		String getAllele2(String sample);
+		String getAllele(String gt);
 	}
 
 	private class ParsedVariantRecord implements VariantRecord {
@@ -107,11 +114,14 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 		private String id, chr;
 		private int pos;
 		private String ref, alt;
+		private List<String> samples;
+		private Map<String, String> sample2genotype = new LinkedHashMap<String, String>();
 
 		private ParsedVariantRecord(String line, List<String> samples) {
 			if (line == null)
 				throw new NullPointerException("line");
 			this.line = line;
+			this.samples = samples; // LOOK!!
 
 			String[] tokens = line.split(DELIMITER, -1);
 			if (tokens.length != (samples.size() + 9))
@@ -121,6 +131,11 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 			this.id = MISSING_VALUE.equals(tokens[2]) ? null : tokens[2];
 			this.ref = tokens[3];
 			this.alt = tokens[4];
+
+			for (int i = 0; i < samples.size(); i++) {
+				String sample = samples.get(i);
+				sample2genotype.put(sample, tokens[i + 9]);
+			}
 		}
 
 		public String getChromosome() { return chr; }
@@ -128,6 +143,45 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 		public String getID() { return id; }
 		public String getReferenceAllele() { return ref; }
 		public String getAlternateAllele() { return alt; }
+		public List<String> getSamples() { return samples; } // LOOK!!
+
+		public String getAllele1(String sample) {
+			if (sample == null)
+				throw new NullPointerException("sample");
+			if (!sample2genotype.containsKey(sample))
+				throw new IllegalArgumentException(sample);
+			String genotypeField = sample2genotype.get(sample);
+			String[] tmp = genotypeField.split(GENOTYPE_FIELD_DELIMITER, -1);
+			// Check tmp.length against expected format.
+			String gt = tmp[0];
+			if (gt.length() != 3 || (gt.charAt(1) != UNPHASED_GENOTYPE_SEPARATOR && gt.charAt(1) != PHASED_GENOTYPE_SEPARATOR))
+				throw new RuntimeException(genotypeField); // Bad format.
+			return String.valueOf(gt.charAt(0));
+		}
+
+		public String getAllele2(String sample) {
+			if (sample == null)
+				throw new NullPointerException("sample");
+			if (!sample2genotype.containsKey(sample))
+				throw new IllegalArgumentException(sample);
+			String genotypeField = sample2genotype.get(sample);
+			String[] tmp = genotypeField.split(GENOTYPE_FIELD_DELIMITER, -1);
+			// Check tmp.length against expected format.
+			String gt = tmp[0];
+			if (gt.length() != 3 || (gt.charAt(1) != UNPHASED_GENOTYPE_SEPARATOR && gt.charAt(1) != PHASED_GENOTYPE_SEPARATOR))
+				throw new RuntimeException(genotypeField); // Bad format.
+			return String.valueOf(gt.charAt(2));
+		}
+
+		public String getAllele(String gt) {
+			if (gt == null)
+				throw new NullPointerException("gt");
+			if ("0".equals(gt))
+				return getReferenceAllele();
+			else if ("1".equals(gt))
+				return getAlternateAllele();
+			return null;
+		}
 
 		public String toString() { return line; }
 	}

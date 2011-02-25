@@ -3,6 +3,7 @@ package edu.uab.ssg.io.the1000genomes;
 import junit.framework.TestCase;
 import junit.framework.Assert;
 import java.io.*;
+import java.util.List;
 
 /**
  * @author Jelai Wang
@@ -51,6 +52,12 @@ public final class TestVCFParser extends TestCase {
 		VCFParser parser = new VCFParser();
 		TestHelper helper = new TestHelper() {
 			public void handleParsedRecord(VCFParser.VariantRecord record) {
+				// Check sequence of samples.
+				List<String> samples = record.getSamples();
+				Assert.assertEquals(3, samples.size());
+				Assert.assertEquals("NA00001", samples.get(0));
+				Assert.assertEquals("NA00002", samples.get(1));
+				Assert.assertEquals("NA00003", samples.get(2));
 				// Spot check specific records.
 				if (numOfParsedRecords == 0) { // In dbSNP.
 					Assert.assertEquals("20", record.getChromosome());
@@ -58,6 +65,14 @@ public final class TestVCFParser extends TestCase {
 					Assert.assertEquals("rs6054257", record.getID());
 					Assert.assertEquals("G", record.getReferenceAllele());
 					Assert.assertEquals("A", record.getAlternateAllele());
+					Assert.assertEquals("0", record.getAllele1("NA00001"));
+					Assert.assertEquals("0", record.getAllele2("NA00001"));
+					Assert.assertEquals("1", record.getAllele1("NA00002"));
+					Assert.assertEquals("0", record.getAllele2("NA00002"));
+					Assert.assertEquals("1", record.getAllele1("NA00003"));
+					Assert.assertEquals("1", record.getAllele2("NA00003"));
+					Assert.assertEquals(record.getReferenceAllele(), record.getAllele("0"));
+					Assert.assertEquals(record.getAlternateAllele(), record.getAllele("1"));
 				}
 				else if (numOfParsedRecords == 1) { // Not in dbSNP.
 					Assert.assertEquals("20", record.getChromosome());
@@ -65,6 +80,12 @@ public final class TestVCFParser extends TestCase {
 					Assert.assertNull(record.getID());
 					Assert.assertEquals("T", record.getReferenceAllele());
 					Assert.assertEquals("A", record.getAlternateAllele());
+					Assert.assertEquals("0", record.getAllele1("NA00001"));
+					Assert.assertEquals("0", record.getAllele2("NA00001"));
+					Assert.assertEquals("0", record.getAllele1("NA00002"));
+					Assert.assertEquals("1", record.getAllele2("NA00002"));
+					Assert.assertEquals("0", record.getAllele1("NA00003"));
+					Assert.assertEquals("0", record.getAllele2("NA00003"));
 				}
 				super.handleParsedRecord(record); // Should increment counter.
 			}
