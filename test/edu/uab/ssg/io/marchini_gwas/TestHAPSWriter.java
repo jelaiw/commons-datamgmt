@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.hapgen;
+package edu.uab.ssg.io.marchini_gwas;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -64,7 +64,7 @@ public final class TestHAPSWriter extends TestCase {
 	}
 
 	private String getExpectedOutput() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/hapgen/expected.haps");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/marchini_gwas/expected.haps");
 		StringBuilder builder = new StringBuilder();
 		int ch = -1;
 		while ((ch = in.read()) != -1) {

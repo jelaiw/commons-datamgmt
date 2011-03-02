@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.hapgen;
+package edu.uab.ssg.io.marchini_gwas;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -51,7 +51,7 @@ public final class TestReferenceSampleLegend extends TestCase {
 	}
 
 	private String getExpectedOutput() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/hapgen/reference_sample.leg");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/marchini_gwas/reference_sample.leg");
 		StringBuilder builder = new StringBuilder();
 		int ch = -1;
 		while ((ch = in.read()) != -1) {

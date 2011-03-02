@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.hapgen;
+package edu.uab.ssg.io.marchini_gwas;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -51,7 +51,7 @@ public final class TestMinorAlleleLegend extends TestCase {
 	}
 
 	private String getExpectedOutput() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/hapgen/minor_allele.leg");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/marchini_gwas/minor_allele.leg");
 		StringBuilder builder = new StringBuilder();
 		int ch = -1;
 		while ((ch = in.read()) != -1) {

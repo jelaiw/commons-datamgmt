@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.hapgen;
+package edu.uab.ssg.io.marchini_gwas;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -12,7 +12,7 @@ import edu.uab.ssg.model.snp.*;
 
 public final class TestLegendFile extends TestCase {
 	public void testSmallExample() throws IOException {
-		Legend legend = new LegendFile(getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/hapgen/minor_allele.leg"));
+		Legend legend = new LegendFile(getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/marchini_gwas/minor_allele.leg"));
 		List<SNP> snps = legend.getSNPs();
 		Assert.assertEquals(3, snps.size());
 		SNP snp1 = snps.get(0);
@@ -31,7 +31,7 @@ public final class TestLegendFile extends TestCase {
 	}
 
 	private String getExpectedOutput() throws IOException {
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/hapgen/minor_allele.leg");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/marchini_gwas/minor_allele.leg");
 		StringBuilder builder = new StringBuilder();
 		int ch = -1;
 		while ((ch = in.read()) != -1) {

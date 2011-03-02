@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.hapgen;
+package edu.uab.ssg.io.marchini_gwas;
 
 import edu.uab.ssg.model.snp.*;
 import java.util.*;
