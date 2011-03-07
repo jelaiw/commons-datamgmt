@@ -1,0 +1,10 @@
+585	chr1	10433	10433	rs56289060	0	+	-	-	-/C	genomic	insertion	unknown	0	0	near-gene-5	between	1
+585	chr1	10491	10492	rs55998931	0	+	C	C	C/T	genomic	single	unknown	0	0	near-gene-5	exact	1
+585	chr1	10518	10519	rs62636508	0	+	G	G	C/G	genomic	single	unknown	0	0	near-gene-5	exact	1
+585	chr1	10582	10583	rs58108140	0	+	G	G	A/G	genomic	single	unknown	0	0	near-gene-5	exact	1
+585	chr1	10827	10828	rs10218492	0	+	G	G	A/G	genomic	single	by-cluster	0	0	near-gene-5	exact	1
+1037	chrY	59362289	59362290	rs80050035	0	+	C	C	C/G	genomic	single	unknown	0	0	unknown	exact	3
+1037	chrY	59362316	59362317	rs7341970	0	+	C	C	C/T	genomic	single	unknown	0	0	unknown	exact	3
+1037	chrY	59362316	59362317	rs74957741	0	-	C	C	A/G	genomic	single	unknown	0	0	unknown	exact	3
+1037	chrY	59362526	59362527	rs12353930	0	+	C	C	C/G	genomic	single	unknown	0	0	unknown	exact	3
+1037	chrY	59362673	59362674	rs56053134	0	+	G	G	A/G	genomic	single	unknown	0	0	unknown	exact	3
