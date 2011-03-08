@@ -10,7 +10,7 @@ import edu.uab.ssg.model.snp.*;
  * @author Jelai Wang
  */
 
-public final class TestGenotypeFileWriter extends TestCase {
+public final class TestGENSWriter extends TestCase {
 	public void testSmallPopulation() throws IOException {
 		SNP snp1 = new DefaultSNP("snp1", "chr5", 1000); // Has minor allele.
 		SNP snp2 = new DefaultSNP("snp2", "chr10", 5000); // Bi-allelic, no minor allele.
@@ -46,7 +46,7 @@ public final class TestGenotypeFileWriter extends TestCase {
 		samples.add(b3.getInstance());
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenotypeFileWriter writer = new GenotypeFileWriter(samples, out);
+		GENSWriter writer = new GENSWriter(samples, out);
 		writer.write(snps);
 		try {
 			writer.write(snp4);

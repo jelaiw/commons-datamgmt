@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author Jelai Wang
  */
-public final class GenotypeFileWriter {
+public final class GENSWriter {
 	private static final char DELIMITER = ' ';
 	private static final char EOL = '\n';
 
@@ -19,7 +19,7 @@ public final class GenotypeFileWriter {
 	/**
 	 * Constructs the writer.
 	 */
-	public GenotypeFileWriter(List<Sample> samples, OutputStream out) {
+	public GENSWriter(List<Sample> samples, OutputStream out) {
 		if (samples == null)
 			throw new NullPointerException("samples");
 		if (out == null)
