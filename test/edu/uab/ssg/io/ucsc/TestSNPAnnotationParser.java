@@ -8,21 +8,21 @@ import java.io.*;
  * @author Jelai Wang
  */
 
-public final class TestSNPAnnotationTableParser extends TestCase {
+public final class TestSNPAnnotationParser extends TestCase {
 	public void testExampleFile() throws IOException {
 		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/ucsc/test.txt");
-		SNPAnnotationTableParser parser = new SNPAnnotationTableParser();
+		SNPAnnotationParser parser = new SNPAnnotationParser();
 		TestHelper helper = new TestHelper();
 		parser.parse(in, helper);
 		Assert.assertEquals(10, helper.getNumberOfParsedRecords());
 		Assert.assertEquals(0, helper.getNumberOfBadRecords());
 	}
 
-	private static final class TestHelper implements SNPAnnotationTableParser.RecordListener {
+	private static final class TestHelper implements SNPAnnotationParser.RecordListener {
 		private int numOfParsedRecords = 0;
 		private int numOfBadRecords = 0;
 
-		public void handleParsedRecord(SNPAnnotationTableParser.SNPRecord record) {
+		public void handleParsedRecord(SNPAnnotationParser.SNPRecord record) {
 			// Spot check specific records.
 			if (numOfParsedRecords == 0) { // First record.
 				Assert.assertEquals("chr1", record.getChrom());

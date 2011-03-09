@@ -8,13 +8,13 @@ import java.io.*;
  *
  * @author Jelai Wang
  */
-public final class SNPAnnotationTableParser {
+public final class SNPAnnotationParser {
 	private static final String DELIMITER = "\t";
 
 	/**
 	 * Constructs the parser.
 	 */
-	public SNPAnnotationTableParser() {
+	public SNPAnnotationParser() {
 	}
 	
 	/**
