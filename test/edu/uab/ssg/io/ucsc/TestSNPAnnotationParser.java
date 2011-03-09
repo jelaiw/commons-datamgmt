@@ -31,6 +31,11 @@ public final class TestSNPAnnotationParser extends TestCase {
 				Assert.assertEquals("rs56289060", record.getName());
 				Assert.assertEquals("+", record.getStrand());
 				Assert.assertEquals("-/C", record.getObserved());
+				Assert.assertEquals("genomic", record.getMolType());
+				Assert.assertEquals("insertion", record.getSNPClass());
+				Assert.assertEquals("unknown", record.getValid());
+				Assert.assertEquals("near-gene-5", record.getFunc());
+				Assert.assertEquals("between", record.getLocType());
 			}
 			else if (numOfParsedRecords == 9) { // Last record.
 				Assert.assertEquals("chrY", record.getChrom());
@@ -39,6 +44,11 @@ public final class TestSNPAnnotationParser extends TestCase {
 				Assert.assertEquals("rs56053134", record.getName());
 				Assert.assertEquals("+", record.getStrand());
 				Assert.assertEquals("A/G", record.getObserved());
+				Assert.assertEquals("genomic", record.getMolType());
+				Assert.assertEquals("single", record.getSNPClass());
+				Assert.assertEquals("unknown", record.getValid());
+				Assert.assertEquals("unknown", record.getFunc());
+				Assert.assertEquals("exact", record.getLocType());
 			}
 			// Increment total number of handled records.
 			numOfParsedRecords++;

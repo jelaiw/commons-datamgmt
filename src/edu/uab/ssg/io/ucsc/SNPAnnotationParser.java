@@ -72,6 +72,11 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 		String getName();
 		String getStrand();
 		String getObserved();
+		String getMolType();
+		String getSNPClass();
+		String getValid();
+		String getFunc();
+		String getLocType();
 	}
 
 	private class ParsedSNPRecord implements SNPRecord {
@@ -80,6 +85,7 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 		private int chromStart, chromEnd;
 		private String name;
 		private String strand, observed;
+		private String molType, snpClass, valid, func, locType;
 
 		private ParsedSNPRecord(String line) {
 			if (line == null)
@@ -100,6 +106,14 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 			// Skip refNCBI.
 			// Skip refUCSC.
 			this.observed = tokens[9];
+			this.molType = tokens[10];
+			this.snpClass = tokens[11];
+			this.valid = tokens[12];
+			// Skip avHet.
+			// Skip avHetSE.
+			this.func = tokens[15];
+			this.locType = tokens[16];
+			// Skip weight.
 		}
 
 		public String getChrom() { return chrom; }
@@ -108,6 +122,11 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 		public String getName() { return name; }
 		public String getStrand() { return strand; }
 		public String getObserved() { return observed; }
+		public String getMolType() { return molType; }
+		public String getSNPClass() { return snpClass; }
+		public String getValid() { return valid; }
+		public String getFunc() { return func; }
+		public String getLocType() { return locType; }
 
 		public String toString() { return line; }
 	}
