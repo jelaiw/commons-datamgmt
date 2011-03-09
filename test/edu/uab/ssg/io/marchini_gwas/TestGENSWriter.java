@@ -17,11 +17,6 @@ public final class TestGENSWriter extends TestCase {
 		SNP snp3 = new DefaultSNP("snp3", "chr5", 3000); // Monomorphic.
 		SNP snp4 = new DefaultSNP("snp4", "chr5", 4000); // Tri-allelic.
 		SNP snp5 = new DefaultSNP("snp5", "chr10", 2000); // Has no call.
-		List<SNP> snps = new ArrayList<SNP>();
-		snps.add(snp1);
-		snps.add(snp2);
-		snps.add(snp3);
-		snps.add(snp5);
 
 		SampleBuilder b1 = new SampleBuilder("sample1");
 		b1.setGenotype(snp1, "A", "A", IlluminaStrand.TOP);
@@ -47,7 +42,9 @@ public final class TestGENSWriter extends TestCase {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GENSWriter writer = new GENSWriter(samples, out);
-		writer.write(snps);
+		writer.write(snp1);
+		writer.write(snp2);
+		writer.write(snp3);
 		try {
 			writer.write(snp4);
 			Assert.fail();
@@ -55,6 +52,7 @@ public final class TestGENSWriter extends TestCase {
 		catch (IllegalArgumentException e) {
 			Assert.assertTrue(true);
 		}
+		writer.write(snp5);
 		writer.close();
 		Assert.assertEquals(getExpectedOutput(), out.toString());
 	}

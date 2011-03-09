@@ -1,4 +1,4 @@
-chr10 snp5 2000 G C 0 1 0 1 0 0 0 0 0
-chr10 snp2 5000 G A 0 0 1 0 1 0 1 0 0
 chr5 snp1 1000 A T 1 0 0 0 1 0 0 1 0
+chr10 snp2 5000 G A 0 0 1 0 1 0 1 0 0
 chr5 snp3 3000 C null 1 0 0 1 0 0 1 0 0
+chr10 snp5 2000 G C 0 1 0 1 0 0 0 0 0

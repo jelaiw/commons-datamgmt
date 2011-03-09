@@ -36,43 +36,8 @@ public final class GENSWriter {
 		writer.close();
 	}
 
-	public void write(List<SNP> snps) throws IOException {
-		Collections.sort(snps, new Comparator<SNP>() {
-			public int compare(SNP snp1, SNP snp2) {
-				String chr1 = snp1.getChromosome();
-				String chr2 = snp2.getChromosome();
-				if (chr1.equals(chr2)) {
-					int pos1 = snp1.getPosition();
-					int pos2 = snp2.getPosition();
-					if (pos1 < pos2) {
-						return -1;
-					}
-					else if (pos1 > pos2) {
-						return 1;
-					}
-					else {
-						return 0;
-					}
-				}
-				else {
-					return chr1.compareTo(chr2); // LOOK!!
-				}
-			}
-
-			public boolean equals(Object o) {
-				if (o == this) {
-					return true;
-				}
-				return false;
-			}
-		});
-		for (Iterator<SNP> it = snps.iterator(); it.hasNext(); ) {
-			write(it.next());
-		}
-	}
-
 	/**
-	 * Writes the formatted record for the given SNP to the output stream.
+	 * Writes a formatted record for the given SNP to the output stream.
 	 */
 	public void write(SNP snp) throws IOException {
 		if (snp == null)
