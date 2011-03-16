@@ -7,6 +7,8 @@ import java.util.*;
 /**
  * A writer for the genotype file format described at <a href="http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html">http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html</a>.
  *
+ * <p>The field delimiter is the space character and the line separator is the newline character.</p>
+ *
  * @author Jelai Wang
  */
 public final class GENSWriter {
@@ -38,6 +40,7 @@ public final class GENSWriter {
 
 	/**
 	 * Writes a formatted record for the given SNP to the output stream.
+	 * The genotype probabilities for each sample will be written to the output stream in the same sequence as that of the sample list passed to the constructor.
 	 */
 	public void write(SNP snp) throws IOException {
 		if (snp == null)

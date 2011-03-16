@@ -6,6 +6,18 @@ import java.io.*;
 /**
  * A parser for the genotype file format described at <a href="http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html">http://www.stats.ox.ac.uk/~marchini/software/gwas/file_format.html</a>.
  *
+ * <p>A representative example of this format is excerpted below:</p>
+ * <p><tt>
+ * --- 10-94443589 94443589 C T 1 0 0 1 0 0 1 0 0<br/>
+ * --- 10-94443824 94443824 C T 1 0 0 0.995 0.005 0 1 0 0<br/>
+ * --- 10-94443876 94443876 A C 1 0 0 0.986 0.014 0 0 1 0<br/>
+ * ...<br/>
+ * --- 10-98828817 98828817 C T 0.978 0.022 0 0.966 0.034 0 0.999 0.001 0<br/>
+ * --- 10-98829008 98829008 C T 0.992 0.008 0 0.980 0.019 0 0.999 0.001 0<br/>
+ * </tt></p>
+ *
+ * The field delimiter is the space character.
+ *
  * @author Jelai Wang
  */
 public final class GENSParser {
@@ -73,20 +85,60 @@ public final class GENSParser {
 		 */
 		int getPosition();
 
+		/**
+		 * Returns allele A.
+		 */
 		String getAlleleA();
+
+		/**
+		 * Returns allele B.
+		 */
 		String getAlleleB();
+	
+		/**
+		 * Returns the list of genotype probabilities corresponding to the sequence of samples in the sample file.
+		 */
 		List<GenotypeProbabilities> getGenotypeProbabilities();
 	}
 
+	/**
+	 * A set of genotype probabilities for a sample.
+	 */
 	public interface GenotypeProbabilities {
+		/**
+		 * Returns the probability of genotype AA.
+		 */
 		double getProbAA();
+
+		/**
+		 * Returns the probability of genotype AB.
+		 */
 		double getProbAB();
+
+		/**
+		 * Returns the probability of genotype BB.
+		 */
 		double getProbBB();
+
+		/**
+		 * Returns the genotype with probability greater than or equal to the user-specified threshold or null if none of the genotypes meet the probability threshold.
+		 * @param threshold A double floating point value between 0 and 1.
+		 */
 		Genotype getGenotype(double threshold);
 	}
 
+	/**
+	 * A sample genotype.
+	 */
 	public interface Genotype {
+		/**
+		 * Returns the first allele.
+		 */
 		String getAllele1();
+
+		/**
+		 * Returns the second allele.
+		 */
 		String getAllele2();
 	}
 
