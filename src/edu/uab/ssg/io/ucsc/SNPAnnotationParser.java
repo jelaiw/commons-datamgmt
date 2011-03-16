@@ -4,7 +4,22 @@ import java.util.*;
 import java.io.*;
 
 /**
- * A parser for the UCSC SNP annotation table format, see an example at <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.txt.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.txt.gz</a>, the SQL data definition for this example table is available at <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.sql">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.sql</a>.
+ * A parser for the UCSC SNP annotation format.
+ *
+ * <p>See example at <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.txt.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.txt.gz</a>. An excerpt is below:</p>
+ *
+ * <p><tt>
+ * 585	chr1	10433	10433	rs56289060	0	+	-	-	-/C	genomic	insertion	unknown	0	0	near-gene-5	between	1<br/>
+ * 585	chr1	10491	10492	rs55998931	0	+	C	C	C/T	genomic	single	unknown	0	0	near-gene-5	exact	1<br/>
+ * 585	chr1	10518	10519	rs62636508	0	+	G	G	C/G	genomic	single	unknown	0	0	near-gene-5	exact	1<br/>
+ * ...<br/>
+ * 1037	chrY	59362526	59362527	rs12353930	0	+	C	C	C/G	genomic	single	unknown	0	0	unknown	exact	3<br/>
+ * 1037	chrY	59362673	59362674	rs56053134	0	+	G	G	A/G	genomic	single	unknown	0	0	unknown	exact	3<br/>
+ * </tt></p>
+ *
+ * <p>The SQL data definition is available at <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.sql">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/snp131.sql</a>.</p>
+ *
+ * The field delimiter is the tab character.
  *
  * @author Jelai Wang
  */
@@ -46,12 +61,12 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 	}
 
 	/**
-	 * A listener for handling parsed SNP records and problems due to
+	 * A listener for handling parsed SNP annotation records and problems due to
 	 * bad record formatting.
 	 */
 	public interface RecordListener {
 		/**
-		 * Handles successfully parsed SNP record.
+		 * Handles successfully parsed SNP annotation record.
 		 */
 		void handleParsedRecord(SNPRecord record);
 
@@ -64,18 +79,62 @@ public void parse(InputStream in, RecordListener listener) throws IOException {
 
 	/**
 	 * A SNP annotation record.
+	 * See SQL data definition for further detail, especially on the enums.
 	 */
 	public interface SNPRecord {
+		/**
+		 * Returns the chromosome.
+		 */
 		String getChrom();
+
+		/**
+		 * Returns the start position on the chromosome.
+		 */
 		int getChromStart();
+
+		/**
+		 * Returns the end position on the chromosome.
+		 */
 		int getChromEnd();
+
+		/**
+		 * Returns the rsid.
+		 */
 		String getName();
+
+		/**
+		 * Returns the strand for the observed alleles.
+		 */
 		String getStrand();
+
+		/**
+		 * Returns the observed alleles.
+		 */
 		String getObserved();
+
+		/**
+		 * Returns the molecule type (unknown, genomic, or cDNA).
+		 */
 		String getMolType();
+
+		/**
+		 * Returns the class (single, in-del, ..., insertion, deletion).
+		 */
 		String getSNPClass();
+
+		/**
+		 * Returns the validation strategy (by-cluster, ..., by-1000genomes).
+		 */
 		String getValid();
+
+		/**
+		 * Returns the functional annotation (coding-synon, intron, ..., splice-3, splice-5).
+		 */
 		String getFunc();
+
+		/**
+		 * Returns the "loc" (maybe location or locus) type (range, exact, between, ..., rangeSubstitution, rangeDeletion).
+		 */
 		String getLocType();
 	}
 
