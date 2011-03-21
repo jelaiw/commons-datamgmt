@@ -23,6 +23,8 @@ public final class TestVCFParser extends TestCase {
 					Assert.assertNull(record.getID());
 					Assert.assertEquals("T", record.getReferenceAllele());
 					Assert.assertEquals("G", record.getAlternateAllele());
+					Assert.assertEquals(record.getReferenceAllele(), record.getAllele("0"));
+					Assert.assertEquals(record.getAlternateAllele(), record.getAllele("1"));
 				}
 				else if (numOfParsedRecords == 1) {
 					Assert.assertEquals("10", record.getChromosome());
@@ -30,6 +32,8 @@ public final class TestVCFParser extends TestCase {
 					Assert.assertEquals("rs115033199", record.getID());
 					Assert.assertEquals("G", record.getReferenceAllele());
 					Assert.assertEquals("C", record.getAlternateAllele());
+					Assert.assertEquals(record.getReferenceAllele(), record.getAllele("0"));
+					Assert.assertEquals(record.getAlternateAllele(), record.getAllele("1"));
 				}
 				else if (numOfParsedRecords == 10) {
 					Assert.assertEquals("10", record.getChromosome());
@@ -37,6 +41,8 @@ public final class TestVCFParser extends TestCase {
 					Assert.assertNull(record.getID());
 					Assert.assertEquals("T", record.getReferenceAllele());
 					Assert.assertEquals("G", record.getAlternateAllele());
+					Assert.assertEquals(record.getReferenceAllele(), record.getAllele("0"));
+					Assert.assertEquals(record.getAlternateAllele(), record.getAllele("1"));
 				}
 				super.handleParsedRecord(record); // Should increment counter.
 			}
@@ -86,6 +92,8 @@ public final class TestVCFParser extends TestCase {
 					Assert.assertEquals("1", record.getAllele2("NA00002"));
 					Assert.assertEquals("0", record.getAllele1("NA00003"));
 					Assert.assertEquals("0", record.getAllele2("NA00003"));
+					Assert.assertEquals(record.getReferenceAllele(), record.getAllele("0"));
+					Assert.assertEquals(record.getAlternateAllele(), record.getAllele("1"));
 				}
 				super.handleParsedRecord(record); // Should increment counter.
 			}
