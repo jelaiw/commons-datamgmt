@@ -5,10 +5,27 @@ import java.util.*;
 import java.io.*;
 import java.util.zip.GZIPInputStream;
 
+/**
+ *	This gene report parses NCBI-formatted <tt>gene_info</tt> and <tt>seq_gene.md</tt> files and outputs a tab-delimited text table containing annotation records for each user-supplied gene of interest.
+ *
+ *	<p>The required command-line parameters are:</p>
+ *	<ol>
+ *		<li>a text file of user-supplied gene names, one name per line</li>
+ *		<li>a gene info file, gzipped</li>
+ *		<li>a seq_gene.md file, gzipped</li>
+ *	</ol>
+ *
+ *	<p>The <tt>gene_info</tt> file is parsed, in both the symbol and synonym fields, for the user-supplied gene names. If a match is found, the Entrez Gene ID is used to cross-reference the mapping data in the <tt>seq_gene.md</tt> file. Specifically, the <tt>seq_gene.md</tt> file is parsed for records of feature type <i>GENE</i> and group label <i>GRCh37.p2-Primary Assembly</i> and the chromosome start and end positions for the gene are retrieved as described in the <a href="http://www.ncbi.nlm.nih.gov/bookshelf/br.fcgi?book=helpgene&part=genefaq">Entrez Gene FAQ</a>. Note that the position data in the <tt>seq_gene.md</tt> file is one-based (see FAQ).</p>
+ *
+ *	@author Jelai Wang
+ */
 public final class GeneReport {
 	private static final String DELIMITER = "\t";
 	private static final String EOL = "\n";
 	private static final String NOT_AVAILABLE = "";
+
+	private GeneReport() {
+	}
 
 	public static void main(String[] args) throws IOException {
 		Set<String> userSuppliedNames = parseUserSuppliedNames(new FileInputStream(args[0]));
