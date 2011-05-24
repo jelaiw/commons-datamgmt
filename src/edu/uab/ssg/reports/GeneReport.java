@@ -128,6 +128,7 @@ public final class GeneReport {
 		return set;
 	}
 
+	// Returns the first record that has the given gene name in either the symbol or synonyms field.
 	private static GeneInfoParser.Record findGeneInfo(String geneName, List<GeneInfoParser.Record> geneInfoRecords) {
 		for (Iterator<GeneInfoParser.Record> it = geneInfoRecords.iterator(); it.hasNext(); ) {
 			GeneInfoParser.Record record = it.next();
