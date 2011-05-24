@@ -11,8 +11,10 @@ import java.util.zip.GZIPInputStream;
  *	<p>The required command-line parameters are:</p>
  *	<ol>
  *		<li>a text file of user-supplied gene names, one name per line</li>
- *		<li>a gene info file, gzipped</li>
- *		<li>a seq_gene.md file, gzipped</li>
+ *		<li>a <tt>gene_info</tt> file, gzipped</li>
+ *		<li>a <tt>seq_gene.md</tt> file, gzipped</li>
+ *		<li>feature type, usually GENE, look at the <tt>feature_type</tt> field in the <tt>seq_gene.md</tt> file for valid values</li>
+ *		<li>assembly name, usually something like reference or GRCh37.p2-Primary Assembly, look at the <tt>group_label</tt> field in the <tt>seq_gene.md</tt> file for valid values</li>
  *	</ol>
  *
  *	<p>The <tt>gene_info</tt> file is parsed, in both the symbol and synonym fields, for the user-supplied gene names. If a match is found, the Entrez Gene ID is used to cross-reference the mapping data in the <tt>seq_gene.md</tt> file. Specifically, the <tt>seq_gene.md</tt> file is parsed for records of feature type <i>GENE</i> and group label <i>GRCh37.p2-Primary Assembly</i> and the chromosome start and end positions for the gene are retrieved as described in the <a href="http://www.ncbi.nlm.nih.gov/bookshelf/br.fcgi?book=helpgene&part=genefaq">Entrez Gene FAQ</a>. Note that the position data in the <tt>seq_gene.md</tt> file is one-based (see FAQ).</p>
@@ -28,18 +30,24 @@ public final class GeneReport {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Set<String> userSuppliedNames = parseUserSuppliedNames(new FileInputStream(args[0]));
+		File geneNamesFile = new File(args[0]);
+		File geneInfoFile = new File(args[1]);
+		File seqGeneMdFile = new File(args[2]);
+		final String featureType = args[3];
+		final String groupLabel = args[4];
+
+		Set<String> userSuppliedNames = parseUserSuppliedNames(new FileInputStream(geneNamesFile));
 		System.out.println("Found " + userSuppliedNames.size() + " gene names.");
 		System.out.println(userSuppliedNames);
 
 		GeneInfoParser geneInfoParser = new GeneInfoParser();
-		List<GeneInfoParser.Record> geneInfoRecords = geneInfoParser.parse(new GZIPInputStream(new FileInputStream(args[1])));
+		List<GeneInfoParser.Record> geneInfoRecords = geneInfoParser.parse(new GZIPInputStream(new FileInputStream(geneInfoFile)));
 
 		SeqGeneMdParser seqGeneMdParser = new SeqGeneMdParser();
-		List<SeqGeneMdParser.Record> seqGeneMdRecords = seqGeneMdParser.parse(new GZIPInputStream(new FileInputStream(args[2])), new SeqGeneMdParser.RecordFilter() {
+		List<SeqGeneMdParser.Record> seqGeneMdRecords = seqGeneMdParser.parse(new GZIPInputStream(new FileInputStream(seqGeneMdFile)), new SeqGeneMdParser.RecordFilter() {
 			public boolean acceptRecord(SeqGeneMdParser.Record record) {
 				// See NCBI Entrez Gene FAQ for further detail.
-				if ("GENE".equals(record.getFeatureType()) && "GRCh37.p2-Primary Assembly".equals(record.getGroupLabel())) return true;
+				if (featureType.equals(record.getFeatureType()) && groupLabel.equals(record.getGroupLabel())) return true;
 				return false;
 			}
 		});
