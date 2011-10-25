@@ -13,11 +13,13 @@ import java.util.zip.GZIPInputStream;
  *		<li>a text file of user-supplied gene names, one name per line</li>
  *		<li>a <tt>gene_info</tt> file, gzipped</li>
  *		<li>a <tt>seq_gene.md</tt> file, gzipped</li>
- *		<li>feature type, usually GENE, look at the <tt>feature_type</tt> field in the <tt>seq_gene.md</tt> file for valid values</li>
- *		<li>assembly name, usually something like reference or GRCh37.p2-Primary Assembly, look at the <tt>group_label</tt> field in the <tt>seq_gene.md</tt> file for valid values</li>
+ *		<li>feature type, usually <i>GENE</i>, look at the <tt>feature_type</tt> field in the <tt>seq_gene.md</tt> file for valid values</li>
+ *		<li>assembly name, usually something like <i>reference</i> or <i>GRCh37.p2-Primary Assembly</i>, look at the <tt>group_label</tt> field in the <tt>seq_gene.md</tt> file for valid values</li>
  *	</ol>
  *
- *	<p>The <tt>gene_info</tt> file is parsed, in both the symbol and synonym fields, for the user-supplied gene names. If a match is found, the Entrez Gene ID is used to cross-reference the mapping data in the <tt>seq_gene.md</tt> file. Specifically, the <tt>seq_gene.md</tt> file is parsed for records of feature type <i>GENE</i> and group label <i>GRCh37.p2-Primary Assembly</i> and the chromosome start and end positions for the gene are retrieved as described in the <a href="http://www.ncbi.nlm.nih.gov/bookshelf/br.fcgi?book=helpgene&part=genefaq">Entrez Gene FAQ</a>. Note that the position data in the <tt>seq_gene.md</tt> file is one-based (see FAQ).</p>
+ *	<p>The <tt>gene_info</tt> file is parsed, in both the symbol and synonym fields, for the user-supplied gene names. If a match is found, the Entrez Gene ID is used to cross-reference the mapping data in the <tt>seq_gene.md</tt> file. In other words, the <tt>seq_gene.md</tt> file is parsed for records of feature type, e.g. <i>GENE</i>, and group label, e.g. <i>GRCh37.p2-Primary Assembly</i>, specified as command-line arguments. The chromosome start and end positions for the gene are retrieved as described in the <a href="http://www.ncbi.nlm.nih.gov/bookshelf/br.fcgi?book=helpgene&part=genefaq">Entrez Gene FAQ</a>. Note that the position data in the <tt>seq_gene.md</tt> file is one-based (see FAQ).</p>
+ *
+ *	<p>If the output has no mapping data, that means the feature type and assembly name specified as command-line arguments don't appear together in records from <tt>seq_gene.md</tt>. This may be due to a typo, so double-check the input. Also, take care to properly quote values (especially for assembly name) that contain spaces.</p>
  *
  *	@author Jelai Wang
  */
@@ -37,8 +39,7 @@ public final class GeneReport {
 		final String groupLabel = args[4];
 
 		Set<String> userSuppliedNames = parseUserSuppliedNames(new FileInputStream(geneNamesFile));
-		System.out.println("Found " + userSuppliedNames.size() + " gene names.");
-		System.out.println(userSuppliedNames);
+		System.out.println("Read " + userSuppliedNames.size() + " user-supplied gene names.");
 
 		GeneInfoParser geneInfoParser = new GeneInfoParser();
 		List<GeneInfoParser.Record> geneInfoRecords = geneInfoParser.parse(new GZIPInputStream(new FileInputStream(geneInfoFile)));
