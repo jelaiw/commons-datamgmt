@@ -5,9 +5,38 @@ import java.util.*;
 import java.io.*;
 
 /**
+ * A parser for the PLINK PED input file format described in <a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml">the basic usage/data formats section</a> of the online documentation.
+ *
+ * The first six columns are:
+ * <p><tt>
+ * Family ID<br/>
+ * Individual ID<br/>
+ * Paternal ID<br/>
+ * Maternal ID<br/>
+ * Sex (1=male; 2=female; other=unknown)<br/>
+ * Phenotype<br/>
+ * </tt></p>
+ *
+ * Additional columns are for specifying genotypes. The test.ped file from
+ * the PLINK binary distribution is included below as an example.
+ *
+ * <p><tt>
+ * 1 1 0 0 1  1  A A  G T<br/>
+ * 2 1 0 0 1  1  A C  T G<br/>
+ * 3 1 0 0 1  1  C C  G G<br/>
+ * 4 1 0 0 1  2  A C  T T<br/>
+ * 5 1 0 0 1  2  C C  G T<br/>
+ * 6 1 0 0 1  2  C C  T T<br/>
+ * </tt></p>
+ *
+ * Also see the hapmap1.ped file in the PLINK tutorial <a href="http://pngu.mgh.harvard.edu/~purcell/plink/hapmap1.zip">example data archive</a>.
+ *
  * @author Jelai Wang
  */
 public final class PEDParser {
+	/**
+	 * The character in this file format that represents a missing value.
+	 */
 	public static final String MISSING_VALUE = "0";
 
 	/**
@@ -74,14 +103,49 @@ public final class PEDParser {
 	 * A sample record.
 	 */
 	public interface SampleRecord {
+		/**
+		 * Returns the family ID.
+		 */
 		public String getFID();
+
+		/**
+		 * Returns the individual ID.
+		 */
 		public String getIID();
+
+		/**
+		 * Returns the paternal ID.
+		 */
 		public String getPaternalID();
+
+		/**
+		 * Returns the maternal ID.
+		 */
 		public String getMaternalID();
+
+		/**
+		 * Returns the sex.
+		 */
 		public Sex getSex();
+
+		/**
+		 * Returns the phenotype.
+		 */
 		public String getPhenotype();
+
+		/**
+		 * Returns the number of genotype calls available for this sample.
+		 */
 		public int getNumberOfAvailableGenotypeCalls();
+
+		/**
+		 * Returns allele1 at the given index.
+		 */
 		public String getAllele1(int index);
+
+		/**
+		 * Returns allele2 at the given index.
+		 */
 		public String getAllele2(int index);
 	}
 
