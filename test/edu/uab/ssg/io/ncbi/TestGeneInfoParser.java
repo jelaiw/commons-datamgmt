@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.entrez;
+package edu.uab.ssg.io.ncbi;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -13,7 +13,7 @@ import java.util.zip.GZIPInputStream;
 public final class TestGeneInfoParser extends TestCase {
 	public void testExampleFile() throws IOException {
 		// This input file contains records corresponding to the 9606 tax ID (Homo sapiens) from a gene_info.gz file downloaded from the Entrez Gene FTP site on Nov 1 2010, see README_CURRENT_BUILD for details.
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/entrez/9606_subset.gene_info.gz");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/ncbi/9606_subset.gene_info.gz");
 		GeneInfoParser parser = new GeneInfoParser();
 		List<GeneInfoParser.Record> records = parser.parse(new GZIPInputStream(in));
 		Assert.assertEquals(45774, records.size());

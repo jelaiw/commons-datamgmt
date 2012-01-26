@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.entrez;
+package edu.uab.ssg.io.ncbi;
 
 import java.io.InputStream;
 import java.io.BufferedReader;

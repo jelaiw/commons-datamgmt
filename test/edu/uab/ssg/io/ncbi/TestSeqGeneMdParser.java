@@ -1,4 +1,4 @@
-package edu.uab.ssg.io.entrez;
+package edu.uab.ssg.io.ncbi;
 
 import junit.framework.TestCase;
 import junit.framework.Assert;
@@ -13,7 +13,7 @@ import java.util.zip.GZIPInputStream;
 public final class TestSeqGeneMdParser extends TestCase {
 	public void testFilter() throws IOException {
 		// See comments in testExampleFile().
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/entrez/test-seq_gene.md");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/ncbi/test-seq_gene.md");
 		SeqGeneMdParser parser = new SeqGeneMdParser();
 		List<SeqGeneMdParser.Record> records = parser.parse(in, new SeqGeneMdParser.RecordFilter() {
 			public boolean acceptRecord(SeqGeneMdParser.Record record) {
@@ -60,7 +60,7 @@ public final class TestSeqGeneMdParser extends TestCase {
 
 	public void testExampleFile() throws IOException {
 		// This input file contains hand-selected records corresponding to the 9606 tax ID (Homo sapiens) from a seq_gene.md.gz file downloaded from the Entrez Gene FTP site on Nov 30 2010, see README_CURRENT_BUILD for details.
-		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/entrez/test-seq_gene.md");
+		InputStream in = getClass().getClassLoader().getResourceAsStream("edu/uab/ssg/io/ncbi/test-seq_gene.md");
 		SeqGeneMdParser parser = new SeqGeneMdParser();
 		List<SeqGeneMdParser.Record> records = parser.parse(in);
 		Assert.assertEquals(27, records.size());

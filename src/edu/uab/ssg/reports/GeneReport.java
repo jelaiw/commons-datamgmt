@@ -1,6 +1,6 @@
 package edu.uab.ssg.reports;
 
-import edu.uab.ssg.io.entrez.*;
+import edu.uab.ssg.io.ncbi.*;
 import java.util.*;
 import java.io.*;
 import java.util.zip.GZIPInputStream;
