@@ -1,4 +1,4 @@
-package edu.uab.ssg.report;
+package edu.uab.ssg.reports;
 
 import edu.uab.ssg.io.plink.*;
 import edu.uab.ssg.model.snp.*;
