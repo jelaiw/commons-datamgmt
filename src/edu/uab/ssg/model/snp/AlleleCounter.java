@@ -3,9 +3,10 @@ package edu.uab.ssg.model.snp;
 import java.util.*;
 
 /**
- * Collects data on alleles and their counts, including the names of the 
- * observed alleles, their frequencies, the name of the minor allele 
- * (if it exists), and the number of missing values.
+ * A helper class for counting alleles and reporting their frequencies,
+ * the name of the minor allele (if it exists), the number of missing
+ * values, as well as whether the marker appears to be biallelic, 
+ * monomorphic, or from an ambiguous A/T or G/C SNP.
  *
  * @author Jelai Wang
  */
@@ -141,21 +142,53 @@ public final class AlleleCounter {
 	}
 
 	/**
+	 * Returns true if counted alleles indicate an ambiguous A/T or G/C SNP.
+	 */
+	public boolean isAmbiguous() {
+		if (isBiallelic()) {
+			Set<String> alleles = getAlleles();
+			return (alleles.contains("A") && alleles.contains("T")) || (alleles.contains("C") && alleles.contains("G"));
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if the marker is bi-allelic.
+	 */
+	public boolean isBiallelic() {
+		return getAlleles().size() == 2;
+	}
+
+	/**
+	 * Returns true if the marker is monomorphic.
+	 */
+	public boolean isMonomorphic() {
+		return getAlleles().size() == 1;
+	}
+
+	/**
 	 * Returns a string representation of this <code>AlleleCounter</code> object.
 	 */
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
+		String DELIMITER = "\t", EOL = "\n";
 		Set alleles = getAlleles();
 		for (Iterator it = alleles.iterator(); it.hasNext(); ) {
 			String allele = (String) it.next();
-			buffer.append(allele).append('\t').append(getFrequency(allele)).append('\t').append(getRelativeFrequency(allele)).append('\n');
+			buffer.append(allele).append(DELIMITER).append(getFrequency(allele)).append(DELIMITER).append(getRelativeFrequency(allele)).append(EOL);
 		}
-		buffer.append("Number of missing allele values: " + getNumberOfMissingValues()).append('\n');
-		buffer.append("Number of counted allele values: " + getNumberOfCountedValues()).append('\n');
+		buffer.append("Number of missing allele values: " + getNumberOfMissingValues()).append(EOL);
+		buffer.append("Number of counted allele values: " + getNumberOfCountedValues()).append(EOL);
 		if (existsMinorAllele())
 			buffer.append("Minor allele (MA): " + getMinorAllele());
 		else	
 			buffer.append("No minor allele.");
+		if (isAmbiguous())
+			buffer.append("This is an ambiguous SNP marker.");
+		if (isBiallelic())
+			buffer.append("This is a bi-allelic marker.");
+		if (isMonomorphic())
+			buffer.append("This is a monomorphic marker.");
 		return buffer.toString();
 	}
 }

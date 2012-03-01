@@ -54,4 +54,40 @@ public final class TestAlleleCounter extends TestCase {
 		Assert.assertEquals(1, counter.getNumberOfMissingValues());
 		Assert.assertEquals(4, counter.getNumberOfCountedValues());
 	}
+
+	public void testAmbiguous() {
+		AlleleCounter counter = new AlleleCounter();
+		// No alleles.
+		Assert.assertFalse(counter.isAmbiguous());
+		Assert.assertFalse(counter.isBiallelic());
+		Assert.assertFalse(counter.isMonomorphic());
+		// One allele.
+		counter.addAllele("A");
+		Assert.assertFalse(counter.isAmbiguous());
+		Assert.assertFalse(counter.isBiallelic());
+		Assert.assertTrue(counter.isMonomorphic());
+		// Two allele.
+		counter.addAllele("T");
+		Assert.assertTrue(counter.isAmbiguous());
+		Assert.assertTrue(counter.isBiallelic());
+		Assert.assertFalse(counter.isMonomorphic());
+	}
+
+	public void testUnambiguous() {
+		AlleleCounter counter = new AlleleCounter();
+		// No alleles.
+		Assert.assertFalse(counter.isAmbiguous());
+		Assert.assertFalse(counter.isBiallelic());
+		Assert.assertFalse(counter.isMonomorphic());
+		// One allele.
+		counter.addAllele("G");
+		Assert.assertFalse(counter.isAmbiguous());
+		Assert.assertFalse(counter.isBiallelic());
+		Assert.assertTrue(counter.isMonomorphic());
+		// Two allele.
+		counter.addAllele("A");
+		Assert.assertFalse(counter.isAmbiguous());
+		Assert.assertTrue(counter.isBiallelic());
+		Assert.assertFalse(counter.isMonomorphic());
+	}
 }
