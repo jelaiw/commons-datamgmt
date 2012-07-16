@@ -21,8 +21,8 @@ public final class StrandMatchReport {
 		List<SNP> tgtMarkers = parseMapFile(tgtMapFileName);
 		System.out.println("read " + tgtMarkers.size() + " markers from marker map file.");
 
-		Map<SNP, AlleleCounter> ref2counter = countAlleles(refMarkers, refPedFileName);
-		Map<SNP, AlleleCounter> tgt2counter = countAlleles(tgtMarkers, tgtPedFileName);
+		Map<String, AlleleCounter> ref2counter = countAlleles(refMarkers, refPedFileName);
+		Map<String, AlleleCounter> tgt2counter = countAlleles(tgtMarkers, tgtPedFileName);
 
 		// Intersection set of markers by name.
 		Map<String, SNP> refMarkerMap = new LinkedHashMap<String, SNP>();
@@ -65,8 +65,8 @@ public final class StrandMatchReport {
 			String markerName = it.next();
 			SNP refMarker = refMarkerMap.get(markerName);
 			SNP tgtMarker = tgtMarkerMap.get(markerName);
-			AlleleCounter refCounter = ref2counter.get(refMarker);
-			AlleleCounter tgtCounter = tgt2counter.get(tgtMarker);
+			AlleleCounter refCounter = ref2counter.get(refMarker.getName());
+			AlleleCounter tgtCounter = tgt2counter.get(tgtMarker.getName());
 			Set<String> refAlleles = refCounter.getAlleles();
 			Set<String> tgtAlleles = tgtCounter.getAlleles();
 
@@ -132,14 +132,15 @@ public final class StrandMatchReport {
 		return markers;
 	}
 
-	private static Map<SNP, AlleleCounter> countAlleles(final List<SNP> refMarkers, String pedFileName) throws IOException {
-		final Map<SNP, AlleleCounter> map = new LinkedHashMap<SNP, AlleleCounter>();
-		for (Iterator<SNP> it = refMarkers.iterator(); it.hasNext(); ) {
+	private static Map<String, AlleleCounter> countAlleles(final List<SNP> markers, String pedFileName) throws IOException {
+		final Map<String, AlleleCounter> map = new LinkedHashMap<String, AlleleCounter>();
+		for (Iterator<SNP> it = markers.iterator(); it.hasNext(); ) {
 			SNP snp = it.next();
-			if (map.containsKey(snp)) {
+			String snpName = snp.getName();
+			if (map.containsKey(snpName)) {
 				throw new RuntimeException(snp + " already exists.");
 			}
-			map.put(snp, new AlleleCounter());
+			map.put(snpName, new AlleleCounter());
 		}
 
 		// Parse the reference PED file for genotype calls and count alleles.
@@ -147,12 +148,12 @@ public final class StrandMatchReport {
 		pedParser.parse(new FileInputStream(pedFileName), new PEDParser.RecordListener() {
 			public void handleParsedRecord(PEDParser.SampleRecord record) {
 				int numOfCalls = record.getNumberOfAvailableGenotypeCalls();
-				if (numOfCalls != refMarkers.size()) { // Sanity check.
-					throw new RuntimeException(numOfCalls + " " + refMarkers.size());
+				if (numOfCalls != markers.size()) { // Sanity check.
+					throw new RuntimeException(numOfCalls + " " + markers.size());
 				}
 				for (int i = 0; i < numOfCalls; i++) {
-					SNP snp = refMarkers.get(i);
-					AlleleCounter counter = map.get(snp);
+					SNP snp = markers.get(i);
+					AlleleCounter counter = map.get(snp.getName());
 					counter.addAllele(record.getAllele1(i));
 					counter.addAllele(record.getAllele2(i));
 				}
