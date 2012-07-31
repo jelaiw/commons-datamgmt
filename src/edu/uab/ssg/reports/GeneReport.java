@@ -53,6 +53,18 @@ public final class GeneReport {
 			}
 		});
 
+		Map<String, List<GeneInfoParser.Record>> geneInfoMap  = new LinkedHashMap<String, List<GeneInfoParser.Record>>();
+		for (Iterator<String> it = userSuppliedNames.iterator(); it.hasNext(); ) {
+			String geneName = it.next();
+			List<GeneInfoParser.Record> _geneInfoRecords = findGeneInfo(geneName, geneInfoRecords);
+			if (_geneInfoRecords.size() == 0) {
+				System.err.println("Couldn't find gene info for " + geneName + ".");
+			}
+			else {
+				geneInfoMap.put(geneName, _geneInfoRecords);
+			}
+		}
+
 		StringBuilder builder = new StringBuilder();
 		// Header.
 		builder.append("User-supplied Gene Name");
@@ -68,34 +80,19 @@ public final class GeneReport {
 		builder.append(DELIMITER).append("Assembly");
 		builder.append(EOL);
 		// Rest of the rows.
-		for (Iterator<String> it = userSuppliedNames.iterator(); it.hasNext(); ) {
-			String geneName = it.next();
-			builder.append(geneName);
-			// Append gene info.
-			GeneInfoParser.Record geneInfoRecord = findGeneInfo(geneName, geneInfoRecords);
-			if (geneInfoRecord != null) {
-				builder.append(DELIMITER).append(geneInfoRecord.getGeneID());
-				builder.append(DELIMITER).append(geneInfoRecord.getSymbol());
-				builder.append(DELIMITER).append(geneInfoRecord.getSynonyms());
-				builder.append(DELIMITER).append(geneInfoRecord.getChromosome());
-				builder.append(DELIMITER).append(geneInfoRecord.getMapLocation());
-			}
-			else {
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-			}
-			// Append map data.
-			if (geneInfoRecord != null) {
-				SeqGeneMdParser.Record seqGeneMdRecord = findSeqGeneMd(geneInfoRecord.getGeneID(), seqGeneMdRecords);
-				if (seqGeneMdRecord != null) {
-					builder.append(DELIMITER).append(seqGeneMdRecord.getChromosome());
-					builder.append(DELIMITER).append(seqGeneMdRecord.getChrStart());
-					builder.append(DELIMITER).append(seqGeneMdRecord.getChrStop());
-					builder.append(DELIMITER).append(seqGeneMdRecord.getChrOrient());
-					builder.append(DELIMITER).append(seqGeneMdRecord.getGroupLabel());
+		for (Iterator<String> it1 = geneInfoMap.keySet().iterator(); it1.hasNext(); ) {
+			String geneName = it1.next();
+			List<GeneInfoParser.Record> _geneInfoRecords = geneInfoMap.get(geneName);
+			for (Iterator<GeneInfoParser.Record> it2 = _geneInfoRecords.iterator(); it2.hasNext(); ) {
+				GeneInfoParser.Record geneInfoRecord = it2.next();
+				builder.append(geneName);
+				// Append gene info.
+				if (geneInfoRecord != null) {
+					builder.append(DELIMITER).append(geneInfoRecord.getGeneID());
+					builder.append(DELIMITER).append(geneInfoRecord.getSymbol());
+					builder.append(DELIMITER).append(geneInfoRecord.getSynonyms());
+					builder.append(DELIMITER).append(geneInfoRecord.getChromosome());
+					builder.append(DELIMITER).append(geneInfoRecord.getMapLocation());
 				}
 				else {
 					builder.append(DELIMITER).append(NOT_AVAILABLE);
@@ -104,15 +101,33 @@ public final class GeneReport {
 					builder.append(DELIMITER).append(NOT_AVAILABLE);
 					builder.append(DELIMITER).append(NOT_AVAILABLE);
 				}
+				// Append map data.
+				if (geneInfoRecord != null) {
+					SeqGeneMdParser.Record seqGeneMdRecord = findSeqGeneMd(geneInfoRecord.getGeneID(), seqGeneMdRecords);
+					if (seqGeneMdRecord != null) {
+						builder.append(DELIMITER).append(seqGeneMdRecord.getChromosome());
+						builder.append(DELIMITER).append(seqGeneMdRecord.getChrStart());
+						builder.append(DELIMITER).append(seqGeneMdRecord.getChrStop());
+						builder.append(DELIMITER).append(seqGeneMdRecord.getChrOrient());
+						builder.append(DELIMITER).append(seqGeneMdRecord.getGroupLabel());
+					}
+					else {
+						builder.append(DELIMITER).append(NOT_AVAILABLE);
+						builder.append(DELIMITER).append(NOT_AVAILABLE);
+						builder.append(DELIMITER).append(NOT_AVAILABLE);
+						builder.append(DELIMITER).append(NOT_AVAILABLE);
+						builder.append(DELIMITER).append(NOT_AVAILABLE);
+					}
+				}
+				else {
+					builder.append(DELIMITER).append(NOT_AVAILABLE);
+					builder.append(DELIMITER).append(NOT_AVAILABLE);
+					builder.append(DELIMITER).append(NOT_AVAILABLE);
+					builder.append(DELIMITER).append(NOT_AVAILABLE);
+					builder.append(DELIMITER).append(NOT_AVAILABLE);
+				}
+				builder.append(EOL);
 			}
-			else {
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-				builder.append(DELIMITER).append(NOT_AVAILABLE);
-			}
-			builder.append(EOL);
 		}
 
 		System.out.print(builder.toString());
@@ -129,18 +144,19 @@ public final class GeneReport {
 		return set;
 	}
 
-	// Returns the first record that has the given gene name in either the symbol or synonyms field.
-	private static GeneInfoParser.Record findGeneInfo(String geneName, List<GeneInfoParser.Record> geneInfoRecords) {
+	// Return a list of records that contain the given gene name in either the symbol or synonym fields.
+	private static List<GeneInfoParser.Record> findGeneInfo(String geneName, List<GeneInfoParser.Record> geneInfoRecords) {
+		List<GeneInfoParser.Record> list = new ArrayList<GeneInfoParser.Record>();
 		for (Iterator<GeneInfoParser.Record> it = geneInfoRecords.iterator(); it.hasNext(); ) {
 			GeneInfoParser.Record record = it.next();
 			if (geneName.equals(record.getSymbol())) {
-				return record;
+				list.add(record);
 			}
 			else if (record.getSynonyms().contains(geneName)) {
-				return record;
+				list.add(record);
 			}
 		}
-		return null;
+		return list;
 	}
 
 	private static SeqGeneMdParser.Record findSeqGeneMd(String entrez, List<SeqGeneMdParser.Record> seqGeneMdRecords) {
